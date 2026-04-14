@@ -1,0 +1,20 @@
+{
+	"autoload":
+	{
+		"classmap":
+			[
+				"app/controllers/",
+				"app/managers/",
+				"app/models/",
+				"app/services/"
+			]
+	},
+	"require":
+	{
+		"vlucas/phpdotenv": "^5.6"
+	},
+	"require-dev":
+	{
+		"symfony/var-dumper": "^6.0"
+	}
+}
