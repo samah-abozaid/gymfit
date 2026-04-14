@@ -2,26 +2,48 @@
 
 class SubscriptionManager extends AbstractManager
 {
-    protected string $table = 'subscriptions';
-
-    // Récupère tous les abonnements
     public function findAll(): array
     {
-        $stmt = $this->db->prepare(
-            "SELECT * FROM subscriptions ORDER BY monthly_price"
+        $query = $this->db->prepare(
+            'SELECT * FROM subscriptions ORDER BY monthly_price'
         );
-        $stmt->execute();
-        return $stmt->fetchAll();
+        $query->execute();
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $subscriptions = [];
+        foreach ($rows as $row) {
+            $subscription = new Subscription(
+                $row['name'],
+                $row['monthly_price'],
+                $row['class_access'],
+                $row['coaching_access'],
+                $row['sauna_access'],
+                $row['description'],
+                $row['id_subscription']
+            );
+            $subscriptions[] = $subscription;
+        }
+        return $subscriptions;
     }
 
-    // Récupère un abonnement par ID
-    public function findOne(int $id): array|false
+    public function findOne(int $id): ?Subscription
     {
-        $stmt = $this->db->prepare(
-            "SELECT * FROM subscriptions 
-             WHERE id_subscription = :id"
+        $query = $this->db->prepare(
+            'SELECT * FROM subscriptions WHERE id_subscription = :id'
         );
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch();
+        $query->execute(['id' => $id]);
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) return null;
+
+        return new Subscription(
+            $row['name'],
+            $row['monthly_price'],
+            $row['class_access'],
+            $row['coaching_access'],
+            $row['sauna_access'],
+            $row['description'],
+            $row['id_subscription']
+        );
     }
 }

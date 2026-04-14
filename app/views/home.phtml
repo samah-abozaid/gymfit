@@ -1,47 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymFit — Home</title>
-</head>
-<body>
+<?php foreach ($courses as $course): ?>
+    <p>
+        <strong><?= htmlspecialchars($course->getName()) ?></strong>
+        — <?= htmlspecialchars($course->getDay()) ?>
+        — <?= htmlspecialchars($course->getStartTime()) ?>
+        — Coach : <?= htmlspecialchars($course->getCoach()) ?>
+    </p>
+<?php endforeach; ?>
 
-    <h1 style="color:#C0392B;">GymFit ✅</h1>
-    <p>HomeController fonctionne !</p>
+<?php foreach ($subscriptions as $subscription): ?>
+    <p>
+        <strong><?= htmlspecialchars($subscription->getName()) ?></strong>
+        — <?= $subscription->getMonthlyPrice() ?>€/mois
+    </p>
+<?php endforeach; ?>
 
-    <hr>
-
-    <h2>Cours (<?= count($courses) ?> trouvés)</h2>
-    <?php foreach ($courses as $course): ?>
-        <p>
-            <strong><?= htmlspecialchars($course['name']) ?></strong>
-            — <?= htmlspecialchars($course['day']) ?>
-            — <?= htmlspecialchars($course['start_time']) ?>
-            — Coach : <?= htmlspecialchars($course['coach']) ?>
-        </p>
-    <?php endforeach; ?>
-
-    <hr>
-
-    <h2>Abonnements (<?= count($subscriptions) ?> trouvés)</h2>
-    <?php foreach ($subscriptions as $subscription): ?>
-        <p>
-            <strong><?= htmlspecialchars($subscription['name']) ?></strong>
-            — <?= htmlspecialchars($subscription['monthly_price']) ?>€/mois
-        </p>
-    <?php endforeach; ?>
-
-    <hr>
-
-    <nav>
-        <a href="?route=home">Home</a> |
-        <a href="?route=classes">Classes</a> |
-        <a href="?route=membership">Membership</a> |
-        <a href="?route=login">Login</a> |
-        <a href="?route=register">Register</a> |
-        <a href="?route=contact">Contact</a>
-    </nav>
-
-</body>
-</html>
+<?php if (isset($_SESSION['user'])): ?>
+    <p style="color:green;">
+        ✅ Connecté : <?= $_SESSION['user']['first_name'] ?>
+        <?= $_SESSION['user']['last_name'] ?>
+    </p>
+    <a href="index.php?route=logout">Logout</a>
+<?php else: ?>
+    <p>Non connecté</p>
+    <a href="index.php?route=login">Login</a>
+<?php endif; ?>

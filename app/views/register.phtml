@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 40px auto; }
+        h1 { color: #C0392B; }
+        input, select { width: 100%; padding: 8px; margin: 6px 0 14px; box-sizing: border-box; }
+        button { background: #C0392B; color: #fff; padding: 10px 20px; border: none; cursor: pointer; width: 100%; }
+        .error { color: #C0392B; font-size: 13px; margin-top: -10px; margin-bottom: 8px; }
+        label { font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <h1>Create Your Account</h1>
+
+    <?php if (isset($errors['login'])): ?>
+        <p class="error"><?= htmlspecialchars($errors['login']) ?></p>
+    <?php endif; ?>
+
+    <form action="index.php?route=check-register" method="POST">
+
+        <label>First Name</label>
+        <input type="text" name="first_name" 
+               value="<?= htmlspecialchars($old['first_name'] ?? '') ?>">
+        <?php if (isset($errors['first_name'])): ?>
+            <p class="error"><?= $errors['first_name'] ?></p>
+        <?php endif; ?>
+
+        <label>Last Name</label>
+        <input type="text" name="last_name"
+               value="<?= htmlspecialchars($old['last_name'] ?? '') ?>">
+        <?php if (isset($errors['last_name'])): ?>
+            <p class="error"><?= $errors['last_name'] ?></p>
+        <?php endif; ?>
+
+        <label>Email</label>
+        <input type="email" name="email"
+               value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+        <?php if (isset($errors['email'])): ?>
+            <p class="error"><?= $errors['email'] ?></p>
+        <?php endif; ?>
+
+        <label>Phone</label>
+        <input type="text" name="phone"
+               value="<?= htmlspecialchars($old['phone'] ?? '') ?>">
+        <?php if (isset($errors['phone'])): ?>
+            <p class="error"><?= $errors['phone'] ?></p>
+        <?php endif; ?>
+
+        <label>Choose Your Plan</label>
+        <select name="id_subscription">
+            <option value="">-- Select a plan --</option>
+            <?php foreach ($subscriptions as $subscription): ?>
+                <option value="<?= $subscription->getId() ?>"
+                    <?= (isset($old['id_subscription']) && 
+                        $old['id_subscription'] == $subscription->getId()) 
+                        ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($subscription->getName()) ?>
+                    — <?= $subscription->getMonthlyPrice() ?>€/month
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <?php if (isset($errors['id_subscription'])): ?>
+            <p class="error"><?= $errors['id_subscription'] ?></p>
+        <?php endif; ?>
+
+        <label>Password</label>
+        <input type="password" name="password">
+        <?php if (isset($errors['password'])): ?>
+            <p class="error"><?= $errors['password'] ?></p>
+        <?php endif; ?>
+
+        <label>Confirm Password</label>
+        <input type="password" name="confirm_password">
+        <?php if (isset($errors['confirm_password'])): ?>
+            <p class="error"><?= $errors['confirm_password'] ?></p>
+        <?php endif; ?>
+
+        <button type="submit">Create My Account</button>
+
+    </form>
+
+    <p>Already a member? <a href="index.php?route=login">Sign In</a></p>
+
+</body>
+</html>

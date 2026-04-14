@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 40px auto; }
+        h1 { color: #C0392B; }
+        input { width: 100%; padding: 8px; margin: 6px 0 14px; box-sizing: border-box; }
+        button { background: #C0392B; color: #fff; padding: 10px 20px; border: none; cursor: pointer; width: 100%; }
+        .error { color: #C0392B; font-size: 13px; margin-top: -10px; margin-bottom: 8px; }
+        label { font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <h1>Sign In</h1>
+
+    <?php if (isset($errors['login'])): ?>
+        <p class="error"><?= htmlspecialchars($errors['login']) ?></p>
+    <?php endif; ?>
+
+    <form action="index.php?route=check-login" method="POST">
+
+        <label>Email</label>
+        <input type="email" name="email"
+               value="<?= htmlspecialchars($old['email'] ?? '') ?>">
+        <?php if (isset($errors['email'])): ?>
+            <p class="error"><?= $errors['email'] ?></p>
+        <?php endif; ?>
+
+        <label>Password</label>
+        <input type="password" name="password">
+        <?php if (isset($errors['password'])): ?>
+            <p class="error"><?= $errors['password'] ?></p>
+        <?php endif; ?>
+
+        <button type="submit">Sign In</button>
+
+    </form>
+
+    <p>Not a member yet? <a href="index.php?route=register">Create an account</a></p>
+
+</body>
+</html>
