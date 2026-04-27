@@ -1,0 +1,1374 @@
+/* ══════════════════════════════════
+   GymFit — Pages Styles
+   Home pages
+   Hero Classes, Hero Membership, Hero Contact
+   Course cards + filtres + planning
+   Membership plans + toggle annuel
+   Contact grid + form
+   Auth pages
+   Admin
+   Responsive spécifique à chaque page
+   ══════════════════════════════════ */
+
+/* ══════════════════════════════════
+   HOME PAGE
+   ══════════════════════════════════ */
+
+.services-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.services-section .sec-title {
+    color: #fff;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+}
+
+.service-card {
+    background: var(--dark2);
+    padding: 22px 16px;
+    border-top: 2px solid transparent;
+    transition: border-color .3s;
+}
+
+.service-card:hover {
+    border-top-color: var(--red);
+}
+
+.service-ico {
+    font-size: 26px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.service-name {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.service-desc {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.planning-section {
+    background: var(--dark2);
+    padding: 48px 20px;
+}
+
+.planning-section .sec-title {
+    color: #fff;
+}
+
+.memberships-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.memberships-section .sec-title {
+    color: #fff;
+}
+
+/* ══════════════════════════════════
+   HERO CLASSES
+   ══════════════════════════════════ */
+
+.hero-classes {
+    height: 280px;
+    position: relative;
+    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.hero-classes::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.5) 100%);
+}
+
+.hero-classes-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-classes-desc {
+    color: #aaa;
+    font-size: 13px;
+    max-width: 500px;
+    margin-top: 8px;
+}
+
+/* ══════════════════════════════════
+   COURSE CARDS
+   ══════════════════════════════════ */
+
+.courses-section {
+    background: var(--black);
+    padding: 30px 20px;
+}
+
+.course-img {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+
+.course-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+.course-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.08));
+    pointer-events: none;
+}
+
+.srv-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.srv-card {
+    background: var(--black);
+    border: 1px solid #151515;
+    overflow: hidden;
+}
+
+.srv-name {
+    font-family: var(--font-ui);
+    font-size: 28px;
+    color: #fff;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.srv-desc {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+.course-content {
+    padding: 18px 20px;
+    background: var(--black);
+}
+
+.course-details {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid #1f1f1f;
+    display: grid;
+    gap: 10px;
+}
+
+.course-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.course-detail-label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: #777;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.course-detail-value {
+    font-size: 13px;
+    color: #fff;
+    font-weight: 500;
+}
+
+@media (min-width: 768px) {
+    .srv-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .srv-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .course-img {
+        height: 220px;
+    }
+
+    .course-content {
+        padding: 22px 24px;
+    }
+}
+
+.course-content {
+    padding: 16px;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.course-level {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.course-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.course-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.course-detail-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.course-detail-value {
+    font-size: 11px;
+    color: #aaa;
+}
+
+/* ══════════════════════════════════
+   FILTRES
+   ══════════════════════════════════ */
+
+.filters-section {
+    background: var(--dark2);
+    padding: 16px 20px;
+    border-bottom: 1px solid #111;
+    overflow-x: auto;
+}
+
+.filters-wrap {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    min-width: max-content;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    background: var(--dark);
+    color: #555;
+    transition: all .2s;
+    white-space: nowrap;
+}
+
+.filter-btn:hover {
+    color: #fff;
+    background: #2a2a2a;
+}
+
+.filter-btn-active {
+    background: var(--red);
+    color: #fff;
+}
+
+/* ══════════════════════════════════
+   PLANNING / SCHEDULE
+   ══════════════════════════════════ */
+
+.schedule-section {
+    background: var(--dark2);
+    padding: 48px 20px;
+}
+
+.schedule-section .sec-title {
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.day-block {
+    background: var(--dark);
+    margin-bottom: 2px;
+}
+
+.day-hd {
+    background: var(--black);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.day-hd.today {
+    color: var(--red);
+}
+
+.slots-row {
+    display: flex;
+    gap: 2px;
+    padding: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.slots-row::-webkit-scrollbar {
+    display: none;
+}
+
+.slot {
+    min-width: 110px;
+    padding: 10px 12px;
+    border-left: 3px solid #2a2a2a;
+    background: #1e1e1e;
+    flex-shrink: 0;
+}
+
+.slot-t {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: var(--red);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.slot-n {
+    font-size: 12px;
+    color: #ddd;
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.slot-c {
+    font-size: 10px;
+    color: #444;
+}
+
+/* ══════════════════════════════════
+   HERO MEMBERSHIP
+   ══════════════════════════════════ */
+
+.hero-membership {
+    height: 280px;
+    position: relative;
+    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.hero-membership::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 15%, rgba(8,8,8,.2) 100%);
+}
+
+.hero-membership-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-membership-desc {
+    color: #555;
+    font-size: 13px;
+    max-width: 500px;
+    margin-top: 8px;
+}
+
+/* ══════════════════════════════════
+   MEMBERSHIP PLANS
+   ══════════════════════════════════ */
+
+.plans-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+}
+
+.plan-card {
+    background: var(--dark2);
+    padding: 30px 20px;
+}
+
+.plan-card.featured {
+    background: var(--red);
+}
+
+.plan-name {
+    font-family: var(--font-display);
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin: 12px 0;
+}
+
+.plan-desc {
+    color: rgba(255,255,255,.5);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.plan-cta {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+}
+
+.p-amt {
+    font-family: var(--font-display);
+    font-size: 52px;
+    color: #fff;
+    line-height: 1;
+}
+
+.p-cur {
+    font-size: 18px;
+    color: rgba(255,255,255,.6);
+}
+
+.p-per {
+    font-size: 12px;
+    color: rgba(255,255,255,.5);
+    font-family: var(--font-ui);
+}
+
+.plan-feats {
+    list-style: none;
+    margin: 12px 0 20px;
+}
+
+.plan-feats li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    font-size: 13px;
+    color: rgba(255,255,255,.8);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plan-feats li::before {
+    content: '✓';
+    color: #fff;
+    font-weight: 700;
+}
+
+.plan-feats li.no {
+    opacity: .35;
+    text-decoration: line-through;
+}
+
+.plan-feats li.no::before {
+    content: '✗';
+}
+
+/* ── Toggle Mensuel / Annuel ── */
+
+.billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.billing-label {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.billing-label.active {
+    color: #fff;
+}
+
+.toggle-wrap {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.toggle-wrap input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #2a2a2a;
+    border-radius: 28px;
+    transition: background .3s;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 4px;
+    top: 4px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .3s;
+}
+
+.toggle-wrap input:checked + .toggle-slider {
+    background: var(--red);
+}
+
+.toggle-wrap input:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+.price-monthly {
+    display: flex;
+}
+
+.price-annual {
+    display: none;
+}
+
+/* ══════════════════════════════════
+   COMPARISON / FAQ / CTA
+   ══════════════════════════════════ */
+
+.comparison-section {
+    background: var(--dark2);
+    padding: 48px 20px;
+}
+
+.comparison-section .sec-title {
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.comparison-table td {
+    color: #aaa;
+}
+
+.comparison-table td.check-cell {
+    text-align: center;
+    font-size: 16px;
+}
+
+.comparison-table td.price-cell {
+    text-align: center;
+    color: var(--red);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.check-yes {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.check-no {
+    color: #555;
+}
+
+.faq-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.faq-section .sec-title {
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.faq-wrap {
+    max-width: 700px;
+}
+
+.faq-item {
+    border-bottom: 1px solid #1a1a1a;
+    padding: 24px 0;
+}
+
+.faq-question {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.faq-answer {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.cta-section {
+    background: var(--red);
+    padding: 48px 20px;
+    text-align: center;
+}
+
+.cta-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.cta-desc {
+    color: rgba(255,255,255,.7);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* ══════════════════════════════════
+   HERO CONTACT
+   ══════════════════════════════════ */
+
+.hero-contact {
+    height: 250px;
+    position: relative;
+    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.hero-contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.5) 100%);
+}
+
+.hero-contact-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+/* ══════════════════════════════════
+   CONTACT GRID + FORM
+   ══════════════════════════════════ */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 48px 20px;
+    background: var(--black);
+}
+
+.contact-info-item {
+    margin-bottom: 28px;
+}
+
+.contact-info-item .sec-tag {
+    margin-bottom: 8px;
+}
+
+.contact-info-value {
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.contact-map {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.contact-map iframe {
+    width: 100%;
+    height: 320px;
+    border: 0;
+    display: block;
+}
+
+/* bouton positionné sur la carte */
+.map-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    backdrop-filter: blur(6px);
+}
+
+
+.contact-map span {
+    color: #333;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.contact-form-wrap {
+    padding-top: 8px;
+    
+}
+
+.contact-form-wrap .form-group label {
+    color: #aaa;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.contact-form-wrap input,
+.contact-form-wrap select,
+.contact-form-wrap textarea {
+    background: var(--dark2);
+    border-color: #2a2a2a;
+    color: #fff;
+    transition: border-color .2s;
+}
+
+.contact-form-wrap input:focus,
+.contact-form-wrap textarea:focus,
+.contact-form-wrap select:focus {
+    border-color: var(--red);
+}
+
+.contact-form-wrap select option {
+    background: var(--dark2);
+    color: #fff;
+}
+
+.contact-success {
+    background: var(--dark2);
+    border-left: 4px solid #28a745;
+    padding: 20px;
+    margin-bottom: 24px;
+    color: #28a745;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.contact-form-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+/* ══════════════════════════════════
+   AUTH PAGES
+   ══════════════════════════════════ */
+
+.auth-body {
+    background: var(--black);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-logo {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 32px;
+}
+
+.auth-logo em {
+    color: var(--red);
+    font-style: normal;
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.auth-tab {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #333;
+    text-decoration: none;
+    padding: 12px 0;
+    margin-right: 32px;
+    border-bottom: 2px solid transparent;
+    transition: all .2s;
+}
+
+.auth-tab:hover {
+    color: #fff;
+}
+
+.auth-tab.active {
+    color: #fff;
+    border-bottom-color: var(--red);
+}
+
+.auth-card {
+    background: var(--dark2);
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 480px;
+    border-top: 3px solid var(--red);
+    margin-top: 20px;
+}
+
+.auth-card h1 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+}
+
+.auth-card p {
+    color: #555;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.auth-card label {
+    color: #aaa;
+}
+
+.auth-card input {
+    background: #1a1a1a;
+    border-color: #333;
+    color: #fff;
+}
+
+.auth-card input:focus {
+    border-color: var(--red);
+}
+
+.auth-card .btn-submit {
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: #444;
+}
+
+.auth-link a {
+    color: var(--red);
+    text-decoration: none;
+}
+
+.auth-page {
+    min-height: 100vh;
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.auth-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background: var(--black);
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-left {
+    display: none;
+}
+
+.auth-footer-link {
+    color: #444;
+}
+
+.auth-footer-link a {
+    color: var(--red);
+    text-decoration: none;
+}
+
+.auth-footer-link a:hover {
+    text-decoration: underline;
+}
+
+.auth-error {
+    background: #1a0606;
+    border-left: 3px solid var(--red);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+    font-size: 13px;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+}
+
+.auth-cgu {
+    margin-bottom: 16px;
+}
+
+.cgu-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #444;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+}
+
+.cgu-label input {
+    width: auto;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.cgu-label a {
+    color: var(--red);
+    text-decoration: none;
+}
+
+.cgu-label a:hover {
+    text-decoration: underline;
+}
+
+/* ══════════════════════════════════
+   ADMIN
+   ══════════════════════════════════ */
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 220px;
+    background: var(--dark);
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    color: var(--red);
+    font-size: 22px;
+    margin-bottom: 30px;
+    font-family: var(--font-display);
+    letter-spacing: 2px;
+}
+
+.sidebar a {
+    display: block;
+    color: #aaa;
+    text-decoration: none;
+    padding: 10px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.sidebar a:hover {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.sidebar a.active {
+    background: var(--red);
+    color: #fff;
+}
+
+.sidebar hr {
+    border-color: #333;
+    margin: 20px 0;
+}
+
+.main {
+    flex: 1;
+    padding: 30px;
+    background: var(--gray);
+}
+
+.main h1 {
+    color: var(--dark);
+    margin-bottom: 24px;
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: 2px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.card-header h2 {
+    font-size: 18px;
+    color: var(--dark);
+}
+
+.kpis {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.kpi {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--red);
+    text-align: center;
+}
+
+.kpi-number {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--red);
+    font-family: var(--font-display);
+}
+
+.kpi-label {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: var(--dark);
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+    font-size: 13px;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #333;
+}
+
+tr:hover td {
+    background: #f9f9f9;
+}
+
+.plans {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.plan-card-admin {
+    background: #1f1f1f;
+    border-radius: 8px;
+    padding: 24px;
+    color: #fff;
+}
+
+.plan-name-admin {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.plan-price-admin {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--red);
+    margin-bottom: 16px;
+    font-family: var(--font-display);
+}
+
+.plan-price-admin span {
+    font-size: 14px;
+    color: #666;
+    font-weight: normal;
+    font-family: var(--font-body);
+}
+
+.plan-features {
+    list-style: none;
+}
+
+.plan-features li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.check {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.cross {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE SPÉCIFIQUE AUX PAGES
+   ══════════════════════════════════ */
+
+@media (min-width: 1024px) {
+    .services-section,
+    .planning-section,
+    .memberships-section {
+        padding: 80px 60px;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .service-card {
+        padding: 30px 24px;
+    }
+
+    .service-ico {
+        font-size: 32px;
+    }
+
+    .service-name {
+        font-size: 16px;
+    }
+
+    .service-desc {
+        font-size: 13px;
+    }
+
+    .hero-classes {
+        height: 400px;
+        padding-bottom: 50px;
+    }
+
+    .hero-classes-content {
+        padding: 0 60px;
+    }
+
+    .hero-classes-desc {
+        font-size: 15px;
+    }
+
+    .filters-section {
+        padding: 20px 60px;
+    }
+
+    .filters-wrap {
+        flex-wrap: wrap;
+        min-width: auto;
+    }
+
+    .courses-section {
+        padding: 60px;
+    }
+
+    .course-img {
+        height: 200px;
+    }
+
+    .course-content {
+        padding: 20px;
+    }
+
+    .schedule-section {
+        padding: 80px 60px;
+    }
+
+    .slot {
+        min-width: 140px;
+    }
+
+    .plans-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+    }
+
+    .plan-card {
+        padding: 40px 30px;
+    }
+
+    .plan-name {
+        font-size: 36px;
+    }
+
+    .p-amt {
+        font-size: 64px;
+    }
+
+    .hero-membership {
+        height: 350px;
+        padding-bottom: 50px;
+    }
+
+    .hero-membership-content {
+        padding: 0 60px;
+    }
+
+    .hero-membership-desc {
+        font-size: 15px;
+    }
+
+    .plans-section,
+    .comparison-section,
+    .faq-section {
+        padding: 80px 60px;
+    }
+
+    .cta-section {
+        padding: 60px;
+    }
+
+    .cta-title {
+        font-size: 52px;
+    }
+
+    .cta-desc {
+        font-size: 15px;
+    }
+
+    .hero-contact {
+        height: 350px;
+        padding-bottom: 50px;
+    }
+
+    .hero-contact-content {
+        padding: 0 60px;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr 1.5fr;
+        gap: 80px;
+        padding: 80px 60px;
+    }
+
+    .auth-body {
+        align-items: center;
+        padding: 0;
+    }
+
+    .auth-card {
+        padding: 40px;
+        margin-top: 0;
+    }
+
+    .auth-card h1 {
+        font-size: 36px;
+    }
+
+    .kpis {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .plans {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

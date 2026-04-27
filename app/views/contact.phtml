@@ -1,0 +1,173 @@
+<?php require_once __DIR__ . '/layout/header.phtml'; ?>
+
+<?php
+$success = $data['success'] ?? false;
+$old = $data['old'] ?? [];
+$errors = $data['errors'] ?? [];
+?>
+
+<!-- HERO -->
+<section class="hero-contact">
+    <div class="hero-contact-content">
+        <p class="sec-tag">Send us a message</p>
+        <h1 class="sec-title">Contact Us</h1>
+    </div>
+</section>
+
+<!-- CONTACT CONTENT -->
+<div class="contact-grid">
+
+    <!-- LEFT — Infos -->
+    <div>
+        <section class="contact-info-item">
+            <h2 class="sec-tag">Location</h2>
+            <div class="contact-info-value">
+                GymFit — Zamalek<br>
+                Cairo, Egypt
+            </div>
+        </section>
+
+        <section class="contact-info-item">
+            <h2 class="sec-tag">Phone</h2>
+            <div class="contact-info-value">
+                +20 2 123 456 78
+            </div>
+        </section>
+
+        <section class="contact-info-item">
+            <h2 class="sec-tag">Email</h2>
+            <div class="contact-info-value">
+                contact@gymfit.com
+            </div>
+        </section>
+
+        <section class="contact-info-item">
+            <h2 class="sec-tag">Opening Hours</h2>
+            <div class="contact-info-value">
+                Monday — Friday : 6:00 — 23:00<br>
+                Saturday — Sunday : 8:00 — 21:00
+            </div>
+        </section>
+
+        <div class="contact-map">
+            <iframe
+                src="https://www.google.com/maps?q=Gym+in+Zamalek+Cairo+Egypt&output=embed"
+                loading="lazy"
+                title="GymFit location on Google Maps">
+            </iframe>
+
+            <a href="https://www.google.com/maps?q=Zamalek,Cairo,Egypt"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-outline map-btn">
+               Open in Google Maps
+            </a>
+        </div>
+    </div>
+
+    <!-- RIGHT — Formulaire -->
+    <section class="contact-form-wrap">
+       <h2 class="sec-title contact-form-title">Contact form</h2>
+
+        <?php if ($success): ?>
+            <div class="contact-success">
+                ✓ Message sent successfully! We'll get back to you soon.
+            </div>
+        <?php endif; ?>
+
+        <form action="index.php?route=check-contact" method="POST">
+            <input
+                type="hidden"
+                name="csrf-token"
+                value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>"
+            >
+
+            <?php if (isset($_SESSION['error-message'])): ?>
+                <div class="contact-success" style="border-color:#e74c3c;color:#e74c3c;">
+                    <?= htmlspecialchars($_SESSION['error-message']) ?>
+                    <?php unset($_SESSION['error-message']); ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input
+                        type="text"
+                        name="first_name"
+                        placeholder="Amira"
+                        value="<?= htmlspecialchars($old['first_name'] ?? '') ?>"
+                    >
+                    <?php if (isset($errors['first_name'])): ?>
+                        <p class="error"><?= htmlspecialchars($errors['first_name']) ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input
+                        type="text"
+                        name="last_name"
+                        placeholder="Hassan"
+                        value="<?= htmlspecialchars($old['last_name'] ?? '') ?>"
+                    >
+                    <?php if (isset($errors['last_name'])): ?>
+                        <p class="error"><?= htmlspecialchars($errors['last_name']) ?></p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email *</label>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="your@email.com"
+                    value="<?= htmlspecialchars($old['email'] ?? '') ?>"
+                >
+                <?php if (isset($errors['email'])): ?>
+                    <p class="error"><?= htmlspecialchars($errors['email']) ?></p>
+                <?php endif; ?>
+            </div>
+
+            <div class="form-group">
+                <label>Subject</label>
+                <select name="subject">
+                    <option value="membership" <?= (($old['subject'] ?? '') === 'membership') ? 'selected' : '' ?>>
+                        Membership enquiry
+                    </option>
+                    <option value="classes" <?= (($old['subject'] ?? '') === 'classes') ? 'selected' : '' ?>>
+                        Classes information
+                    </option>
+                    <option value="coaching" <?= (($old['subject'] ?? '') === 'coaching') ? 'selected' : '' ?>>
+                        Personal coaching
+                    </option>
+                    <option value="other" <?= (($old['subject'] ?? '') === 'other') ? 'selected' : '' ?>>
+                        Other
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Message *</label>
+                <textarea
+                    name="message"
+                    rows="6"
+                    placeholder="Your message..."
+                ><?= htmlspecialchars($old['message'] ?? '') ?></textarea>
+                <?php if (isset($errors['message'])): ?>
+                    <p class="error"><?= htmlspecialchars($errors['message']) ?></p>
+                <?php endif; ?>
+            </div>
+
+            <button
+                type="submit"
+                class="btn-submit contact-submit"
+            >
+                Send Message
+            </button>
+        </form>
+    </section>
+</div>
+
+<?php require_once __DIR__ . '/layout/footer.phtml'; ?>

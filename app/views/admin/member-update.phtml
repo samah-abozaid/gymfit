@@ -1,0 +1,108 @@
+
+<?php
+$old = $data['old'] ?? [];
+$errors = $data['errors'] ?? [];
+$member = $data['member'] ?? null;
+$subscriptions = $data['subscriptions'] ?? [];
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <title>GymFit — Edit Member</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin">Dashboard</a>
+        <a href="index.php?route=admin-members" class="active">Members</a>
+        <a href="index.php?route=admin-courses">Courses</a>
+        <a href="index.php?route=admin-subscriptions">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Edit Member</h1>
+        <div class="card">
+            <form action="index.php?route=admin-check-update-member" method="POST">
+
+                  <input type="hidden"
+                       name="csrf-token"
+                       value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
+                 <input type="hidden" name="id" value="<?= (int)$member->getId() ?>">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="first_name"
+                               value="<?= htmlspecialchars($old['first_name'] ?? $member->getFirstName()) ?>">
+                        <?php if (isset($errors['first_name'])): ?>
+                            <p class="error"><?= $errors['first_name'] ?></p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="last_name"
+                               value="<?= htmlspecialchars($old['last_name'] ?? $member->getLastName()) ?>">
+                        <?php if (isset($errors['last_name'])): ?>
+                            <p class="error"><?= $errors['last_name'] ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email"
+                           value="<?= htmlspecialchars($old['email'] ?? $member->getEmail()) ?>">
+                    <?php if (isset($errors['email'])): ?>
+                        <p class="error"><?= $errors['email'] ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" name="phone"
+                           value="<?= htmlspecialchars($old['phone'] ?? $member->getPhone()) ?>">
+                </div>
+
+                <div class="form-group">
+                    <label>Subscription Plan</label>
+                    <select name="id_subscription">
+                        <option value="">-- No plan --</option>
+                        <?php foreach ($subscriptions as $subscription): ?>
+                            <option value="<?= $subscription->getId() ?>"
+                                <?= ($subscription->getId() == ($old['id_subscription'] ?? $member->getIdSubscription()))
+                                    ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($subscription->getName()) ?>
+                                — <?= $subscription->getMonthlyPrice() ?>€/month
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status">
+                        <?php foreach (['active', 'inactive', 'pending'] as $status): ?>
+                            <option value="<?= $status ?>"
+                                <?= (($old['status'] ?? $member->getStatus()) === $status) ? 'selected' : '' ?>>
+                                <?= ucfirst($status) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">Save Changes</button>
+            </form>
+            <a href="index.php?route=admin-members" class="btn-cancel">← Back to Members</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

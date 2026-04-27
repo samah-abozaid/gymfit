@@ -1,0 +1,137 @@
+<?php
+$totalMembers = $data['totalMembers'] ?? 0;
+$activeMembers = $data['activeMembers'] ?? 0;
+$totalCourses = $data['totalCourses'] ?? 0;
+$totalSubscriptions = $data['totalSubscriptions'] ?? 0;
+$members = $data['members'] ?? [];
+$courses = $data['courses'] ?? [];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Dashboard</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin" class="active">Dashboard</a>
+        <a href="index.php?route=admin-members">Members</a>
+        <a href="index.php?route=admin-courses">Courses</a>
+        <a href="index.php?route=admin-subscriptions">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+        <h1>Dashboard</h1>
+
+        <!-- KPIs -->
+        <div class="kpis">
+            <div class="kpi">
+                <div class="kpi-number"><?= htmlspecialchars((string) $totalMembers) ?></div>
+                <div class="kpi-label">Total Members</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-number"><?= htmlspecialchars((string) $activeMembers) ?></div>
+                <div class="kpi-label">Active Members</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-number"><?= htmlspecialchars((string) $totalCourses) ?></div>
+                <div class="kpi-label">Total Courses</div>
+            </div>
+            <div class="kpi">
+                <div class="kpi-number"><?= htmlspecialchars((string) $totalSubscriptions) ?></div>
+                <div class="kpi-label">Subscriptions</div>
+            </div>
+        </div>
+
+        <!-- Members Table -->
+        <div class="card">
+            <h2>
+                Members
+                <a href="index.php?route=admin-create-member" class="btn btn-add" style="float:right;">+ Add Member</a>
+            </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($members as $member): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($member->getFirstName() . ' ' . $member->getLastName()) ?></td>
+                        <td><?= htmlspecialchars($member->getEmail()) ?></td>
+                        <td><?= htmlspecialchars($member->getPhone()) ?></td>
+                        <td>
+                            <span class="badge badge-<?= htmlspecialchars($member->getStatus()) ?>">
+                                <?= htmlspecialchars(ucfirst($member->getStatus())) ?>
+                            </span>
+                        </td>
+                        <td>
+                            <a href="index.php?route=admin-update-member&id=<?= htmlspecialchars((string) $member->getId()) ?>" class="btn btn-edit">Edit</a>
+                            <a href="index.php?route=admin-delete-member&id=<?= htmlspecialchars((string) $member->getId()) ?>"
+                               class="btn btn-delete"
+                               onclick="return confirm('Delete this member?')">Delete</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Courses Table -->
+        <div class="card">
+            <h2>
+                Courses
+                <a href="index.php?route=admin-create-course" class="btn btn-add" style="float:right;">+ Add Course</a>
+            </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Level</th>
+                        <th>Coach</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($courses as $course): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($course->getName()) ?></td>
+                        <td><?= htmlspecialchars($course->getType()) ?></td>
+                        <td><?= htmlspecialchars($course->getLevel()) ?></td>
+                        <td><?= htmlspecialchars($course->getCoach()) ?></td>
+                        <td><?= htmlspecialchars($course->getDay()) ?></td>
+                        <td><?= htmlspecialchars($course->getStartTime()) ?> - <?= htmlspecialchars($course->getEndTime()) ?></td>
+                        <td>
+                            <a href="index.php?route=admin-update-course&id=<?= htmlspecialchars((string) $course->getId()) ?>" class="btn btn-edit">Edit</a>
+                            <a href="index.php?route=admin-delete-course&id=<?= htmlspecialchars((string) $course->getId()) ?>"
+                               class="btn btn-delete"
+                               onclick="return confirm('Delete this course?')">Delete</a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

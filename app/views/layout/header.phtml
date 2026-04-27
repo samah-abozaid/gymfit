@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($title ?? 'GymFit') ?></title>
+    <!--<link rel="stylesheet" href="/gymfit/public/assets/css/style.css">-->
+    <link rel="stylesheet" href="public/assets/css/main.css">
+   <link rel="stylesheet" href="public/assets/css/pages.css">
+</head>
+<body>
+<nav class="nav-public">
+    <a href="index.php?route=home" class="logo">Gym<em>Fit</em></a>
+
+    <!-- Desktop Nav -->
+    <div class="nav-links">
+        <a href="index.php?route=home"
+           <?= (($_GET['route'] ?? 'home') === 'home') ? 'class="active"' : '' ?>>Home</a>
+        <a href="index.php?route=classes"
+           <?= (($_GET['route'] ?? '') === 'classes') ? 'class="active"' : '' ?>>Classes</a>
+        <a href="index.php?route=membership"
+           <?= (($_GET['route'] ?? '') === 'membership') ? 'class="active"' : '' ?>>Membership</a>
+        <a href="index.php?route=contact"
+           <?= (($_GET['route'] ?? '') === 'contact') ? 'class="active"' : '' ?>>Contact</a>
+        <?php if (isset($_SESSION['user'])): ?>
+            <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+                <a href="index.php?route=admin">Dashboard</a>
+            <?php else: ?>
+                <a href="index.php?route=home">
+                    <?= htmlspecialchars($_SESSION['user']['first_name']) ?>
+                </a>
+            <?php endif; ?>
+            <a href="index.php?route=logout" class="btn-red">Logout</a>
+        <?php else: ?>
+            <a href="index.php?route=register" class="btn-red">Join Now</a>
+        <?php endif; ?>
+    </div>
+
+    <!-- Hamburger Mobile -->
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+
+<!-- Menu Mobile -->
+<div class="nav-mobile-menu" id="mobileMenu">
+    <a href="index.php?route=home" onclick="toggleMenu()">Home</a>
+    <a href="index.php?route=classes" onclick="toggleMenu()">Classes</a>
+    <a href="index.php?route=membership" onclick="toggleMenu()">Membership</a>
+    <a href="index.php?route=contact" onclick="toggleMenu()">Contact</a>
+    <?php if (isset($_SESSION['user'])): ?>
+        <a href="index.php?route=logout" class="btn-red">Logout</a>
+    <?php else: ?>
+        <a href="index.php?route=register" class="btn-red">Join Now</a>
+    <?php endif; ?>
+</div>

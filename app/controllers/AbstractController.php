@@ -3,22 +3,17 @@
 
 abstract class AbstractController
 {
-    // Charge une vue .phtml
-    protected function render(string $view, array $data = []): void
-    {
-        // Extrait les variables du tableau
-        // ['courses' => [...]] devient $courses dans la vue
-        extract($data);
 
-        $viewPath = __DIR__ . '/../views/' . $view . '.phtml';
+protected function render(string $view, array $data = []): void
+{
+    // extract($data);
 
-        if (file_exists($viewPath)) {
-            require_once $viewPath;
-        } else {
-            die("View not found : " . $view);
-        }
-    }
+    $basePath = __DIR__ . '/../views/';
 
+    require_once $basePath . 'layout/header.phtml';
+    require_once $basePath . $view . '.phtml';
+    require_once $basePath . 'layout/footer.phtml';
+}
     // Redirection
     protected function redirect(string $route): void
     {

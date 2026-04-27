@@ -2,6 +2,7 @@
 
 class CourseManager extends AbstractManager
 {
+     protected string $table = 'courses'; 
     public function findAll(): array
     {
         $query = $this->db->prepare(
@@ -21,7 +22,7 @@ class CourseManager extends AbstractManager
                 $row['start_time'],
                 $row['end_time'],
                 $row['max_capacity'],
-                $row['description']?? null,
+            
                 $row['id_class']
             );
             $courses[] = $course;
@@ -48,7 +49,7 @@ class CourseManager extends AbstractManager
             $row['start_time'],
             $row['end_time'],
             $row['max_capacity'],
-            $row['description']?? null,
+         
             $row['id_class']
         );
     }
@@ -72,7 +73,7 @@ class CourseManager extends AbstractManager
                 $row['start_time'],
                 $row['end_time'],
                 $row['max_capacity'],
-                $row['description'],
+            
                 $row['id_class']
             );
             $courses[] = $course;
@@ -84,9 +85,9 @@ class CourseManager extends AbstractManager
     {
         $query = $this->db->prepare('
             INSERT INTO courses 
-            (name, type, level, coach, day, start_time, end_time, max_capacity, description)
+            (name, type, level, coach, day, start_time, end_time, max_capacity)
             VALUES 
-            (:name, :type, :level, :coach, :day, :start_time, :end_time, :max_capacity, :description)
+            (:name, :type, :level, :coach, :day, :start_time, :end_time, :max_capacity)
         ');
         return $query->execute([
             'name'         => $course->getName(),
@@ -97,7 +98,7 @@ class CourseManager extends AbstractManager
             'start_time'   => $course->getStartTime(),
             'end_time'     => $course->getEndTime(),
             'max_capacity' => $course->getMaxCapacity(),
-            'description'  => $course->getDescription(),
+            
         ]);
     }
 
@@ -112,8 +113,8 @@ class CourseManager extends AbstractManager
                 day          = :day,
                 start_time   = :start_time,
                 end_time     = :end_time,
-                max_capacity = :max_capacity,
-                description  = :description
+                max_capacity = :max_capacity
+              
             WHERE id_class = :id
         ');
         return $query->execute([
@@ -125,7 +126,7 @@ class CourseManager extends AbstractManager
             'start_time'   => $course->getStartTime(),
             'end_time'     => $course->getEndTime(),
             'max_capacity' => $course->getMaxCapacity(),
-            'description'  => $course->getDescription(),
+            
             'id'           => $course->getId(),
         ]);
     }

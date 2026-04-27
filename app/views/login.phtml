@@ -2,44 +2,110 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GymFit — Login</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 500px; margin: 40px auto; }
-        h1 { color: #C0392B; }
-        input { width: 100%; padding: 8px; margin: 6px 0 14px; box-sizing: border-box; }
-        button { background: #C0392B; color: #fff; padding: 10px 20px; border: none; cursor: pointer; width: 100%; }
-        .error { color: #C0392B; font-size: 13px; margin-top: -10px; margin-bottom: 8px; }
-        label { font-weight: bold; font-size: 14px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit — Sign In</title>
+    <link rel="stylesheet" href="/gymfit/public/assets/css/style.css">
 </head>
 <body>
 
-    <h1>Sign In</h1>
+<?php
+$old = $data['old'] ?? [];
+$errors = $data['errors'] ?? [];
+?>
 
-    <?php if (isset($errors['login'])): ?>
-        <p class="error"><?= htmlspecialchars($errors['login']) ?></p>
-    <?php endif; ?>
+<div class="auth-page">
 
-    <form action="index.php?route=check-login" method="POST">
+    <!-- LEFT — desktop only -->
+    <div class="auth-left">
+        <div class="auth-left-content">
+            <p class="auth-left-title">
+                Train Hard<em>Live Strong</em>
+            </p>
+            <ul class="auth-perks">
+                <li>Access to 45+ weekly classes</li>
+                <li>12 expert certified coaches</li>
+                <li>Open 7 days a week</li>
+                <li>Premium equipment & facilities</li>
+                <li>Sauna & hammam — VIP plan</li>
+            </ul>
+        </div>
+    </div>
 
-        <label>Email</label>
-        <input type="email" name="email"
-               value="<?= htmlspecialchars($old['email'] ?? '') ?>">
-        <?php if (isset($errors['email'])): ?>
-            <p class="error"><?= $errors['email'] ?></p>
-        <?php endif; ?>
+    <!-- RIGHT — form -->
+    <div class="auth-right">
+        <div class="auth-box">
 
-        <label>Password</label>
-        <input type="password" name="password">
-        <?php if (isset($errors['password'])): ?>
-            <p class="error"><?= $errors['password'] ?></p>
-        <?php endif; ?>
+            <a href="index.php?route=home" class="auth-logo">
+                Gym<em>Fit</em>
+            </a>
 
-        <button type="submit">Sign In</button>
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <a href="index.php?route=login" class="auth-tab active">Login</a>
+                <a href="index.php?route=register" class="auth-tab">Register</a>
+            </div>
 
-    </form>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">
+                Sign in to access your member space.
+            </p>
 
-    <p>Not a member yet? <a href="index.php?route=register">Create an account</a></p>
+            <?php if (isset($errors['login'])): ?>
+                <div class="auth-error">
+                    <?= htmlspecialchars($errors['login']) ?>
+                </div>
+            <?php endif; ?>
 
+            <form action="index.php?route=check-login" method="POST">
+                <input
+                    type="hidden"
+                    name="csrf-token"
+                    value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>"
+                >
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="your@email.com"
+                        value="<?= htmlspecialchars($old['email'] ?? '') ?>"
+                    >
+                    <?php if (isset($errors['email'])): ?>
+                        <p class="error"><?= htmlspecialchars($errors['email']) ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="••••••••"
+                    >
+                    <?php if (isset($errors['password'])): ?>
+                        <p class="error"><?= htmlspecialchars($errors['password']) ?></p>
+                    <?php endif; ?>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-secure">
+                🔒 Secure login — GymFit Cairo
+            </div>
+
+            <div class="auth-footer-link">
+                Not a member yet?
+                <a href="index.php?route=register">Create an account</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/gymfit/public/assets/js/main.js"></script>
 </body>
 </html>

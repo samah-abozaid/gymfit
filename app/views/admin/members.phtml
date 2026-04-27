@@ -1,0 +1,80 @@
+<?php $members = $data['members'] ?? []; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Members</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin">Dashboard</a>
+        <a href="index.php?route=admin-members" class="active">Members</a>
+        <a href="index.php?route=admin-courses">Courses</a>
+        <a href="index.php?route=admin-subscriptions">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Members</h1>
+        <div class="card">
+            <div class="card-header">
+                <h2>All Members (<?= count($members) ?>)</h2>
+                <a href="index.php?route=admin-create-member" class="btn btn-add">+ Add Member</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Registration</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                 $members = $data['members'] ?? [];
+                   ?>
+                    <?php foreach ($members as $member): ?>
+                    <tr>
+                        <td><?= $member->getId() ?></td>
+                        <td>
+                            <strong>
+                                <?= htmlspecialchars($member->getFirstName()) ?>
+                                <?= htmlspecialchars($member->getLastName()) ?>
+                            </strong>
+                        </td>
+                        <td><?= htmlspecialchars($member->getEmail()) ?></td>
+                        <td><?= htmlspecialchars($member->getPhone()) ?></td>
+                        <td>
+                            <span class="badge badge-<?= $member->getStatus() ?>">
+                                <?= ucfirst($member->getStatus()) ?>
+                            </span>
+                        </td>
+                        <td><?= htmlspecialchars($member->getRegistrationDate()) ?></td>
+                        <td>
+                            <a href="index.php?route=admin-update-member&id=<?= $member->getId() ?>"
+                               class="btn btn-edit">Edit</a>
+                            <a href="index.php?route=admin-delete-member&id=<?= $member->getId() ?>"
+                               class="btn btn-delete"
+                               onclick="return confirm('Delete <?= htmlspecialchars($member->getFirstName()) ?>?')">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

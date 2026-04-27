@@ -1,0 +1,1270 @@
+/* ══════════════════════════════════
+   GymFit — Global Styles
+   ══════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@400;600;700;900&display=swap');
+
+:root {
+    --red:          #C0392B;
+    --red-d:        #96281B;
+    --black:        #0e0e0e;
+    --dark:         #1A1A1A;
+    --dark2:        #242424;
+    --white:        #ffffff;
+    --gray:         #f5f5f5;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-ui:      'Barlow Condensed', sans-serif;
+    --font-body:    'Barlow', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); }
+
+/* ══════════════════════════════════
+   NAVIGATION
+   ══════════════════════════════════ */
+
+.nav-public {
+    background: rgba(10,10,10,.97);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 56px;
+    border-bottom: 1px solid #1e1e1e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo em { color: var(--red); font-style: normal; }
+
+.nav-links { display: none; }
+
+.nav-links a {
+    color: #aaa;
+    text-decoration: none;
+    margin-left: 30px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.nav-links a:hover { color: #fff; }
+.nav-links a.active { color: var(--red); }
+
+/* ── Hamburger ── */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #ccc;
+    transition: all .3s;
+}
+
+.hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile Menu ── */
+.nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10,10,10,.98);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+
+.nav-mobile-menu.open { display: flex; }
+
+.nav-mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 3px;
+}
+
+.nav-mobile-menu a:hover { color: var(--red); }
+.nav-mobile-menu a.btn-red { font-size: 18px; padding: 14px 40px; }
+
+/* ══════════════════════════════════
+   HERO
+   ══════════════════════════════════ */
+
+.hero {
+    position: relative;
+    min-height: 560px;
+    background: var(--black);
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 40px;
+    overflow: hidden;
+}
+
+.hero-img {
+    position: absolute;
+    inset: 0;
+    background-image: url('/gymfit/public/assets/img/hero-gym2.webp');
+    background-size: cover;
+    background-position: center top;
+}
+
+.hero-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.65) 65%, rgba(8,8,8,.2) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-tag {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 16px;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: 52px;
+    line-height: .88;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.hero-title em { color: var(--red); font-style: normal; display: block; }
+
+.hero-sub {
+    font-size: 13px;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    max-width: 500px;
+}
+
+.hero-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ══════════════════════════════════
+   BUTTONS
+   ══════════════════════════════════ */
+
+.btn-red {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-red:hover { background: var(--red-d); }
+
+.btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #3a3a3a;
+    padding: 13px 24px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-outline:hover { border-color: #fff; }
+
+/* ══════════════════════════════════
+   STATS BAR
+   ══════════════════════════════════ */
+
+.stats-bar {
+    background: var(--dark2);
+    border-top: 3px solid var(--red);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.stat {
+    text-align: center;
+    padding: 18px 10px;
+    border-right: 1px solid #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
+}
+
+.stat:nth-child(2n) { border-right: none; }
+.stat:nth-child(3), .stat:nth-child(4) { border-bottom: none; }
+
+.stat-n {
+    font-family: var(--font-display);
+    font-size: 30px;
+    color: var(--red);
+    display: block;
+}
+
+.stat-l {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ══════════════════════════════════
+   SECTIONS
+   ══════════════════════════════════ */
+
+.section { padding: 48px 20px; }
+.section-dark { background: var(--dark2); }
+
+.sec-tag {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.sec-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 28px;
+    line-height: 1;
+}
+
+.sec-title-dark { color: var(--dark); }
+
+/* ══════════════════════════════════
+   SERVICES GRID
+   ══════════════════════════════════ */
+
+/* ══════════════════════════════════
+   HOME PAGE
+   ══════════════════════════════════ */
+
+/* Services Section */
+.services-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.services-section .sec-title { color: #fff; }
+
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+}
+
+.service-card {
+    background: var(--dark2);
+    padding: 22px 16px;
+    border-top: 2px solid transparent;
+    transition: border-color .3s;
+}
+
+.service-card:hover { border-top-color: var(--red); }
+
+.service-ico { font-size: 26px; display: block; margin-bottom: 10px; }
+.service-name { font-family: var(--font-ui); font-size: 14px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-bottom: 6px; }
+.service-desc { font-size: 11px; color: #555; line-height: 1.6; }
+
+/* Planning Section Home */
+.planning-section {
+    background: var(--dark2);
+    padding: 48px 20px;
+}
+
+.planning-section .sec-title { color: #fff; }
+
+/* Memberships Preview */
+.memberships-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.memberships-section .sec-title { color: #fff; }
+
+/* ══════════════════════════════════
+   COURSE CARDS
+   ══════════════════════════════════ */
+
+.course-img {
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.course-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 100%);
+}
+
+.course-img-yoga     { background-image: url('/gymfit/public/assets/img/class-yoga.webp'); }
+.course-img-spinning { background-image: url('/gymfit/public/assets/img/class-spinning.webp'); }
+.course-img-crossfit { background-image: url('/gymfit/public/assets/img/class-crossfit.webp'); }
+.course-img-zumba    { background-image: url('/gymfit/public/assets/img/class-zumba.webp'); }
+.course-img-boxing   { background-image: url('/gymfit/public/assets/img/class-boxing.webp'); }
+.course-img-pilates  { background-image: url('/gymfit/public/assets/img/class-pilates.webp'); }
+.course-img-default  { background-image: url('/gymfit/public/assets/img/hero-gym.webp'); }
+
+.course-content { padding: 16px; }
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.course-level {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.course-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #2a2a2a;
+}
+
+.course-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.course-detail-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 1px;
+}
+
+.course-detail-value { font-size: 11px; color: #aaa; }
+
+/* ══════════════════════════════════
+   FILTERS
+   ══════════════════════════════════ */
+
+.filters-section {
+    background: var(--dark2);
+    padding: 16px 20px;
+    border-bottom: 1px solid #111;
+    overflow-x: auto;
+}
+
+.filters-wrap {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    min-width: max-content;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    background: var(--dark);
+    color: #555;
+    transition: all .2s;
+    white-space: nowrap;
+}
+
+.filter-btn:hover { color: #fff; background: #2a2a2a; }
+.filter-btn-active { background: var(--red); color: #fff; }
+
+/* ══════════════════════════════════
+   COURSES SECTION
+   ══════════════════════════════════ */
+
+.courses-section {
+    background: var(--black);
+    padding: 30px 20px;
+}
+
+/* ══════════════════════════════════
+   SCHEDULE / PLANNING
+   ══════════════════════════════════ */
+
+.schedule-section {
+    background: var(--dark2);
+    padding: 48px 20px;
+}
+
+.schedule-section .sec-title { color: #fff; margin-bottom: 24px; }
+
+.day-block { background: var(--dark); margin-bottom: 2px; }
+
+.day-hd {
+    background: var(--black);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.day-hd.today { color: var(--red); }
+
+.today-badge {
+    font-size: 10px;
+    background: var(--red);
+    color: #fff;
+    padding: 2px 8px;
+    letter-spacing: 1px;
+}
+
+.slots-row {
+    display: flex;
+    gap: 2px;
+    padding: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.slots-row::-webkit-scrollbar { display: none; }
+
+.slot {
+    min-width: 110px;
+    padding: 10px 12px;
+    border-left: 3px solid #2a2a2a;
+    background: #1e1e1e;
+    flex-shrink: 0;
+}
+
+.slot-t { font-family: var(--font-ui); font-size: 10px; color: var(--red); font-weight: 700; letter-spacing: 1px; }
+.slot-n { font-size: 12px; color: #ddd; font-weight: 600; margin: 2px 0; }
+.slot-c { font-size: 10px; color: #444; }
+
+/* ══════════════════════════════════
+   HERO CLASSES
+   ══════════════════════════════════ */
+
+.hero-classes {
+    height: 280px;
+    position: relative;
+    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.hero-classes::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.5) 100%);
+}
+
+.hero-classes-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-classes-desc {
+    color: #aaa;
+    font-size: 13px;
+    max-width: 500px;
+    margin-top: 8px;
+}
+
+/* ══════════════════════════════════
+   MEMBERSHIP PLANS
+   ══════════════════════════════════ */
+
+.plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+}
+
+.plan-card { background: var(--dark2); padding: 30px 20px; }
+.plan-card.featured { background: var(--red); }
+
+.plan-badge {
+    display: inline-block;
+    background: #fff;
+    color: var(--red);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    margin-bottom: 12px;
+}
+
+.plan-name { font-family: var(--font-display); font-size: 32px; letter-spacing: 2px; color: #fff; }
+
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin: 12px 0;
+}
+
+/* ══════════════════════════════════
+   MEMBERSHIP PAGE
+   ══════════════════════════════════ */
+
+.hero-membership {
+    height: 280px;
+    position: relative;
+    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.hero-membership::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 15%, rgba(8,8,8,.2) 100%);
+}
+
+.hero-membership-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-membership-desc {
+    color: #555;
+    font-size: 13px;
+    max-width: 500px;
+    margin-top: 8px;
+}
+
+.p-cur {
+    font-size: 22px;
+    color: rgba(255,255,255,.6);
+    align-self: flex-start;
+    margin-top: 8px;
+}
+
+/* Plans Section */
+.plans-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+/* Comparison Table */
+.comparison-section {
+    background: var(--dark2);
+    padding: 48px 20px;
+}
+
+.comparison-section .sec-title {
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.comparison-table td {
+    color: #aaa;
+}
+
+.comparison-table td.check-cell {
+    text-align: center;
+    font-size: 16px;
+}
+
+.comparison-table td.price-cell {
+    text-align: center;
+    color: var(--red);
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.check-yes { color: #28a745; font-weight: bold; }
+.check-no  { color: #555; }
+
+/* FAQ */
+.faq-section {
+    background: var(--black);
+    padding: 48px 20px;
+}
+
+.faq-section .sec-title {
+    color: #fff;
+    margin-bottom: 24px;
+}
+
+.faq-wrap { max-width: 700px; }
+
+.faq-item {
+    border-bottom: 1px solid #1a1a1a;
+    padding: 24px 0;
+}
+
+.faq-question {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.faq-answer {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* Plan description */
+.plan-desc {
+    color: rgba(255,255,255,.5);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+/* Plan CTA button */
+.plan-cta {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+}
+
+.p-amt { font-family: var(--font-display); font-size: 52px; color: #fff; line-height: 1; }
+.p-cur { font-size: 18px; color: rgba(255,255,255,.6); }
+.p-per { font-size: 12px; color: rgba(255,255,255,.5); font-family: var(--font-ui); }
+
+.plan-feats { list-style: none; margin: 12px 0 20px; }
+.plan-feats li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 13px; color: rgba(255,255,255,.8); display: flex; align-items: center; gap: 10px; }
+.plan-feats li::before { content: '✓'; color: #fff; font-weight: 700; }
+.plan-feats li.no { opacity: .35; text-decoration: line-through; }
+.plan-feats li.no::before { content: '✗'; }
+
+/* ══════════════════════════════════
+   CTA SECTION
+   ══════════════════════════════════ */
+
+.cta-section {
+    background: var(--red);
+    padding: 48px 20px;
+    text-align: center;
+}
+
+.cta-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.cta-desc {
+    color: rgba(255,255,255,.7);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+/* ══════════════════════════════════
+   FOOTER
+   ══════════════════════════════════ */
+
+footer {
+    background: var(--black);
+    border-top: 1px solid #1a1a1a;
+    padding: 40px 20px 80px;
+}
+
+.ft-logo { font-family: var(--font-display); font-size: 28px; margin-bottom: 12px; color: #fff; }
+.ft-logo em { color: var(--red); font-style: normal; }
+.ft-desc { color: #333; font-size: 13px; line-height: 1.8; margin-bottom: 28px; }
+
+.ft-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+}
+
+.ft-col h4 { font-family: var(--font-ui); font-size: 11px; font-weight: 700; color: #333; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 14px; }
+.ft-col a { display: block; color: #333; font-size: 12px; margin-bottom: 8px; text-decoration: none; }
+.ft-col a:hover { color: var(--red); }
+
+.ft-bottom {
+    border-top: 1px solid #1a1a1a;
+    padding-top: 16px;
+    font-size: 10px;
+    color: #222;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+}
+
+.ft-bottom em { color: var(--red); font-style: normal; }
+
+/* ══════════════════════════════════
+   CONTACT PAGE
+   ══════════════════════════════════ */
+
+.hero-contact {
+    height: 250px;
+    position: relative;
+    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 30px;
+}
+
+.hero-contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.5) 100%);
+}
+
+.hero-contact-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 48px 20px;
+    background: var(--black);
+}
+
+.contact-info-item { margin-bottom: 28px; }
+.contact-info-item .sec-tag { margin-bottom: 8px; }
+.contact-info-value { color: #aaa; font-size: 14px; line-height: 1.8; }
+
+.contact-map {
+    width: 100%;
+    height: 200px;
+    background: var(--dark2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #1a1a1a;
+    margin-top: 28px;
+}
+
+.contact-map span {
+    color: #333;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.contact-form-wrap { padding-top: 8px; }
+
+.contact-form-wrap .form-group label {
+    color: #aaa;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+.contact-form-wrap input,
+.contact-form-wrap select,
+.contact-form-wrap textarea {
+    background: var(--dark2);
+    border-color: #2a2a2a;
+    color: #fff;
+    transition: border-color .2s;
+}
+
+.contact-form-wrap input:focus,
+.contact-form-wrap textarea:focus { border-color: var(--red); }
+
+.contact-form-wrap select option { background: var(--dark2); color: #fff; }
+
+.contact-success {
+    background: var(--dark2);
+    border-left: 4px solid #28a745;
+    padding: 20px;
+    margin-bottom: 24px;
+    color: #28a745;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+/* ══════════════════════════════════
+   AUTH PAGES
+   ══════════════════════════════════ */
+
+.auth-body {
+    background: var(--black);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px;
+}
+.auth-logo {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 32px;
+}
+
+.auth-logo em {
+    color: var(--red); font-style: normal; 
+    
+}
+
+/* ── Auth Tabs ── */
+.auth-tabs {
+    display: flex;
+    margin-bottom: 28px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.auth-tab {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #333;
+    text-decoration: none;
+    padding: 12px 0;
+    margin-right: 32px;
+    border-bottom: 2px solid transparent;
+    transition: all .2s;
+}
+
+.auth-tab:hover { color: #fff; }
+.auth-tab.active { color: #fff; border-bottom-color: var(--red); }
+.auth-card {
+    background: var(--dark2);
+    padding: 30px 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 480px;
+    border-top: 3px solid var(--red);
+    margin-top: 20px;
+}
+
+.auth-card h1 { font-family: var(--font-display); font-size: 32px; color: #fff; margin-bottom: 8px; letter-spacing: 2px; }
+.auth-card p { color: #555; font-size: 13px; margin-bottom: 20px; }
+.auth-card label { color: #aaa; }
+.auth-card input { background: #1a1a1a; border-color: #333; color: #fff; }
+.auth-card input:focus { border-color: var(--red); }
+.auth-card .btn-submit { font-family: var(--font-display); font-size: 18px; letter-spacing: 2px; }
+.auth-link { text-align: center; margin-top: 16px; font-size: 13px; color: #444; }
+.auth-link a { color: var(--red); text-decoration: none; }
+
+.auth-page {
+    min-height: 100vh;
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.auth-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background: var(--black);
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-left { display: none; }
+/* ── Auth Links ── */
+.auth-footer-link { color: #444; }
+.auth-footer-link a { color: var(--red); text-decoration: none; }
+.auth-footer-link a:hover { text-decoration: underline; }
+/* ══════════════════════════════════
+   ADMIN PAGES
+   ══════════════════════════════════ */
+
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 220px; background: var(--dark); padding: 20px; flex-shrink: 0; }
+.sidebar h2 { color: var(--red); font-size: 22px; margin-bottom: 30px; font-family: var(--font-display); letter-spacing: 2px; }
+.sidebar a { display: block; color: #aaa; text-decoration: none; padding: 10px; margin-bottom: 4px; border-radius: 4px; font-family: var(--font-ui); font-size: 13px; letter-spacing: 1px; }
+.sidebar a:hover { background: #2a2a2a; color: #fff; }
+.sidebar a.active { background: var(--red); color: #fff; }
+.sidebar hr { border-color: #333; margin: 20px 0; }
+.main { flex: 1; padding: 30px; background: var(--gray); }
+.main h1 { color: var(--dark); margin-bottom: 24px; font-family: var(--font-display); font-size: 36px; letter-spacing: 2px; }
+
+.card { background: #fff; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.card-header h2 { font-size: 18px; color: var(--dark); }
+
+.kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 30px; }
+.kpi { background: #fff; padding: 20px; border-radius: 8px; border-left: 4px solid var(--red); text-align: center; }
+.kpi-number { font-size: 36px; font-weight: bold; color: var(--red); font-family: var(--font-display); }
+.kpi-label { font-size: 13px; color: #666; margin-top: 4px; }
+
+table { width: 100%; border-collapse: collapse; }
+th { background: var(--dark); color: #fff; padding: 10px; text-align: left; font-size: 13px; font-family: var(--font-ui); letter-spacing: 1px; }
+td { padding: 10px; border-bottom: 1px solid #eee; font-size: 13px; }
+tr:hover td { background: #f9f9f9; }
+
+.badge { padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+.badge-active   { background: #d4edda; color: #155724; }
+.badge-inactive { background: #f8d7da; color: #721c24; }
+.badge-pending  { background: #fff3cd; color: #856404; }
+.badge-yoga     { background: #d4edda; color: #155724; }
+.badge-cardio   { background: #cce5ff; color: #004085; }
+.badge-combat   { background: #f8d7da; color: #721c24; }
+.badge-dance    { background: #fff3cd; color: #856404; }
+.badge-wellness { background: #e2d9f3; color: #4a235a; }
+
+.btn { padding: 5px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; text-decoration: none; margin-right: 4px; display: inline-block; font-family: var(--font-ui); letter-spacing: 1px; }
+.btn-edit   { background: var(--dark); color: #fff; }
+.btn-delete { background: var(--red); color: #fff; }
+.btn-add    { background: var(--red); color: #fff; padding: 8px 16px; font-size: 14px; }
+.btn-submit { background: var(--red); color: #fff; padding: 12px 24px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer; width: 100%; margin-top: 8px; font-family: var(--font-ui); letter-spacing: 1px; }
+.btn-cancel { display: block; text-align: center; margin-top: 12px; color: #666; text-decoration: none; font-size: 13px; }
+
+.form-group { margin-bottom: 16px; }
+label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #333; }
+input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-family: var(--font-body); }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--red); }
+.error { color: var(--red); font-size: 12px; margin-top: 4px; }
+.form-row { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+/* Admin Plans */
+.plans { display: grid; grid-template-columns: 1fr; gap: 20px; }
+
+.plan-card-admin {
+    background: #1f1f1f;
+    border-radius: 8px;
+    padding: 24px;
+    color: #fff;
+}
+
+/* ── Toggle Mensuel/Annuel ── */
+.billing-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.billing-label {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color .2s;
+}
+
+.billing-label.active { color: #fff; }
+
+.toggle-wrap {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    cursor: pointer;
+}
+
+.toggle-wrap input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #2a2a2a;
+    border-radius: 28px;
+    transition: background .3s;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 4px;
+    top: 4px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .3s;
+}
+
+.toggle-wrap input:checked + .toggle-slider {
+    background: var(--red);
+}
+
+.toggle-wrap input:checked + .toggle-slider::before {
+    transform: translateX(24px);
+}
+
+.annual-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+.price-monthly { display: flex; }
+.price-annual  { display: none; }
+
+.plan-name-admin {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.plan-price-admin {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--red);
+    margin-bottom: 16px;
+    font-family: var(--font-display);
+}
+
+.plan-price-admin span { font-size: 14px; color: #666; font-weight: normal; font-family: var(--font-body); }
+
+.plan-features { list-style: none; }
+.plan-features li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.check { color: #28a745; font-weight: bold; }
+.cross { color: #dc3545; font-weight: bold; }
+
+/* Auth Error */
+.auth-error {
+    background: #1a0606;
+    border-left: 3px solid var(--red);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+    font-size: 13px;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+}
+
+/* CGU */
+.auth-cgu { margin-bottom: 16px; }
+
+.cgu-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #444;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+}
+
+.cgu-label input {
+    width: auto;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.cgu-label a { color: var(--red); text-decoration: none; }
+.cgu-label a:hover { text-decoration: underline; }
+
+/* ══════════════════════════════════
+   DESKTOP — min-width: 1024px
+   ══════════════════════════════════ */
+
+@media (min-width: 1024px) {
+
+    /* Nav */
+    .nav-public { padding: 0 60px; height: 70px; }
+    .nav-links { display: flex; align-items: center; }
+    .hamburger { display: none; }
+    .nav-mobile-menu { display: none !important; }
+
+    /* Hero */
+    .hero { min-height: 600px; padding-bottom: 60px; }
+    .hero-content { padding: 0 60px; }
+    .hero-title { font-size: 90px; }
+    .hero-sub { font-size: 16px; }
+    .hero-btns { flex-direction: row; }
+    .hero-btns .btn-red,
+    .hero-btns .btn-outline { width: auto; }
+
+    /* Stats */
+    .stats-bar { grid-template-columns: repeat(4, 1fr); }
+    .stat { border-bottom: none; }
+    .stat:nth-child(2n) { border-right: 1px solid #1e1e1e; }
+    .stat:last-child { border-right: none; }
+    .stat-n { font-size: 42px; }
+
+    /* Sections */
+    .section { padding: 80px 60px; }
+    .sec-title { font-size: 52px; margin-bottom: 40px; }
+
+    .services-section { padding: 80px 60px; }
+    .services-grid { grid-template-columns: repeat(3, 1fr); }
+    .service-card { padding: 30px 24px; }
+    .service-ico { font-size: 32px; }
+    .service-name { font-size: 16px; }
+    .service-desc { font-size: 13px; }
+    .planning-section { padding: 80px 60px; }
+    .memberships-section { padding: 80px 60px; }
+    /* Grids */
+    .plans-grid { grid-template-columns: repeat(3, 1fr); }
+    .ft-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
+    .form-row { grid-template-columns: 1fr 1fr; }
+
+    /* Footer */
+    footer { padding: 60px; }
+    .ft-desc { margin-bottom: 40px; }
+
+    /* Hero Classes */
+    .hero-classes { height: 400px; padding-bottom: 50px; }
+    .hero-classes-content { padding: 0 60px; }
+    .hero-classes-desc { font-size: 15px; }
+
+    /* Filters */
+    .filters-section { padding: 20px 60px; }
+    .filters-wrap { flex-wrap: wrap; min-width: auto; }
+
+    /* Courses */
+    .courses-section { padding: 60px; }
+    .course-img { height: 200px; }
+    .course-content { padding: 20px; }
+
+    /* Schedule */
+    .schedule-section { padding: 80px 60px; }
+    .slot { min-width: 140px; }
+
+    /* Membership */
+    .plans-grid { gap: 2px; }
+    .plan-card { padding: 40px 30px; }
+    .plan-name { font-size: 36px; }
+    .p-amt { font-size: 64px; }
+    .hero-membership { height: 350px; padding-bottom: 50px; }
+    .hero-membership-content { padding: 0 60px; }
+    .hero-membership-desc { font-size: 15px; }
+    .plans-section { padding: 80px 60px; }
+    .comparison-section { padding: 80px 60px; }
+    .faq-section { padding: 80px 60px; }
+
+    /* CTA */
+    .cta-section { padding: 60px; }
+    .cta-title { font-size: 52px; }
+    .cta-desc { font-size: 15px; }
+
+    /* Contact */
+    .hero-contact { height: 350px; padding-bottom: 50px; }
+    .hero-contact-content { padding: 0 60px; }
+    .contact-grid {
+        grid-template-columns: 1fr 1.5fr;
+        gap: 80px;
+        padding: 80px 60px;
+    }
+
+    /* Auth */
+    .auth-body { align-items: center; padding: 0; }
+    .auth-card { padding: 40px; margin-top: 0; }
+    .auth-card h1 { font-size: 36px; }
+
+    /* Admin KPIs */
+    .kpis { grid-template-columns: repeat(4, 1fr); }
+
+    /* Admin Plans */
+    .plans { grid-template-columns: repeat(3, 1fr); }
+}

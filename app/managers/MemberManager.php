@@ -2,6 +2,8 @@
 
 class MemberManager extends AbstractManager
 {
+    protected string $table = 'members'; 
+    
     public function findAll(): array
     {
         $query = $this->db->prepare(

@@ -27,7 +27,19 @@ class Router {
                 $controller = new ContactController();
                 $controller->send();
             }
-
+            else if ($get['route'] === 'contact') {
+            $controller = new ContactController();
+            $controller->index();
+            }
+            else if ($get['route'] === 'check-contact') {
+                $controller = new ContactController();
+                $controller->send();
+            }
+            else if ($get['route'] === 'membership') {
+                $controller = new MembershipController();
+                $controller->index();
+            }
+           
             // ── Authentification ──
             else if ($get['route'] === 'login') {
                 $controller = new AuthController();

@@ -1,0 +1,82 @@
+<?php
+$courses = $data['courses'] ?? [];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Courses</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin">Dashboard</a>
+        <a href="index.php?route=admin-members">Members</a>
+        <a href="index.php?route=admin-courses" class="active">Courses</a>
+        <a href="index.php?route=admin-subscriptions">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Courses</h1>
+        <div class="card">
+            <div class="card-header">
+                <h2>All Courses (<?= count($courses) ?>)</h2>
+                <a href="index.php?route=admin-create-course" class="btn btn-add">+ Add Course</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Level</th>
+                        <th>Coach</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Capacity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($courses as $course): ?>
+                    <tr>
+                        <td><?= htmlspecialchars((string) $course->getId()) ?></td>
+                        <td><strong><?= htmlspecialchars($course->getName()) ?></strong></td>
+                        <td>
+                            <span class="badge badge-<?= htmlspecialchars(strtolower($course->getType())) ?>">
+                                <?= htmlspecialchars($course->getType()) ?>
+                            </span>
+                        </td>
+                        <td><?= htmlspecialchars($course->getLevel()) ?></td>
+                        <td><?= htmlspecialchars($course->getCoach()) ?></td>
+                        <td><?= htmlspecialchars($course->getDay()) ?></td>
+                        <td>
+                            <?= htmlspecialchars($course->getStartTime()) ?>
+                            —
+                            <?= htmlspecialchars($course->getEndTime()) ?>
+                        </td>
+                        <td><?= htmlspecialchars((string) $course->getMaxCapacity()) ?></td>
+                        <td>
+                            <a href="index.php?route=admin-update-course&id=<?= htmlspecialchars((string) $course->getId()) ?>"
+                               class="btn btn-edit">Edit</a>
+                            <a href="index.php?route=admin-delete-course&id=<?= htmlspecialchars((string) $course->getId()) ?>"
+                               class="btn btn-delete"
+                               onclick="return confirm('Delete <?= htmlspecialchars($course->getName()) ?>?')">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

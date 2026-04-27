@@ -1,0 +1,172 @@
+<?php require_once __DIR__ . '/layout/header.phtml'; ?>
+
+<?php
+$types = ['All', 'Yoga', 'Cardio', 'Combat', 'Dance', 'Wellness'];
+$activeFilter = $_GET['type'] ?? 'All';
+$courses = $data['courses'] ?? [];
+
+$imgMap = [
+    'Yoga Flow'   => 'yoga',
+    'Spinning'    => 'spinning',
+    'CrossFit'    => 'crossfit',
+    'Zumba'       => 'zumba',
+    'Box Fitness' => 'boxing',
+    'Pilates'     => 'pilates',
+];
+?>
+
+<!-- HERO CLASSES -->
+<section class="hero-classes">
+    <div class="hero-classes-content">
+        <p class="sec-tag">Our Classes</p>
+        <h1 class="sec-title">Find Your Perfect Class</h1>
+        <p class="hero-classes-desc">
+            From relaxing yoga to intense CrossFit — we have a class for every level and goal.
+        </p>
+    </div>
+</section>
+
+<!-- FILTERS -->
+<section class="filters-section">
+    <div class="filters-wrap">
+        <?php foreach ($types as $type): ?>
+            <a
+                href="index.php?route=classes&amp;type=<?= urlencode($type) ?>"
+                class="filter-btn <?= $activeFilter === $type ? 'filter-btn-active' : '' ?>"
+            >
+                <?= htmlspecialchars($type) ?>
+            </a>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<!-- COURSES GRID -->
+<section class="courses-section">
+    <div class="srv-grid">
+        <?php foreach ($courses as $course): ?>
+            <?php
+            if ($activeFilter !== 'All' && $course->getType() !== $activeFilter) {
+                continue;
+            }
+
+            $imgKey = $imgMap[$course->getName()] ?? 'default';
+            $imgSrc = "/gymfit/public/assets/img/class-{$imgKey}.webp";
+
+            $courseName  = htmlspecialchars($course->getName());
+            $courseType  = htmlspecialchars($course->getType());
+            $courseLevel = htmlspecialchars($course->getLevel());
+            $courseCoach = htmlspecialchars($course->getCoach());
+            $courseDay   = htmlspecialchars($course->getDay());
+            $startTime   = htmlspecialchars($course->getStartTime());
+            $endTime     = htmlspecialchars($course->getEndTime());
+            // $description = $course->getDescription();
+            $badgeClass  = strtolower(trim($course->getType()));
+
+            $altText = $course->getName() . ' class with coach ' . $course->getCoach() . ' at GymFit';
+            ?>
+            <article class="srv-card">
+                <div class="course-img">
+                    <img
+                        src="<?= htmlspecialchars($imgSrc) ?>"
+                        alt="<?= htmlspecialchars($altText) ?>"
+                        loading="lazy"
+                        width="800"
+                        height="500"
+                    >
+                </div>
+
+                <div class="course-content">
+                    <div class="course-meta">
+                        <span class="badge badge-<?= htmlspecialchars($badgeClass) ?>">
+                            <?= $courseType ?>
+                        </span>
+                        <span class="course-level">
+                            <?= $courseLevel ?>
+                        </span>
+                    </div>
+
+                    <h2 class="srv-name"><?= $courseName ?></h2>
+
+                    <?php if (!empty($description)): ?>
+                        <p class="srv-desc"><?= htmlspecialchars($description) ?></p>
+                    <?php endif; ?>
+
+                    <div class="course-details">
+                        <div class="course-detail-row">
+                            <span class="course-detail-label">Coach</span>
+                            <span class="course-detail-value"><?= $courseCoach ?></span>
+                        </div>
+
+                        <div class="course-detail-row">
+                            <span class="course-detail-label">Day</span>
+                            <span class="course-detail-value"><?= $courseDay ?></span>
+                        </div>
+
+                        <div class="course-detail-row">
+                            <span class="course-detail-label">Time</span>
+                            <span class="course-detail-value"><?= $startTime ?> — <?= $endTime ?></span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<!-- WEEKLY SCHEDULE -->
+<section class="schedule-section">
+    <p class="sec-tag">Schedule</p>
+    <h2 class="sec-title">Weekly Timetable</h2>
+
+    <?php
+    $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    $today = date('l');
+    ?>
+
+    <?php foreach ($days as $day): ?>
+        <?php
+        $dayCourses = array_filter(
+            $courses,
+            fn($c) => $c->getDay() === $day
+        );
+
+        if (empty($dayCourses)) {
+            continue;
+        }
+        ?>
+
+        <div class="day-block">
+            <h3 class="day-hd <?= $day === $today ? 'today' : '' ?>">
+                <span><?= htmlspecialchars($day) ?></span>
+                <?php if ($day === $today): ?>
+                    <span class="today-badge">Today</span>
+                <?php endif; ?>
+            </h3>
+
+            <div class="slots-row">
+                <?php foreach ($dayCourses as $course): ?>
+                    <div class="slot">
+                        <div class="slot-t">
+                            <?= htmlspecialchars($course->getStartTime()) ?>
+                        </div>
+                        <div class="slot-n">
+                            <?= htmlspecialchars($course->getName()) ?>
+                        </div>
+                        <div class="slot-c">
+                            <?= htmlspecialchars($course->getCoach()) ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2 class="cta-title">Ready to Start?</h2>
+    <p class="cta-desc">Join GymFit today and get access to all our classes.</p>
+    <a href="index.php?route=register" class="btn-outline">Join Now</a>
+</section>
+
+<?php require_once __DIR__ . '/layout/footer.phtml'; ?>

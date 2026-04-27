@@ -1,26 +1,182 @@
-<?php foreach ($courses as $course): ?>
-    <p>
-        <strong><?= htmlspecialchars($course->getName()) ?></strong>
-        — <?= htmlspecialchars($course->getDay()) ?>
-        — <?= htmlspecialchars($course->getStartTime()) ?>
-        — Coach : <?= htmlspecialchars($course->getCoach()) ?>
-    </p>
-<?php endforeach; ?>
+<?php require_once __DIR__ . '/layout/header.phtml'; ?>
 
-<?php foreach ($subscriptions as $subscription): ?>
-    <p>
-        <strong><?= htmlspecialchars($subscription->getName()) ?></strong>
-        — <?= $subscription->getMonthlyPrice() ?>€/mois
-    </p>
-<?php endforeach; ?>
+<?php
+$days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+$today = date('l');
+$courses = $data['courses'] ?? [];
+$subscriptions = $data['subscriptions'] ?? [];
+?>
 
-<?php if (isset($_SESSION['user'])): ?>
-    <p style="color:green;">
-        ✅ Connecté : <?= $_SESSION['user']['first_name'] ?>
-        <?= $_SESSION['user']['last_name'] ?>
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-content">
+        <p class="hero-tag">★ Premium Fitness Center — Cairo</p>
+        <h1 class="hero-title">
+            Transform<br>Your Body
+            <em>Starting Today</em>
+        </h1>
+        <p class="hero-sub">
+            Join GymFit — world-class equipment, expert coaches
+            and classes for every level.
+        </p>
+        <div class="hero-btns">
+            <a href="index.php?route=register" class="btn-red">Join Now</a>
+            <a href="index.php?route=classes" class="btn-outline">Our Classes</a>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat">
+        <span class="stat-n">1,200+</span>
+        <span class="stat-l">Members</span>
+    </div>
+    <div class="stat">
+        <span class="stat-n">45+</span>
+        <span class="stat-l">Classes / Week</span>
+    </div>
+    <div class="stat">
+        <span class="stat-n">12</span>
+        <span class="stat-l">Expert Coaches</span>
+    </div>
+    <div class="stat">
+        <span class="stat-n">7/7</span>
+        <span class="stat-l">Open Daily</span>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section">
+    <p class="sec-tag">Our Services</p>
+    <h2 class="sec-title">What We Offer</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <span class="service-ico">🏋️</span>
+            <h3 class="service-name">Weight Training</h3>
+            <p class="service-desc">800m² of professional equipment for all levels.</p>
+        </div>
+        <div class="service-card">
+            <span class="service-ico">🚴</span>
+            <h3 class="service-name">Cardio</h3>
+            <p class="service-desc">Latest treadmills, bikes and ellipticals.</p>
+        </div>
+        <div class="service-card">
+            <span class="service-ico">🧑‍💼</span>
+            <h3 class="service-name">Personal Coaching</h3>
+            <p class="service-desc">One-on-one sessions with certified coaches.</p>
+        </div>
+        <div class="service-card">
+            <span class="service-ico">🥊</span>
+            <h3 class="service-name">Group Classes</h3>
+            <p class="service-desc">Yoga, Pilates, CrossFit, Zumba and more.</p>
+        </div>
+        <div class="service-card">
+            <span class="service-ico">🍎</span>
+            <h3 class="service-name">Nutrition</h3>
+            <p class="service-desc">Personalised assessments and advice.</p>
+        </div>
+        <div class="service-card">
+            <span class="service-ico">♨️</span>
+            <h3 class="service-name">Wellness</h3>
+            <p class="service-desc">Sauna and hammam after your sessions.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PLANNING -->
+<section class="planning-section">
+    <p class="sec-tag">Schedule</p>
+    <h2 class="sec-title">This Week's Classes</h2>
+
+    <?php foreach ($days as $day): ?>
+        <?php
+        $dayCourses = array_filter(
+            $courses,
+            fn($c) => $c->getDay() === $day
+        );
+        if (empty($dayCourses)) continue;
+        ?>
+        <div class="day-block">
+            <h3 class="day-hd <?= $day === $today ? 'today' : '' ?>">
+                <span><?= htmlspecialchars($day) ?></span>
+                <?php if ($day === $today): ?>
+                    <span class="today-badge">Today</span>
+                <?php endif; ?>
+            </h3>
+            <div class="slots-row">
+                <?php foreach ($dayCourses as $course): ?>
+                    <div class="slot">
+                        <div class="slot-t">
+                            <?= htmlspecialchars($course->getStartTime()) ?>
+                        </div>
+                        <div class="slot-n">
+                            <?= htmlspecialchars($course->getName()) ?>
+                        </div>
+                        <div class="slot-c">
+                            <?= htmlspecialchars($course->getCoach()) ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+
+    <div class="view-all-wrap">
+        <a href="index.php?route=classes" class="btn-outline">
+            View Full Schedule
+        </a>
+    </div>
+</section>
+
+<!-- MEMBERSHIPS -->
+<section class="memberships-section">
+    <p class="sec-tag">Pricing</p>
+    <h2 class="sec-title">Our Memberships</h2>
+    <div class="plans-grid">
+        <?php foreach ($subscriptions as $subscription): ?>
+            <div class="plan-card <?= $subscription->getName() === 'Premium' ? 'featured' : '' ?>">
+                <?php if ($subscription->getName() === 'Premium'): ?>
+                    <div class="plan-badge">Most Popular</div>
+                <?php endif; ?>
+                <h3 class="plan-name">
+                    <?= htmlspecialchars($subscription->getName()) ?>
+                </h3>
+                <div class="plan-price">
+                    <span class="p-cur">€</span>
+                    <span class="p-amt"><?= htmlspecialchars((string) $subscription->getMonthlyPrice()) ?></span>
+                    <span class="p-per">/month</span>
+                </div>
+                <ul class="plan-feats">
+                    <li>Gym access 7 days/week</li>
+                    <li class="<?= $subscription->hasClassAccess() ? '' : 'no' ?>">
+                        Group classes
+                    </li>
+                    <li class="<?= $subscription->hasCoachingAccess() ? '' : 'no' ?>">
+                        Personal coaching
+                    </li>
+                    <li class="<?= $subscription->hasSaunaAccess() ? '' : 'no' ?>">
+                        Sauna & hammam
+                    </li>
+                </ul>
+                <a href="index.php?route=register" class="btn-red plan-cta">
+                    Choose <?= htmlspecialchars($subscription->getName()) ?>
+                </a>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2 class="cta-title">Ready to Transform?</h2>
+    <p class="cta-desc">
+        Join over 1,200 members training at GymFit Cairo every day.
     </p>
-    <a href="index.php?route=logout">Logout</a>
-<?php else: ?>
-    <p>Non connecté</p>
-    <a href="index.php?route=login">Login</a>
-<?php endif; ?>
+    <a href="index.php?route=register" class="btn-outline">
+        Start Your Journey
+    </a>
+</section>
+
+<?php require_once __DIR__ . '/layout/footer.phtml'; ?>

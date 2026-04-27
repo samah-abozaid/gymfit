@@ -1,0 +1,83 @@
+<!-- PLANS -->
+<section class="plans-section">
+
+    <p class="sec-tag">Pricing</p>
+    <h2 class="sec-title">Our Membership Plans</h2>
+
+    <!-- Toggle -->
+    <div class="billing-toggle">
+        <span class="billing-label active" id="label-monthly">Monthly</span>
+        <label class="toggle-wrap">
+            <input type="checkbox" id="billing-toggle">
+            <span class="toggle-slider"></span>
+        </label>
+        <span class="billing-label" id="label-annual">
+            Annual
+            <span class="annual-badge">-20%</span>
+        </span>
+    </div>
+
+    <?php
+    $subscriptions = $data['subscriptions'] ?? [];
+    ?>
+
+    <div class="plans-grid">
+        <?php foreach ($subscriptions as $subscription):
+            $monthlyPrice = $subscription->getMonthlyPrice();
+            $annualPrice  = round($monthlyPrice * 0.8, 2);
+        ?>
+        <article class="plan-card <?= $subscription->getName() === 'Premium' ? 'featured' : '' ?>">
+
+            <?php if ($subscription->getName() === 'Premium'): ?>
+                <div class="plan-badge">Most Popular</div>
+            <?php endif; ?>
+
+            <!-- ✔️ important -->
+            <h3 class="plan-name">
+                <?= htmlspecialchars($subscription->getName()) ?>
+            </h3>
+
+            <!-- Prix mensuel -->
+            <div class="plan-price price-monthly">
+                <span class="p-cur">€</span>
+                <span class="p-amt"><?= $monthlyPrice ?></span>
+                <span class="p-per">/month</span>
+            </div>
+
+            <!-- Prix annuel -->
+            <div class="plan-price price-annual">
+                <span class="p-cur">€</span>
+                <span class="p-amt"><?= $annualPrice ?></span>
+                <span class="p-per">/month</span>
+            </div>
+
+            <?php if ($subscription->getDescription()): ?>
+                <p class="plan-desc">
+                    <?= htmlspecialchars($subscription->getDescription()) ?>
+                </p>
+            <?php endif; ?>
+
+            <ul class="plan-feats">
+                <li>Gym access 7 days/week</li>
+                <li>Changing rooms & showers</li>
+                <li>Weight training area</li>
+                <li class="<?= $subscription->hasClassAccess() ? '' : 'no' ?>">
+                    Unlimited group classes
+                </li>
+                <li class="<?= $subscription->hasCoachingAccess() ? '' : 'no' ?>">
+                    Personal coaching session
+                </li>
+                <li class="<?= $subscription->hasSaunaAccess() ? '' : 'no' ?>">
+                    Sauna & hammam access
+                </li>
+            </ul>
+
+            <a href="index.php?route=register&amp;plan=<?= $subscription->getId() ?>"
+               class="btn-red plan-cta">
+                Choose <?= htmlspecialchars($subscription->getName()) ?>
+            </a>
+
+        </article>
+        <?php endforeach; ?>
+    </div>
+</section>

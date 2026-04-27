@@ -1,0 +1,70 @@
+<?php
+$subscriptions = $data['subscriptions'] ?? [];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Subscriptions</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin">Dashboard</a>
+        <a href="index.php?route=admin-members">Members</a>
+        <a href="index.php?route=admin-courses">Courses</a>
+        <a href="index.php?route=admin-subscriptions" class="active">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Subscription Plans</h1>
+
+        <div class="plans">
+            <?php foreach ($subscriptions as $subscription): ?>
+                <div class="plan-card">
+                    <div class="plan-name">
+                        <?= htmlspecialchars($subscription->getName()) ?>
+                    </div>
+
+                    <div class="plan-price">
+                        <?= htmlspecialchars($subscription->getMonthlyPrice()) ?>€
+                        <span>/month</span>
+                    </div>
+
+                    <p class="plan-desc">
+                        <?= htmlspecialchars($subscription->getDescription() ?? '') ?>
+                    </p>
+
+                    <ul class="plan-features">
+                        <li>
+                            <span class="<?= $subscription->hasClassAccess() ? 'check' : 'cross' ?>">
+                                <?= $subscription->hasClassAccess() ? '✓' : '✗' ?>
+                            </span>
+                            Group Classes
+                        </li>
+                        <li>
+                            <span class="<?= $subscription->hasCoachingAccess() ? 'check' : 'cross' ?>">
+                                <?= $subscription->hasCoachingAccess() ? '✓' : '✗' ?>
+                            </span>
+                            Personal Coaching
+                        </li>
+                        <li>
+                            <span class="<?= $subscription->hasSaunaAccess() ? 'check' : 'cross' ?>">
+                                <?= $subscription->hasSaunaAccess() ? '✓' : '✗' ?>
+                            </span>
+                            Sauna & Hammam
+                        </li>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

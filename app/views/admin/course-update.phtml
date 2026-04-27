@@ -1,0 +1,141 @@
+<?php
+$old = $data['old'] ?? [];
+$errors = $data['errors'] ?? [];
+$course = $data['course'] ?? null;
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Edit Course</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin">Dashboard</a>
+        <a href="index.php?route=admin-members">Members</a>
+        <a href="index.php?route=admin-courses" class="active">Courses</a>
+        <a href="index.php?route=admin-subscriptions">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Edit Course</h1>
+        <div class="card">
+            <form action="index.php?route=admin-check-update-course" method="POST">
+                
+                <input type="hidden"
+                       name="csrf-token"
+                       value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
+                       <input type="hidden" name="id" value="<?= (int)$course->getId() ?>">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Course Name *</label>
+                        <input type="text" name="name"
+                               value="<?= htmlspecialchars($old['name'] ?? ($course ? $course->getName() : '')) ?>">
+                        <?php if (isset($errors['name'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['name']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select name="type">
+                            <?php foreach (['Yoga', 'Cardio', 'Combat', 'Dance', 'Wellness'] as $type): ?>
+                                <option value="<?= htmlspecialchars($type) ?>"
+                                    <?= (($old['type'] ?? ($course ? $course->getType() : '')) === $type) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($type) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php if (isset($errors['type'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['type']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Level</label>
+                        <select name="level">
+                            <?php foreach (['Beginner', 'Intermediate', 'Advanced'] as $level): ?>
+                                <option value="<?= htmlspecialchars($level) ?>"
+                                    <?= (($old['level'] ?? ($course ? $course->getLevel() : '')) === $level) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($level) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php if (isset($errors['level'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['level']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label>Coach</label>
+                        <input type="text" name="coach"
+                               value="<?= htmlspecialchars($old['coach'] ?? ($course ? $course->getCoach() : '')) ?>">
+                        <?php if (isset($errors['coach'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['coach']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Day *</label>
+                        <select name="day">
+                            <?php foreach (['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $day): ?>
+                                <option value="<?= htmlspecialchars($day) ?>"
+                                    <?= (($old['day'] ?? ($course ? $course->getDay() : '')) === $day) ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($day) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php if (isset($errors['day'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['day']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Capacity</label>
+                        <input type="number" name="max_capacity"
+                               value="<?= htmlspecialchars((string) ($old['max_capacity'] ?? ($course ? $course->getMaxCapacity() : ''))) ?>"
+                               min="1" max="100">
+                        <?php if (isset($errors['max_capacity'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['max_capacity']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Start Time *</label>
+                        <input type="time" name="start_time"
+                               value="<?= htmlspecialchars($old['start_time'] ?? ($course ? $course->getStartTime() : '')) ?>">
+                        <?php if (isset($errors['start_time'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['start_time']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                    <div class="form-group">
+                        <label>End Time *</label>
+                        <input type="time" name="end_time"
+                               value="<?= htmlspecialchars($old['end_time'] ?? ($course ? $course->getEndTime() : '')) ?>">
+                        <?php if (isset($errors['end_time'])): ?>
+                            <p class="error"><?= htmlspecialchars($errors['end_time']) ?></p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+
+
+                <button type="submit" class="btn-submit">Save Changes</button>
+            </form>
+            <a href="index.php?route=admin-courses" class="btn-cancel">← Back to Courses</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

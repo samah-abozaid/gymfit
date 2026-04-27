@@ -2,6 +2,8 @@
 
 class AdminManager extends AbstractManager
 {
+    protected string $table = 'admins';
+    
     public function findAll(): array
     {
         $query = $this->db->prepare(

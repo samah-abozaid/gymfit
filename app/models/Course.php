@@ -11,7 +11,7 @@ class Course {
         private string  $startTime,
         private string  $endTime,
         private int     $maxCapacity = 20,
-        private ?string $description = null,
+      
         private ?int    $id          = null
     ) {}
 
@@ -52,9 +52,7 @@ class Course {
         return $this->maxCapacity;
     }
 
-    public function getDescription(): ?string {
-        return $this->description;
-    }
+  
 
     // ── Setters ──
     public function setId(int $id): void {
@@ -93,7 +91,5 @@ class Course {
         $this->maxCapacity = $maxCapacity;
     }
 
-    public function setDescription(?string $description): void {
-        $this->description = $description;
-    }
+ 
 }

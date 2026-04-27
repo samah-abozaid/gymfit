@@ -24,3 +24,5 @@ require_once dirname(__DIR__) . '/app/controllers/AdminController.php';
 
 // Services
 require_once dirname(__DIR__) . '/app/services/Router.php';
+require_once dirname(__DIR__) ."/app/services/CSRFTokenManager.php";
+require_once dirname(__DIR__) . '/app/services/MailService.php';

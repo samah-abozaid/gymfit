@@ -12,4 +12,13 @@ abstract class AbstractManager
             $_ENV["DB_PASSWORD"]
         );
     }
+    
+    public function countAll(): int
+{
+    $query = $this->db->prepare(
+        "SELECT COUNT(*) FROM {$this->table}"
+    );
+    $query->execute();
+    return (int) $query->fetchColumn();  //donne la valeur sans table 
+}
 }

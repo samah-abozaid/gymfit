@@ -2,6 +2,8 @@
 
 class SubscriptionManager extends AbstractManager
 {
+    protected string $table = 'subscriptions';
+    
     public function findAll(): array
     {
         $query = $this->db->prepare(
