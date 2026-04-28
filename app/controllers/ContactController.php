@@ -1,5 +1,8 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 class ContactController extends AbstractController
 {
     public function index(): void
@@ -48,14 +51,14 @@ class ContactController extends AbstractController
                     return;
                 }
 
-                // ── Données nettoyées ────────────────────────────
+                // ── Données nettoyées ──────────────────────────
                 $firstName = htmlspecialchars($_POST['first_name']);
                 $lastName  = htmlspecialchars($_POST['last_name']);
                 $email     = htmlspecialchars($_POST['email']);
                 $subject   = htmlspecialchars($_POST['subject'] ?? 'other');
                 $message   = htmlspecialchars($_POST['message']);
 
-                // ── Envoi via MailService ────────────────────────
+                // ── Envoi via MailService ──────────────────────
                 $mailService = new MailService();
                 $sent = $mailService->sendContactEmail(
                     $firstName,

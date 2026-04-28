@@ -1,21 +1,24 @@
 <?php
 
-use Mailtrap\MailtrapClient;
-use Mailtrap\Mime\MailtrapEmail;
-use Symfony\Component\Mime\Address;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 class MailService
 {
-    private $mailtrap; 
+    private PHPMailer $mail;
 
     public function __construct()
     {
-        $this->mailtrap = MailtrapClient::initSendingEmails(
-            apiKey:    $_ENV['MAILTRAP_API_KEY'],
-            isBulk:false,
-            isSandbox: false,
-            inboxId:   (int) $_ENV['MAILTRAP_INBOX_ID']
-        );
+        $this->mail = new PHPMailer(true);
+
+        $this->mail->isSMTP();
+        $this->mail->Host       = $_ENV['MAIL_HOST'];
+        $this->mail->SMTPAuth   = true;
+        $this->mail->Username   = $_ENV['MAIL_USERNAME'];
+        $this->mail->Password   = $_ENV['MAIL_PASSWORD'];
+        $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mail->Port       = (int) $_ENV['MAIL_PORT'];
+        $this->mail->CharSet    = 'UTF-8';
     }
 
     public function sendContactEmail(
@@ -26,23 +29,25 @@ class MailService
         string $message
     ): bool {
         try {
-            $emailMsg = (new MailtrapEmail())
-                ->from(new Address($_ENV['MAIL_FROM'], $_ENV['MAIL_FROM_NAME']))
-                ->to(new Address($_ENV['MAIL_TO'], $_ENV['MAIL_TO_NAME']))
-                ->replyTo(new Address($email, "$firstName $lastName"))
-                ->subject("[$subject] Message de $firstName $lastName")
-                ->text("De : $firstName $lastName <$email>\nSujet : $subject\n\n$message")
-                ->html("
-                    <p><strong>De :</strong> $firstName $lastName &lt;$email&gt;</p>
-                    <p><strong>Sujet :</strong> $subject</p>
-                    <hr>
-                    <p>$message</p>
-                ");
+            $this->mail->setFrom($_ENV['MAIL_FROM'], $_ENV['MAIL_FROM_NAME']);
+            $this->mail->addAddress($_ENV['MAIL_TO'], $_ENV['MAIL_TO_NAME']);
+            $this->mail->addReplyTo($email, "$firstName $lastName");
 
-            $this->mailtrap->send($emailMsg);
+            $this->mail->isHTML(true);
+            $this->mail->Subject = "[$subject] Message de $firstName $lastName";
+            $this->mail->Body    = "
+                <p><strong>De :</strong> $firstName $lastName &lt;$email&gt;</p>
+                <p><strong>Sujet :</strong> $subject</p>
+                <hr>
+                <p>$message</p>
+            ";
+            $this->mail->AltBody = "De : $firstName $lastName <$email>\nSujet : $subject\n\n$message";
+
+            $this->mail->send();
             return true;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
+            $_SESSION['error-message'] = 'Erreur : ' . $e->getMessage();
             return false;
         }
     }

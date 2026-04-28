@@ -10,9 +10,9 @@ protected function render(string $view, array $data = []): void
 
     $basePath = __DIR__ . '/../views/';
 
-    require_once $basePath . 'layout/header.phtml';
+
     require_once $basePath . $view . '.phtml';
-    require_once $basePath . 'layout/footer.phtml';
+
 }
     // Redirection
     protected function redirect(string $route): void
