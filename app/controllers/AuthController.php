@@ -8,7 +8,13 @@ class AuthController extends AbstractController
         $tokenManager = new CSRFTokenManager();
         $tokenManager->generateCSRFToken();
 
-        $this->render('login', []);
+        $errors = [];
+        if (isset($_SESSION['error-message'])) {
+            $errors['login'] = $_SESSION['error-message'];
+            unset($_SESSION['error-message']);
+        }
+
+        $this->render('login', ['errors' => $errors]);
     }
 
     // ── Traite Login ──
@@ -64,7 +70,7 @@ class AuthController extends AbstractController
                             ];
 
                             unset($_SESSION['error-message']);
-                            $this->redirect('home');
+                            $this->redirect('member');
                         }
                         else
                         {
@@ -98,10 +104,17 @@ class AuthController extends AbstractController
         $tokenManager = new CSRFTokenManager();
         $tokenManager->generateCSRFToken();
 
+        $errors = [];
+        if (isset($_SESSION['error-message'])) {
+            $errors['register'] = $_SESSION['error-message'];
+            unset($_SESSION['error-message']);
+        }
+
         $subscriptionManager = new SubscriptionManager();
 
         $this->render('register', [
-            'subscriptions' => $subscriptionManager->findAll()
+            'subscriptions' => $subscriptionManager->findAll(),
+            'errors'        => $errors,
         ]);
     }
 

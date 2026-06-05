@@ -48,6 +48,12 @@
                 Join GymFit Cairo — Cairo's premium fitness center.
             </p>
 
+            <?php if (isset($errors['register'])): ?>
+                <div class="auth-error">
+                    <?= htmlspecialchars($errors['register']) ?>
+                </div>
+            <?php endif; ?>
+
             <form action="index.php?route=check-register" method="POST">
               
                           <input type="hidden" name="csrf-token" id="csrf-token" value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>" />

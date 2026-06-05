@@ -13,52 +13,97 @@
 /* ══════════════════════════════════
    HOME PAGE
    ══════════════════════════════════ */
-
 .services-section {
-    background: var(--black);
-    padding: 48px 20px;
+    padding: 80px 6%;
+    background: #080808;
+    color: #fff;
 }
 
-.services-section .sec-title {
+.sec-tag {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #d43c32;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.sec-title {
+    margin-bottom: 45px;
+    font-size: 42px;
+    line-height: 1;
+    text-transform: uppercase;
     color: #fff;
 }
 
 .services-grid {
+    list-style: none;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #111;
+    border-left: 1px solid #111;
 }
 
 .service-card {
-    background: var(--dark2);
-    padding: 22px 16px;
-    border-top: 2px solid transparent;
-    transition: border-color .3s;
+    min-height: 180px;
+    padding: 38px 32px;
+    background: #202020;
+    border-right: 1px solid #111;
+    border-bottom: 1px solid #111;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .service-card:hover {
-    border-top-color: var(--red);
+    background: #262626;
+    transform: translateY(-4px);
 }
 
 .service-ico {
-    font-size: 26px;
-    display: block;
-    margin-bottom: 10px;
+    display: inline-block;
+    margin-bottom: 18px;
+    font-size: 32px;
 }
 
 .service-name {
-    font-family: var(--font-ui);
-    font-size: 14px;
-    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 18px;
     color: #fff;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
 }
 
 .service-desc {
-    font-size: 11px;
-    color: #555;
+    font-size: 14px;
     line-height: 1.6;
+    color: #8f8f8f;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .sec-title {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 600px) {
+    .services-section {
+        padding: 60px 24px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sec-title {
+        font-size: 30px;
+    }
+
+    .service-card {
+        padding: 30px 24px;
+    }
 }
 
 .planning-section {
@@ -691,6 +736,120 @@
 }
 
 /* ══════════════════════════════════
+   CONTACT STRIP
+   ══════════════════════════════════ */
+
+.contact-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background: var(--dark2);
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.contact-strip-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-right: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: #aaa;
+    letter-spacing: .5px;
+}
+
+.contact-strip-item:last-child { border-right: none; }
+.contact-strip-item a { color: #aaa; text-decoration: none; transition: color .2s; }
+.contact-strip-item a:hover { color: var(--red); }
+.cs-icon { font-size: 16px; flex-shrink: 0; }
+
+@media (min-width: 768px) {
+    .contact-strip { grid-template-columns: repeat(4, 1fr); }
+    .contact-strip-item { border-bottom: none; }
+}
+
+/* ══════════════════════════════════
+   CONTACT INFO CARDS
+   ══════════════════════════════════ */
+
+.contact-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.contact-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--dark2);
+    padding: 18px 20px;
+    border-left: 3px solid transparent;
+    transition: border-color .2s;
+}
+
+.contact-info-card:hover { border-left-color: var(--red); }
+
+.cic-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.cic-label {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 5px;
+}
+
+.cic-value {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.7;
+}
+
+.cic-link {
+    text-decoration: none;
+    transition: color .2s;
+}
+.cic-link:hover { color: #fff; }
+
+/* ══════════════════════════════════
+   CONTACT FORM EXTRAS
+   ══════════════════════════════════ */
+
+.contact-form-sub {
+    color: #555;
+    font-size: 13px;
+    margin-bottom: 24px;
+    margin-top: -12px;
+}
+
+.contact-error {
+    background: #1a0606;
+    border-left: 4px solid var(--red);
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+    font-size: 13px;
+    font-family: var(--font-ui);
+    letter-spacing: 1px;
+}
+
+.contact-reply-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #444;
+    font-family: var(--font-ui);
+    letter-spacing: .5px;
+}
+
+/* ══════════════════════════════════
    HERO CONTACT
    ══════════════════════════════════ */
 
@@ -756,7 +915,10 @@
     border: 0;
     display: block;
 }
-
+.contact-success{
+    border-color:#e74c3c;
+    color:#e74c3c;
+}
 /* bouton positionné sur la carte */
 .map-btn {
     position: absolute;
@@ -1215,6 +1377,257 @@ tr:hover td {
 }
 
 /* ══════════════════════════════════
+   MEMBER PAGE
+   ══════════════════════════════════ */
+
+.member-nav {
+    background: rgba(10,10,10,.97);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    border-bottom: 1px solid #1e1e1e;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.member-logout {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #555;
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.member-logout:hover {
+    color: var(--red);
+}
+
+.member-page {
+    background: var(--black);
+    min-height: calc(100vh - 56px);
+}
+
+/* ── Hero ── */
+
+.member-hero {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 48px 24px 32px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.member-avatar {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.member-hero-tag {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+}
+
+.member-hero-name {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+/* ── Status badges ── */
+
+.member-status-badge {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+}
+
+.badge-active {
+    background: rgba(40,167,69,.15);
+    color: #28a745;
+    border: 1px solid rgba(40,167,69,.3);
+}
+
+.badge-inactive {
+    background: rgba(192,57,43,.15);
+    color: var(--red);
+    border: 1px solid rgba(192,57,43,.3);
+}
+
+.badge-pending {
+    background: rgba(255,193,7,.1);
+    color: #ffc107;
+    border: 1px solid rgba(255,193,7,.25);
+}
+
+/* ── Grid ── */
+
+.member-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 24px;
+}
+
+/* ── Cards ── */
+
+.member-card {
+    background: var(--dark2);
+    border-top: 3px solid var(--red);
+    padding: 28px 24px;
+}
+
+.member-card-title {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 20px;
+}
+
+/* ── Info rows ── */
+
+.member-info-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.member-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #1e1e1e;
+    gap: 16px;
+}
+
+.member-info-row:last-child {
+    border-bottom: none;
+}
+
+.member-info-label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.member-info-value {
+    font-size: 14px;
+    color: #ccc;
+    text-align: right;
+    word-break: break-all;
+}
+
+/* ── Plan header ── */
+
+.member-plan-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1e1e1e;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.member-plan-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.member-plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+}
+
+.member-plan-amount {
+    font-family: var(--font-display);
+    font-size: 40px;
+    color: var(--red);
+    line-height: 1;
+}
+
+.member-plan-period {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: #555;
+}
+
+/* ── Feature rows ── */
+
+.member-feat {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.feat-yes { color: #28a745; }
+.feat-no  { color: #3a3a3a; }
+
+/* ── No plan ── */
+
+.member-no-plan {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.member-cta-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--red);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background .2s;
+}
+
+.member-cta-btn:hover {
+    background: var(--red-d);
+}
+
+/* ══════════════════════════════════
    RESPONSIVE SPÉCIFIQUE AUX PAGES
    ══════════════════════════════════ */
 
@@ -1370,5 +1783,30 @@ tr:hover td {
 
     .plans {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .member-hero {
+        padding: 64px 60px 40px;
+        gap: 32px;
+    }
+
+    .member-avatar {
+        width: 88px;
+        height: 88px;
+        font-size: 44px;
+    }
+
+    .member-hero-name {
+        font-size: 52px;
+    }
+
+    .member-grid {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 40px 60px;
+        gap: 20px;
+    }
+
+    .member-card {
+        padding: 36px 32px;
     }
 }

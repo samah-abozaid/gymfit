@@ -185,7 +185,7 @@ img {
 
 .hero {
     position: relative;
-    min-height: 560px;
+    min-height: 100vh;
     background: var(--black);
     display: flex;
     align-items: flex-end;
@@ -193,25 +193,32 @@ img {
     overflow: hidden;
 }
 
+/* Image couvre tout le hero */
 .hero-img {
     position: absolute;
     inset: 0;
-    background-image: url('/gymfit/public/assets/img/hero-gym2.webp');
-    background-size: cover;
-    background-position: center top;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    z-index: 0;
 }
 
-.hero-img::before {
+/* Dégradé sombre par-dessus l'image */
+.hero::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.65) 65%, rgba(8,8,8,.2) 100%);
+    background: linear-gradient(to top, #080808 25%, rgba(8,8,8,.7) 60%, rgba(8,8,8,.25) 100%);
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
     padding: 0 20px;
+    width: 100%;
 }
 
 .hero-tag {
@@ -241,12 +248,13 @@ img {
     display: block;
 }
 
-.hero-sub {
-    font-size: 13px;
-    color: #aaa;
+.hero-content .hero-sub  {
+    font-size: 20px;
+    color: var(--white);
     line-height: 1.6;
     margin-bottom: 30px;
     max-width: 500px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 
 .hero-btns {
@@ -433,18 +441,42 @@ img {
 /* ══════════════════════════════════
    FOOTER
    ══════════════════════════════════ */
+.ft-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* ← était 1fr 1fr, maintenant 4 colonnes */
+    gap: 24px;
+    margin-bottom: 28px;
+}
 
-footer {
-    background: var(--black);
-    border-top: 1px solid #1a1a1a;
-    padding: 40px 20px 80px;
+.ft-col a {
+    display: block;
+    color: #fff;        /* ← blanc */
+    font-size: 15px;    /* ← plus grand */
+    margin-bottom: 8px;
+    text-decoration: none;
+}
+
+.ft-col h4 {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--red);  /* ← rouge pour les titres des colonnes */
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.ft-desc {
+    color: #fff;      /* ← gris clair pour la description */
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 28px;
 }
 
 .ft-logo {
-    font-family: var(--font-display);
     font-size: 28px;
-    margin-bottom: 12px;
+    font-weight: 700;
     color: #fff;
+    margin-bottom: 12px;
 }
 
 .ft-logo em {
@@ -452,37 +484,7 @@ footer {
     font-style: normal;
 }
 
-.ft-desc {
-    color: #333;
-    font-size: 13px;
-    line-height: 1.8;
-    margin-bottom: 28px;
-}
 
-.ft-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
-}
-
-.ft-col h4 {
-    font-family: var(--font-ui);
-    font-size: 11px;
-    font-weight: 700;
-    color: #333;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-}
-
-.ft-col a {
-    display: block;
-    color: #333;
-    font-size: 12px;
-    margin-bottom: 8px;
-    text-decoration: none;
-}
 
 .ft-col a:hover {
     color: var(--red);
@@ -491,15 +493,18 @@ footer {
 .ft-bottom {
     border-top: 1px solid #1a1a1a;
     padding-top: 16px;
-    font-size: 10px;
-    color: #222;
-    font-family: var(--font-ui);
+    font-size: 11px;
+    color: #888;        /* ← plus visible */
     letter-spacing: 1px;
 }
 
-.ft-bottom em {
+.ft-bottom a {
+    color: #888;
+    text-decoration: underline;
+}
+
+.ft-bottom a:hover {
     color: var(--red);
-    font-style: normal;
 }
 
 /* ══════════════════════════════════
@@ -627,20 +632,22 @@ textarea:focus {
     }
 
     .hero {
-        min-height: 600px;
-        padding-bottom: 60px;
+        min-height: 100vh;
+        padding-bottom: 80px;
     }
 
     .hero-content {
         padding: 0 60px;
+        max-width: 700px;
     }
 
     .hero-title {
-        font-size: 90px;
+        font-size: 100px;
     }
 
     .hero-sub {
-        font-size: 16px;
+        font-size: 17px;
+        max-width: 520px;
     }
 
     .hero-btns {
@@ -696,5 +703,28 @@ textarea:focus {
 
     .ft-desc {
         margin-bottom: 40px;
+    }
+}
+
+/* ── Très grands écrans (1440px+) ── */
+@media (min-width: 1440px) {
+    .hero-content {
+        padding: 0 100px;
+        max-width: 860px;
+    }
+
+    .hero-title {
+        font-size: 130px;
+    }
+
+    .hero-sub {
+        font-size: 19px;
+        max-width: 600px;
+    }
+
+    .hero-btns .btn-red,
+    .hero-btns .btn-outline {
+        font-size: 15px;
+        padding: 16px 36px;
     }
 }

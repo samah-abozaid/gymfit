@@ -2,172 +2,360 @@
 
 <?php
 $success = $data['success'] ?? false;
-$old = $data['old'] ?? [];
-$errors = $data['errors'] ?? [];
+$old     = $data['old']     ?? [];
+$errors  = $data['errors']  ?? [];
 ?>
 
+<style>
+/* ── Hero ── */
+.ct-hero {
+    position: relative;
+    height: 280px;
+    background: url('/gymfit/public/assets/img/hero-gym.webp') center/cover no-repeat;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 28px 36px;
+    overflow: hidden;
+}
+.ct-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #080808 30%, rgba(8,8,8,.5) 100%);
+    z-index: 1;
+}
+.ct-hero-content { position: relative; z-index: 2; }
+.ct-hero-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: #C0392B; margin-bottom: 8px;
+}
+.ct-hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; color: #fff;
+    letter-spacing: 2px; line-height: 1;
+    margin-bottom: 10px;
+}
+.ct-hero-sub { font-size: 13px; color: #888; }
+
+@media (min-width: 1024px) {
+    .ct-hero { height: 380px; padding: 0 60px 50px; }
+    .ct-hero-title { font-size: 80px; }
+}
+
+/* ── Strip ── */
+.ct-strip {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background: #1a1a1a;
+    border-bottom: 1px solid #222;
+}
+.ct-strip-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-right: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+.ct-strip-item:nth-child(2n) { border-right: none; }
+.ct-strip-item:nth-child(3),
+.ct-strip-item:nth-child(4) { border-bottom: none; }
+.ct-strip-icon { font-size: 18px; flex-shrink: 0; }
+.ct-strip-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; color: #aaa; letter-spacing: .5px;
+}
+.ct-strip-text a { color: #aaa; text-decoration: none; }
+.ct-strip-text a:hover { color: #C0392B; }
+
+@media (min-width: 768px) {
+    .ct-strip { grid-template-columns: repeat(4, 1fr); }
+    .ct-strip-item { border-bottom: none; }
+    .ct-strip-item:nth-child(2n) { border-right: 1px solid #222; }
+    .ct-strip-item:last-child { border-right: none; }
+}
+
+/* ── Main grid ── */
+.ct-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px;
+    background: #111;
+}
+@media (min-width: 1024px) {
+    .ct-grid { grid-template-columns: 1fr 1.5fr; }
+}
+
+/* ── Info column ── */
+.ct-info-col { background: #0e0e0e; }
+
+.ct-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px 28px;
+    border-bottom: 1px solid #1a1a1a;
+    border-left: 3px solid transparent;
+    transition: border-color .2s, background .2s;
+}
+.ct-info-card:hover {
+    border-left-color: #C0392B;
+    background: #141414;
+}
+.ct-info-ico { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.ct-info-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #C0392B; margin-bottom: 5px;
+}
+.ct-info-val { font-size: 14px; color: #bbb; line-height: 1.7; }
+.ct-info-val a { color: #bbb; text-decoration: none; transition: color .2s; }
+.ct-info-val a:hover { color: #fff; }
+
+/* ── Map ── */
+.ct-map { position: relative; }
+.ct-map iframe { width: 100%; height: 260px; border: none; display: block; }
+.ct-map-btn {
+    position: absolute;
+    bottom: 14px; right: 14px;
+    background: rgba(14,14,14,.9);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #333;
+    transition: border-color .2s;
+}
+.ct-map-btn:hover { border-color: #C0392B; color: #C0392B; }
+
+/* ── Form column ── */
+.ct-form-col {
+    background: #0e0e0e;
+    padding: 36px 28px;
+}
+@media (min-width: 1024px) { .ct-form-col { padding: 48px 48px; } }
+
+.ct-form-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; color: #fff;
+    letter-spacing: 2px; margin-bottom: 6px;
+}
+.ct-form-sub { font-size: 13px; color: #555; margin-bottom: 28px; }
+
+.ct-success {
+    background: #061a08;
+    border-left: 4px solid #28a745;
+    padding: 14px 18px; margin-bottom: 24px;
+    color: #28a745;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; letter-spacing: 1px;
+}
+.ct-error {
+    background: #1a0606;
+    border-left: 4px solid #C0392B;
+    padding: 14px 18px; margin-bottom: 24px;
+    color: #e74c3c;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; letter-spacing: 1px;
+}
+
+.ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ct-group { margin-bottom: 18px; }
+.ct-group label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: #666; margin-bottom: 8px;
+}
+.ct-group input,
+.ct-group select,
+.ct-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Barlow', sans-serif;
+    outline: none;
+    transition: border-color .2s;
+    border-radius: 0;
+}
+.ct-group input:focus,
+.ct-group select:focus,
+.ct-group textarea:focus { border-color: #C0392B; }
+.ct-group input::placeholder,
+.ct-group textarea::placeholder { color: #333; }
+.ct-group select option { background: #1a1a1a; }
+
+.ct-btn {
+    width: 100%;
+    padding: 15px;
+    background: #C0392B;
+    color: #fff;
+    border: none; cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; letter-spacing: 2px;
+    transition: background .2s;
+}
+.ct-btn:hover { background: #96281B; }
+.ct-reply-note {
+    margin-top: 12px; text-align: center;
+    font-size: 12px; color: #3a3a3a;
+    font-family: 'Barlow Condensed', sans-serif;
+    letter-spacing: .5px;
+}
+.ct-field-error { color: #C0392B; font-size: 12px; margin-top: 4px; }
+</style>
+
 <!-- HERO -->
-<section class="hero-contact">
-    <div class="hero-contact-content">
-        <p class="sec-tag">Send us a message</p>
-        <h1 class="sec-title">Contact Us</h1>
+<section class="ct-hero">
+    <div class="ct-hero-content">
+        <p class="ct-hero-tag">Get in touch</p>
+        <h1 class="ct-hero-title">Contact Us</h1>
+        <p class="ct-hero-sub">Our team is available 6 days a week to answer all your questions.</p>
     </div>
 </section>
 
-<!-- CONTACT CONTENT -->
-<div class="contact-grid">
+<!-- STRIP -->
+<div class="ct-strip">
+    <div class="ct-strip-item">
+        <span class="ct-strip-icon">📍</span>
+        <span class="ct-strip-text">Zamalek, Cairo</span>
+    </div>
+    <div class="ct-strip-item">
+        <span class="ct-strip-icon">📞</span>
+        <span class="ct-strip-text"><a href="tel:+20212345678">+20 2 123 456 78</a></span>
+    </div>
+    <div class="ct-strip-item">
+        <span class="ct-strip-icon">✉</span>
+        <span class="ct-strip-text"><a href="mailto:contact@gymfit.com">contact@gymfit.com</a></span>
+    </div>
+    <div class="ct-strip-item">
+        <span class="ct-strip-icon">⏱</span>
+        <span class="ct-strip-text">Response within 24 h</span>
+    </div>
+</div>
 
-    <!-- LEFT — Infos -->
-    <div>
-        <section class="contact-info-item">
-            <h2 class="sec-tag">Location</h2>
-            <div class="contact-info-value">
-                GymFit — Zamalek<br>
-                Cairo, Egypt
+<!-- MAIN GRID -->
+<div class="ct-grid">
+
+    <!-- LEFT — Info + Map -->
+    <div class="ct-info-col">
+        <div class="ct-info-card">
+            <span class="ct-info-ico">📍</span>
+            <div>
+                <p class="ct-info-label">Location</p>
+                <p class="ct-info-val">GymFit — Zamalek<br>Cairo, Egypt</p>
             </div>
-        </section>
-
-        <section class="contact-info-item">
-            <h2 class="sec-tag">Phone</h2>
-            <div class="contact-info-value">
-                +20 2 123 456 78
+        </div>
+        <div class="ct-info-card">
+            <span class="ct-info-ico">📞</span>
+            <div>
+                <p class="ct-info-label">Phone</p>
+                <p class="ct-info-val"><a href="tel:+20212345678">+20 2 123 456 78</a></p>
             </div>
-        </section>
-
-        <section class="contact-info-item">
-            <h2 class="sec-tag">Email</h2>
-            <div class="contact-info-value">
-                contact@gymfit.com
+        </div>
+        <div class="ct-info-card">
+            <span class="ct-info-ico">✉</span>
+            <div>
+                <p class="ct-info-label">Email</p>
+                <p class="ct-info-val"><a href="mailto:contact@gymfit.com">contact@gymfit.com</a></p>
             </div>
-        </section>
-
-        <section class="contact-info-item">
-            <h2 class="sec-tag">Opening Hours</h2>
-            <div class="contact-info-value">
-                Monday — Friday : 6:00 — 23:00<br>
-                Saturday — Sunday : 8:00 — 21:00
+        </div>
+        <div class="ct-info-card">
+            <span class="ct-info-ico">🕐</span>
+            <div>
+                <p class="ct-info-label">Opening Hours</p>
+                <p class="ct-info-val">Mon — Fri &nbsp;: 06:00 – 23:00<br>Sat — Sun &nbsp;: 08:00 – 21:00</p>
             </div>
-        </section>
-
-        <div class="contact-map">
-            <iframe
-                src="https://www.google.com/maps?q=Gym+in+Zamalek+Cairo+Egypt&output=embed"
-                loading="lazy"
-                title="GymFit location on Google Maps">
-            </iframe>
-
+        </div>
+        <div class="ct-map">
+            <iframe src="https://www.google.com/maps?q=Gym+in+Zamalek+Cairo+Egypt&output=embed"
+                    loading="lazy" title="GymFit location"></iframe>
             <a href="https://www.google.com/maps?q=Zamalek,Cairo,Egypt"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn-outline map-btn">
-               Open in Google Maps
+               target="_blank" rel="noopener noreferrer" class="ct-map-btn">
+                Open in Maps ↗
             </a>
         </div>
     </div>
 
-    <!-- RIGHT — Formulaire -->
-    <section class="contact-form-wrap">
-       <h2 class="sec-title contact-form-title">Contact form</h2>
+    <!-- RIGHT — Form -->
+    <div class="ct-form-col">
+        <h2 class="ct-form-title">Send a Message</h2>
+        <p class="ct-form-sub">Fill in the form and we'll get back to you within 24 hours.</p>
 
         <?php if ($success): ?>
-            <div class="contact-success">
-                ✓ Message sent successfully! We'll get back to you soon.
-            </div>
+            <div class="ct-success">✓ Message sent! We'll reply within 24 hours.</div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error-message'])): ?>
+            <div class="ct-error">✗ <?= htmlspecialchars($_SESSION['error-message']) ?></div>
+            <?php unset($_SESSION['error-message']); ?>
         <?php endif; ?>
 
         <form action="index.php?route=check-contact" method="POST">
-            <input
-                type="hidden"
-                name="csrf-token"
-                value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>"
-            >
+            <input type="hidden" name="csrf-token"
+                   value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
 
-            <?php if (isset($_SESSION['error-message'])): ?>
-                <div class="contact-success" style="border-color:#e74c3c;color:#e74c3c;">
-                    <?= htmlspecialchars($_SESSION['error-message']) ?>
-                    <?php unset($_SESSION['error-message']); ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="form-row">
-                <div class="form-group">
+            <div class="ct-row">
+                <div class="ct-group">
                     <label>First Name *</label>
-                    <input
-                        type="text"
-                        name="first_name"
-                        placeholder="Amira"
-                        value="<?= htmlspecialchars($old['first_name'] ?? '') ?>"
-                    >
+                    <input type="text" name="first_name" placeholder="Amira"
+                           value="<?= htmlspecialchars($old['first_name'] ?? '') ?>">
                     <?php if (isset($errors['first_name'])): ?>
-                        <p class="error"><?= htmlspecialchars($errors['first_name']) ?></p>
+                        <p class="ct-field-error"><?= htmlspecialchars($errors['first_name']) ?></p>
                     <?php endif; ?>
                 </div>
-
-                <div class="form-group">
+                <div class="ct-group">
                     <label>Last Name *</label>
-                    <input
-                        type="text"
-                        name="last_name"
-                        placeholder="Hassan"
-                        value="<?= htmlspecialchars($old['last_name'] ?? '') ?>"
-                    >
+                    <input type="text" name="last_name" placeholder="Hassan"
+                           value="<?= htmlspecialchars($old['last_name'] ?? '') ?>">
                     <?php if (isset($errors['last_name'])): ?>
-                        <p class="error"><?= htmlspecialchars($errors['last_name']) ?></p>
+                        <p class="ct-field-error"><?= htmlspecialchars($errors['last_name']) ?></p>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="ct-group">
                 <label>Email *</label>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="your@email.com"
-                    value="<?= htmlspecialchars($old['email'] ?? '') ?>"
-                >
+                <input type="email" name="email" placeholder="your@email.com"
+                       value="<?= htmlspecialchars($old['email'] ?? '') ?>">
                 <?php if (isset($errors['email'])): ?>
-                    <p class="error"><?= htmlspecialchars($errors['email']) ?></p>
+                    <p class="ct-field-error"><?= htmlspecialchars($errors['email']) ?></p>
                 <?php endif; ?>
             </div>
 
-            <div class="form-group">
+            <div class="ct-group">
                 <label>Subject</label>
                 <select name="subject">
-                    <option value="membership" <?= (($old['subject'] ?? '') === 'membership') ? 'selected' : '' ?>>
-                        Membership enquiry
-                    </option>
-                    <option value="classes" <?= (($old['subject'] ?? '') === 'classes') ? 'selected' : '' ?>>
-                        Classes information
-                    </option>
-                    <option value="coaching" <?= (($old['subject'] ?? '') === 'coaching') ? 'selected' : '' ?>>
-                        Personal coaching
-                    </option>
-                    <option value="other" <?= (($old['subject'] ?? '') === 'other') ? 'selected' : '' ?>>
-                        Other
-                    </option>
+                    <option value="membership" <?= (($old['subject'] ?? '') === 'membership') ? 'selected' : '' ?>>Membership enquiry</option>
+                    <option value="classes"    <?= (($old['subject'] ?? '') === 'classes')    ? 'selected' : '' ?>>Classes information</option>
+                    <option value="coaching"   <?= (($old['subject'] ?? '') === 'coaching')   ? 'selected' : '' ?>>Personal coaching</option>
+                    <option value="other"      <?= (($old['subject'] ?? '') === 'other')      ? 'selected' : '' ?>>Other</option>
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="ct-group">
                 <label>Message *</label>
-                <textarea
-                    name="message"
-                    rows="6"
-                    placeholder="Your message..."
-                ><?= htmlspecialchars($old['message'] ?? '') ?></textarea>
+                <textarea name="message" rows="6"
+                          placeholder="Your message..."><?= htmlspecialchars($old['message'] ?? '') ?></textarea>
                 <?php if (isset($errors['message'])): ?>
-                    <p class="error"><?= htmlspecialchars($errors['message']) ?></p>
+                    <p class="ct-field-error"><?= htmlspecialchars($errors['message']) ?></p>
                 <?php endif; ?>
             </div>
 
-            <button
-                type="submit"
-                class="btn-submit contact-submit"
-            >
-                Send Message
-            </button>
+            <button type="submit" class="ct-btn">Send Message →</button>
+            <p class="ct-reply-note">⏱ We typically respond within 24 hours</p>
         </form>
-    </section>
+    </div>
+
 </div>
 
 <?php require_once __DIR__ . '/layout/footer.phtml'; ?>

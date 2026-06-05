@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit — My Account</title>
+    <link rel="stylesheet" href="/gymfit/public/assets/css/main.css">
+    <style>
+        /* ── Layout ── */
+        .member-wrapper {
+            min-height: 100vh;
+            background: #0e0e0e;
+        }
+
+        /* ── Nav ── */
+        .member-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            height: 56px;
+            background: rgba(10,10,10,.97);
+            border-bottom: 1px solid #1e1e1e;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .member-logout {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #555;
+            text-decoration: none;
+            transition: color .2s;
+        }
+        .member-logout:hover { color: #C0392B; }
+
+        /* ── Hero ── */
+        .member-hero {
+            padding: 48px 28px 36px;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .member-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #C0392B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .member-hero-tag {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #C0392B;
+            margin-bottom: 6px;
+        }
+        .member-hero-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 38px;
+            color: #fff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        /* ── Status badges ── */
+        .s-badge {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 2px;
+        }
+        .s-active   { background: rgba(40,167,69,.15); color: #28a745; border: 1px solid rgba(40,167,69,.3); }
+        .s-inactive { background: rgba(192,57,43,.15); color: #C0392B; border: 1px solid rgba(192,57,43,.3); }
+        .s-pending  { background: rgba(255,193,7,.1);  color: #ffc107; border: 1px solid rgba(255,193,7,.25); }
+
+        /* ── Grid ── */
+        .member-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 28px;
+            max-width: 1100px;
+        }
+        @media (min-width: 768px) {
+            .member-grid { grid-template-columns: 1fr 1fr; }
+            .member-hero { padding: 56px 60px 40px; }
+            .member-hero-name { font-size: 48px; }
+            .member-avatar { width: 86px; height: 86px; font-size: 44px; }
+            .member-grid { padding: 40px 60px; }
+        }
+
+        /* ── Cards ── */
+        .m-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-top: 3px solid #C0392B;
+            padding: 28px 24px;
+        }
+        .m-card-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: #C0392B;
+            margin-bottom: 22px;
+        }
+
+        /* ── Info rows ── */
+        .m-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid #222;
+            gap: 16px;
+        }
+        .m-row:last-child { border-bottom: none; }
+        .m-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #555;
+            flex-shrink: 0;
+        }
+        .m-val {
+            font-size: 14px;
+            color: #ccc;
+            text-align: right;
+        }
+
+        /* ── Plan block ── */
+        .m-plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #222;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .m-plan-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 30px;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        .m-plan-price {
+            display: flex;
+            align-items: baseline;
+            gap: 2px;
+        }
+        .m-plan-amt {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            color: #C0392B;
+            line-height: 1;
+        }
+        .m-plan-per {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            color: #555;
+        }
+        .feat-yes { color: #28a745; font-size: 13px; font-weight: 600; }
+        .feat-no  { color: #3a3a3a; font-size: 13px; }
+
+        /* ── No plan ── */
+        .m-no-plan { color: #555; font-size: 14px; margin-bottom: 20px; }
+        .m-cta {
+            display: inline-block;
+            padding: 12px 28px;
+            background: #C0392B;
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+        .m-cta:hover { background: #96281B; }
+
+        /* ── BMI Card ── */
+        .bmi-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-top: 3px solid #C0392B;
+            padding: 28px 24px;
+            margin: 0 28px 40px;
+            max-width: 1100px;
+        }
+        @media (min-width: 768px) {
+            .bmi-card { margin: 0 60px 60px; }
+        }
+        .bmi-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .bmi-field label {
+            display: block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .bmi-field input {
+            width: 100%;
+            padding: 12px 14px;
+            background: #111;
+            border: 1px solid #2a2a2a;
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Barlow', sans-serif;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .bmi-field input:focus { border-color: #C0392B; }
+        .bmi-field input::placeholder { color: #333; }
+        .bmi-btn {
+            padding: 13px 32px;
+            background: #C0392B;
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            transition: background .2s;
+            width: 100%;
+        }
+        .bmi-btn:hover { background: #96281B; }
+        .bmi-result {
+            display: none;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #222;
+        }
+        .bmi-result.show { display: block; }
+        .bmi-score-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .bmi-score {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 64px;
+            line-height: 1;
+            color: #fff;
+        }
+        .bmi-category {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .bmi-bar-wrap {
+            height: 6px;
+            background: #222;
+            border-radius: 3px;
+            margin: 14px 0 10px;
+            position: relative;
+            overflow: visible;
+        }
+        .bmi-bar-track {
+            display: flex;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .bmi-bar-track span:nth-child(1) { flex: 18.5; background: #3498db; }
+        .bmi-bar-track span:nth-child(2) { flex: 6.4;  background: #28a745; }
+        .bmi-bar-track span:nth-child(3) { flex: 5;    background: #ffc107; }
+        .bmi-bar-track span:nth-child(4) { flex: 10;   background: #C0392B; }
+        .bmi-marker {
+            position: absolute;
+            top: -4px;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            transition: left .5s ease;
+            box-shadow: 0 0 0 3px rgba(255,255,255,.15);
+        }
+        .bmi-labels {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 10px;
+            letter-spacing: 1px;
+            color: #444;
+            text-transform: uppercase;
+        }
+        .bmi-message {
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-left: 3px solid #fff;
+            background: rgba(255,255,255,.04);
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        .bmi-message strong {
+            display: block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+<?php
+$member       = $data['member']       ?? null;
+$subscription = $data['subscription'] ?? null;
+
+$statusClass = match($member->getStatus()) {
+    'active'   => 's-active',
+    'inactive' => 's-inactive',
+    default    => 's-pending',
+};
+$initial = strtoupper(substr($member->getFirstName(), 0, 1));
+?>
+
+<div class="member-wrapper">
+
+    <nav class="member-nav">
+        <a href="index.php?route=home" class="logo">Gym<em>Fit</em></a>
+        <a href="index.php?route=logout" class="member-logout">Logout</a>
+    </nav>
+
+    <!-- Hero -->
+    <div class="member-hero">
+        <div class="member-avatar"><?= $initial ?></div>
+        <div>
+            <p class="member-hero-tag">Member Account</p>
+            <h1 class="member-hero-name">
+                <?= htmlspecialchars($member->getFirstName() . ' ' . $member->getLastName()) ?>
+            </h1>
+            <span class="s-badge <?= $statusClass ?>">
+                <?= htmlspecialchars($member->getStatus()) ?>
+            </span>
+        </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="member-grid">
+
+        <!-- Profile -->
+        <div class="m-card">
+            <p class="m-card-title">My Profile</p>
+            <div class="m-row">
+                <span class="m-label">First Name</span>
+                <span class="m-val"><?= htmlspecialchars($member->getFirstName()) ?></span>
+            </div>
+            <div class="m-row">
+                <span class="m-label">Last Name</span>
+                <span class="m-val"><?= htmlspecialchars($member->getLastName()) ?></span>
+            </div>
+            <div class="m-row">
+                <span class="m-label">Email</span>
+                <span class="m-val"><?= htmlspecialchars($member->getEmail()) ?></span>
+            </div>
+            <div class="m-row">
+                <span class="m-label">Phone</span>
+                <span class="m-val"><?= htmlspecialchars($member->getPhone() ?: '—') ?></span>
+            </div>
+        </div>
+
+        <!-- Subscription -->
+        <div class="m-card">
+            <p class="m-card-title">My Subscription</p>
+            <?php if ($subscription !== null): ?>
+                <div class="m-plan-header">
+                    <span class="m-plan-name"><?= htmlspecialchars($subscription->getName()) ?></span>
+                    <div class="m-plan-price">
+                        <span class="m-plan-amt">€<?= number_format($subscription->getMonthlyPrice(), 0) ?></span>
+                        <span class="m-plan-per">/mo</span>
+                    </div>
+                </div>
+                <div class="m-row">
+                    <span class="m-label">Status</span>
+                    <span class="s-badge <?= $statusClass ?>"><?= htmlspecialchars($member->getStatus()) ?></span>
+                </div>
+                <div class="m-row">
+                    <span class="m-label">Class Access</span>
+                    <span class="<?= $subscription->hasClassAccess() ? 'feat-yes' : 'feat-no' ?>">
+                        <?= $subscription->hasClassAccess() ? '✓ Included' : '✗ Not included' ?>
+                    </span>
+                </div>
+                <div class="m-row">
+                    <span class="m-label">Coaching</span>
+                    <span class="<?= $subscription->hasCoachingAccess() ? 'feat-yes' : 'feat-no' ?>">
+                        <?= $subscription->hasCoachingAccess() ? '✓ Included' : '✗ Not included' ?>
+                    </span>
+                </div>
+                <div class="m-row">
+                    <span class="m-label">Sauna</span>
+                    <span class="<?= $subscription->hasSaunaAccess() ? 'feat-yes' : 'feat-no' ?>">
+                        <?= $subscription->hasSaunaAccess() ? '✓ Included' : '✗ Not included' ?>
+                    </span>
+                </div>
+            <?php else: ?>
+                <p class="m-no-plan">No active subscription.</p>
+                <a href="index.php?route=membership" class="m-cta">View Plans</a>
+            <?php endif; ?>
+        </div>
+
+    </div>
+
+    <!-- BMI Calculator -->
+    <div class="bmi-card">
+        <p class="m-card-title">BMI Calculator</p>
+        <div class="bmi-inputs">
+            <div class="bmi-field">
+                <label>Weight (kg)</label>
+                <input type="number" id="bmi-weight" placeholder="e.g. 75" min="1" max="300" step="0.1">
+            </div>
+            <div class="bmi-field">
+                <label>Height (cm)</label>
+                <input type="number" id="bmi-height" placeholder="e.g. 175" min="50" max="250" step="0.1">
+            </div>
+        </div>
+        <button class="bmi-btn" onclick="calcBMI()">Calculate BMI</button>
+
+        <div class="bmi-result" id="bmi-result">
+            <div class="bmi-score-row">
+                <span class="bmi-score" id="bmi-value">—</span>
+                <span class="bmi-category" id="bmi-cat">—</span>
+            </div>
+
+            <div class="bmi-bar-wrap">
+                <div class="bmi-bar-track">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="bmi-marker" id="bmi-marker"></div>
+            </div>
+            <div class="bmi-labels">
+                <span>Underweight</span>
+                <span>Normal</span>
+                <span>Overweight</span>
+                <span>Obese</span>
+            </div>
+            <div class="bmi-message" id="bmi-message"></div>
+        </div>
+    </div>
+
+</div>
+
+<script src="/gymfit/public/assets/js/main.js"></script>
+<script>
+    function calcBMI() {
+        const weight = parseFloat(document.getElementById('bmi-weight').value);
+        const height = parseFloat(document.getElementById('bmi-height').value);
+
+        if (!weight || !height || weight <= 0 || height <= 0) return;
+
+        const hm  = height / 100;
+        const bmi = weight / (hm * hm);
+        const bmiRounded = Math.round(bmi * 10) / 10;
+
+        let category, color, message;
+        if (bmi < 18.5) {
+            category = 'Underweight'; color = '#3498db';
+            message  = { title: '⚠️ Too light', text: 'Your weight is below the healthy range. Consider increasing your calorie intake and consult a nutritionist.' };
+        } else if (bmi < 25) {
+            category = 'Normal'; color = '#28a745';
+            message  = { title: '✅ Great shape!', text: 'Your BMI is in the ideal range. Keep up your healthy lifestyle and training routine.' };
+        } else if (bmi < 30) {
+            category = 'Overweight'; color = '#ffc107';
+            message  = { title: '⚡ Watch out', text: 'You are slightly above the healthy range. Regular cardio sessions and a balanced diet can help you get back on track.' };
+        } else {
+            category = 'Obese'; color = '#C0392B';
+            message  = { title: '🚨 Dangerous zone', text: 'Your BMI indicates a high health risk. We strongly recommend consulting a doctor and starting a supervised fitness program.' };
+        }
+
+        document.getElementById('bmi-value').textContent = bmiRounded;
+        const catEl = document.getElementById('bmi-cat');
+        catEl.textContent = category;
+        catEl.style.color = color;
+
+        const msgEl = document.getElementById('bmi-message');
+        msgEl.style.borderLeftColor = color;
+        msgEl.innerHTML = `<strong style="color:${color}">${message.title}</strong>${message.text}`;
+
+        /* position du marqueur : BMI de 10 à 40 → 0% à 100% */
+        const pct = Math.min(Math.max((bmi - 10) / 30 * 100, 2), 98);
+        document.getElementById('bmi-marker').style.left = pct + '%';
+
+        document.getElementById('bmi-result').classList.add('show');
+    }
+
+    /* Calcul au Enter */
+    ['bmi-weight', 'bmi-height'].forEach(id => {
+        document.getElementById(id).addEventListener('keydown', e => {
+            if (e.key === 'Enter') calcBMI();
+        });
+    });
+</script>
+</body>
+</html>
