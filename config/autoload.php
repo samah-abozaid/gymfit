@@ -20,7 +20,9 @@ require_once dirname(__DIR__) . '/app/controllers/HomeController.php';
 require_once dirname(__DIR__) . '/app/controllers/AuthController.php';
 require_once dirname(__DIR__) . '/app/controllers/CoursController.php';
 require_once dirname(__DIR__) . '/app/controllers/ContactController.php';
+require_once dirname(__DIR__) . '/app/controllers/MembershipController.php';
 require_once dirname(__DIR__) . '/app/controllers/AdminController.php';
+require_once dirname(__DIR__) . '/app/controllers/MemberController.php';
 
 // Services
 require_once dirname(__DIR__) . '/app/services/Router.php';

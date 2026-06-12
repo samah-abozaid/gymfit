@@ -1,7 +1,10 @@
 <?php
 
 class Router {
-
+    //====================
+    //publique:: home, courses , membership, contact
+    //Auth:: login ,  regester, logout
+    // Admin: members, courses, subscriptimais
     public function handleRequest(array $get): void
     {
         if (!empty($get['route'])) {
@@ -27,16 +30,8 @@ class Router {
                 $controller = new ContactController();
                 $controller->send();
             }
-            else if ($get['route'] === 'contact') {
-            $controller = new ContactController();
-            $controller->index();
-            }
-            else if ($get['route'] === 'check-contact') {
-                $controller = new ContactController();
-                $controller->send();
-            }
-            else if ($get['route'] === 'membership') {
-                $controller = new MembershipController();
+            else if ($get['route'] === 'member') {
+                $controller = new MemberController();
                 $controller->index();
             }
            
