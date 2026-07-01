@@ -29,6 +29,21 @@ $subscriptions = $data['subscriptions'] ?? [];
     <div class="main">
         <h1>Edit Member</h1>
         <div class="card">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #eee;">
+                <?php if ($member->getAvatar()): ?>
+                    <img src="public/assets/uploads/avatars/<?= htmlspecialchars($member->getAvatar()) ?>"
+                         alt="avatar"
+                         style="width:64px;height:64px;border-radius:50%;object-fit:cover;">
+                <?php else: ?>
+                    <div style="width:64px;height:64px;border-radius:50%;background:#C0392B;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:26px;">
+                        <?= strtoupper(substr($member->getFirstName(), 0, 1)) ?>
+                    </div>
+                <?php endif; ?>
+                <div>
+                    <strong><?= htmlspecialchars($member->getFirstName() . ' ' . $member->getLastName()) ?></strong><br>
+                    <span style="color:#888;font-size:13px;"><?= htmlspecialchars($member->getEmail()) ?></span>
+                </div>
+            </div>
             <form action="index.php?route=admin-check-update-member" method="POST">
 
                   <input type="hidden"
