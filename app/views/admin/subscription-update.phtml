@@ -30,21 +30,23 @@ $error = $data['error']        ?? null;
         <?php endif; ?>
 
         <div class="card">
-            <form action="index.php?route=admin-check-update-subscription" method="POST">
+            <form id="sub-form" action="index.php?route=admin-check-update-subscription" method="POST" novalidate>
                 <input type="hidden" name="csrf-token"
                        value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
                 <input type="hidden" name="id" value="<?= $sub->getId() ?>">
 
                 <div class="form-group">
                     <label>Plan Name *</label>
-                    <input type="text" name="name" required
+                    <input type="text" id="f-name" name="name"
                            value="<?= htmlspecialchars($sub->getName()) ?>">
+                    <span class="field-error" id="err-name"></span>
                 </div>
 
                 <div class="form-group">
                     <label>Monthly Price (€) *</label>
-                    <input type="number" name="price" required min="0" step="0.01"
+                    <input type="number" id="f-price" name="price" min="0" step="0.01"
                            value="<?= htmlspecialchars($sub->getMonthlyPrice()) ?>">
+                    <span class="field-error" id="err-price"></span>
                 </div>
 
                 <div class="form-group">
@@ -83,5 +85,38 @@ $error = $data['error']        ?? null;
     </div>
 
 </div>
+
+<script>
+    const form  = document.getElementById('sub-form');
+    const name  = document.getElementById('f-name');
+    const price = document.getElementById('f-price');
+
+    function showError(el, msg) {
+        el.style.borderColor = '#C0392B';
+        document.getElementById('err-' + el.id.replace('f-', '')).textContent = msg;
+    }
+    function clearError(el) {
+        el.style.borderColor = '';
+        document.getElementById('err-' + el.id.replace('f-', '')).textContent = '';
+    }
+
+    name.addEventListener('input',  () => clearError(name));
+    price.addEventListener('input', () => clearError(price));
+
+    form.addEventListener('submit', function(e) {
+        let valid = true;
+
+        if (name.value.trim() === '') {
+            showError(name, 'Plan name is required.');
+            valid = false;
+        }
+        if (price.value === '' || isNaN(price.value) || parseFloat(price.value) < 0) {
+            showError(price, 'Enter a valid price (0 or more).');
+            valid = false;
+        }
+
+        if (!valid) e.preventDefault();
+    });
+</script>
 </body>
 </html>
