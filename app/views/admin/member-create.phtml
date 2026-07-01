@@ -27,7 +27,7 @@ $subscriptions = $data['subscriptions'] ?? [];
     <div class="main">
         <h1>Add New Member</h1>
         <div class="card">
-            <form action="index.php?route=admin-check-create-member" method="POST">
+            <form action="index.php?route=admin-check-create-member" method="POST" enctype="multipart/form-data">
                    <input type="hidden"
            name="csrf-token"
            value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
@@ -65,6 +65,25 @@ $subscriptions = $data['subscriptions'] ?? [];
                     <input type="text" name="phone"
                            value="<?= htmlspecialchars($old['phone'] ?? '') ?>"
                            placeholder="+20 10 000 0000">
+                </div>
+
+                <div class="form-group">
+                    <label>Profile Photo <span style="color:#999;font-weight:normal">(optional)</span></label>
+                    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                        <div id="av-preview" style="width:56px;height:56px;border-radius:50%;background:#C0392B;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:bold;flex-shrink:0;">
+                            📷
+                        </div>
+                        <div>
+                            <label for="av-input" style="display:inline-block;padding:8px 16px;background:#f5f5f5;border:1px solid #ddd;border-radius:4px;cursor:pointer;font-size:13px;">
+                                Choose a photo
+                            </label>
+                            <input type="file" id="av-input" name="avatar"
+                                   accept="image/jpeg,image/png,image/webp,image/gif"
+                                   style="display:none"
+                                   onchange="previewAv(this)">
+                            <p style="font-size:11px;color:#999;margin:4px 0 0;">JPG, PNG or WebP — max 2 MB</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -113,6 +132,17 @@ $subscriptions = $data['subscriptions'] ?? [];
     </div>
 
 </div>
+<script>
+    function previewAv(input) {
+        if (!input.files || !input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const el = document.getElementById('av-preview');
+            el.innerHTML = '<img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;">';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+</script>
 </body>
 </html>
 

@@ -90,6 +90,12 @@ class AdminController extends AbstractController
             return;
         }
 
+        // Gestion upload avatar (optionnel)
+        $avatar = null;
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $avatar = $this->handleAvatarUpload($_FILES['avatar']);
+        }
+
         $member = new Member(
             $_POST['first_name'],
             $_POST['last_name'],
@@ -97,13 +103,43 @@ class AdminController extends AbstractController
             password_hash($_POST['password'], PASSWORD_BCRYPT),
             $_POST['phone'] ?? '',
             $_POST['status'] ?? 'active',
-            !empty($_POST['id_subscription']) ? (int)$_POST['id_subscription'] : null
+            !empty($_POST['id_subscription']) ? (int)$_POST['id_subscription'] : null,
+            null,
+            null,
+            $avatar ?: null
         );
 
         $memberManager = new MemberManager();
         $memberManager->create($member);
 
         $this->redirect('admin-members');
+    }
+
+    private function handleAvatarUpload(array $file): string|false
+    {
+        $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $maxSize = 2 * 1024 * 1024;
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime  = $finfo->file($file['tmp_name']);
+
+        if (!in_array($mime, $allowed) || $file['size'] > $maxSize) {
+            return false;
+        }
+
+        $ext = match($mime) {
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+            default      => 'jpg',
+        };
+
+        $filename  = 'avatar_' . uniqid() . '.' . $ext;
+        $uploadDir = dirname(__DIR__, 2) . '/public/assets/uploads/avatars/';
+        move_uploaded_file($file['tmp_name'], $uploadDir . $filename);
+
+        return $filename;
     }
 
     // ── Affiche formulaire modification membre ──
