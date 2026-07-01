@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit — Edit Profile</title>
+    <link rel="stylesheet" href="/gymfit/public/assets/css/main.css">
+    <style>
+        .edit-wrapper { min-height: 100vh; background: #0e0e0e; }
+
+        /* ── Nav ── */
+        .member-nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 28px; height: 56px;
+            background: rgba(10,10,10,.97); border-bottom: 1px solid #1e1e1e;
+            position: sticky; top: 0; z-index: 100;
+        }
+        .member-logout {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #555; text-decoration: none; transition: color .2s;
+        }
+        .member-logout:hover { color: #C0392B; }
+
+        /* ── Page header ── */
+        .edit-header {
+            padding: 40px 28px 28px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .edit-back {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #555; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-bottom: 16px; transition: color .2s;
+        }
+        .edit-back:hover { color: #fff; }
+        .edit-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px; color: #fff; letter-spacing: 2px;
+        }
+        .edit-sub { font-size: 13px; color: #555; margin-top: 4px; }
+
+        /* ── Content ── */
+        .edit-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 28px;
+            max-width: 1100px;
+        }
+        @media (min-width: 768px) {
+            .edit-content { grid-template-columns: 1fr 1fr; padding: 40px 60px; }
+            .edit-header { padding: 48px 60px 32px; }
+        }
+
+        /* ── Cards ── */
+        .edit-card {
+            background: #1a1a1a; border: 1px solid #2a2a2a;
+            border-top: 3px solid #C0392B; padding: 28px 24px;
+        }
+        .edit-card-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px; font-weight: 700; letter-spacing: 2.5px;
+            text-transform: uppercase; color: #C0392B; margin-bottom: 22px;
+        }
+
+        /* ── Form fields ── */
+        .e-group { margin-bottom: 18px; }
+        .e-group label {
+            display: block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: #555; margin-bottom: 8px;
+        }
+        .e-group input {
+            width: 100%; padding: 12px 14px;
+            background: #111; border: 1px solid #2a2a2a;
+            color: #fff; font-size: 14px; font-family: 'Barlow', sans-serif;
+            outline: none; transition: border-color .2s;
+        }
+        .e-group input:focus { border-color: #C0392B; }
+        .e-group input::placeholder { color: #333; }
+
+        /* ── Password hint ── */
+        .pwd-hint {
+            margin-top: 6px; font-size: 11px; color: #3a3a3a;
+            font-family: 'Barlow Condensed', sans-serif; letter-spacing: .5px;
+        }
+        .pwd-divider {
+            border: none; border-top: 1px solid #222;
+            margin: 22px 0;
+        }
+        .pwd-optional {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: #444; margin-bottom: 18px;
+        }
+
+        /* ── Error ── */
+        .edit-error {
+            background: #1a0606; border-left: 4px solid #C0392B;
+            padding: 14px 18px; margin-bottom: 22px; color: #e74c3c;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px; letter-spacing: 1px;
+        }
+
+        /* ── Submit ── */
+        .edit-btn {
+            width: 100%; padding: 14px;
+            background: #C0392B; color: #fff; border: none; cursor: pointer;
+            font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px;
+            transition: background .2s; margin-top: 4px;
+        }
+        .edit-btn:hover { background: #96281B; }
+        .edit-cancel {
+            display: block; text-align: center; margin-top: 14px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px; letter-spacing: 1px; color: #444;
+            text-decoration: none; transition: color .2s;
+        }
+        .edit-cancel:hover { color: #fff; }
+    </style>
+</head>
+<body>
+<?php
+$member = $data['member'] ?? null;
+$error  = $data['error']  ?? null;
+?>
+
+<div class="edit-wrapper">
+
+    <nav class="member-nav">
+        <a href="index.php?route=home" class="logo">Gym<em>Fit</em></a>
+        <a href="index.php?route=logout" class="member-logout">Logout</a>
+    </nav>
+
+    <div class="edit-header">
+        <a href="index.php?route=member" class="edit-back">← Back to my account</a>
+        <h1 class="edit-title">Edit Profile</h1>
+        <p class="edit-sub">Update your personal information and password.</p>
+    </div>
+
+    <form action="index.php?route=member-check-edit" method="POST">
+        <input type="hidden" name="csrf-token"
+               value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
+
+        <div class="edit-content">
+
+            <!-- Infos personnelles -->
+            <div class="edit-card">
+                <p class="edit-card-title">Personal Information</p>
+
+                <?php if ($error): ?>
+                    <div class="edit-error">✗ <?= htmlspecialchars($error) ?></div>
+                <?php endif; ?>
+
+                <div class="e-group">
+                    <label>First Name *</label>
+                    <input type="text" name="first_name" required
+                           value="<?= htmlspecialchars($member->getFirstName()) ?>">
+                </div>
+                <div class="e-group">
+                    <label>Last Name *</label>
+                    <input type="text" name="last_name" required
+                           value="<?= htmlspecialchars($member->getLastName()) ?>">
+                </div>
+                <div class="e-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required
+                           value="<?= htmlspecialchars($member->getEmail()) ?>">
+                </div>
+                <div class="e-group">
+                    <label>Phone</label>
+                    <input type="text" name="phone" placeholder="e.g. +20 1 234 567 89"
+                           value="<?= htmlspecialchars($member->getPhone()) ?>">
+                </div>
+            </div>
+
+            <!-- Mot de passe -->
+            <div class="edit-card">
+                <p class="edit-card-title">Change Password</p>
+                <p class="pwd-optional">Leave blank to keep your current password</p>
+
+                <div class="e-group">
+                    <label>Current Password</label>
+                    <input type="password" name="current_password"
+                           placeholder="Your current password">
+                </div>
+
+                <hr class="pwd-divider">
+
+                <div class="e-group">
+                    <label>New Password</label>
+                    <input type="password" name="new_password" id="new_password"
+                           placeholder="New password">
+                    <p class="pwd-hint">Min. 8 characters, one uppercase, one number</p>
+                </div>
+                <div class="e-group">
+                    <label>Confirm New Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password"
+                           placeholder="Repeat new password">
+                    <p class="pwd-hint" id="pwd-match-msg"></p>
+                </div>
+
+                <button type="submit" class="edit-btn">Save Changes →</button>
+                <a href="index.php?route=member" class="edit-cancel">Cancel</a>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+<script>
+    /* Vérifie en temps réel que les mots de passe correspondent */
+    const np = document.getElementById('new_password');
+    const cp = document.getElementById('confirm_password');
+    const msg = document.getElementById('pwd-match-msg');
+
+    function checkMatch() {
+        if (!cp.value) { msg.textContent = ''; return; }
+        if (np.value === cp.value) {
+            msg.textContent = '✓ Passwords match';
+            msg.style.color = '#28a745';
+        } else {
+            msg.textContent = '✗ Passwords do not match';
+            msg.style.color = '#C0392B';
+        }
+    }
+    np.addEventListener('input', checkMatch);
+    cp.addEventListener('input', checkMatch);
+</script>
+</body>
+</html>

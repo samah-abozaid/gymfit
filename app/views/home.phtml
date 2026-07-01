@@ -1,15 +1,14 @@
 <?php require_once __DIR__ . '/layout/header.phtml'; ?>
 
 <?php
-$days = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
-$today = date('l');
-$courses = $data['courses'] ?? [];
+$today         = $data['today']         ?? date('l');
+$coursesByDay  = $data['coursesByDay']  ?? [];
 $subscriptions = $data['subscriptions'] ?? [];
 ?>
 
 <!-- HERO -->
 <section class="hero">
-    <div class="hero-img"></div>
+    <img src="public/assets/img/hero-gym2.webp" alt="Gym training session" class="hero-img">
     <div class="hero-content">
         <p class="hero-tag">★ Premium Fitness Center — Cairo</p>
         <h1 class="hero-title">
@@ -22,13 +21,13 @@ $subscriptions = $data['subscriptions'] ?? [];
         </p>
         <div class="hero-btns">
             <a href="index.php?route=register" class="btn-red">Join Now</a>
-            <a href="index.php?route=classes" class="btn-outline">Our Classes</a>
+            <a href="index.php?route=contact" class="btn-outline">Contact Now</a>
         </div>
     </div>
 </section>
 
 <!-- STATS -->
-<div class="stats-bar">
+    <section class="stats-bar" aria-label="Gym statistics">
     <div class="stat">
         <span class="stat-n">1,200+</span>
         <span class="stat-l">Members</span>
@@ -45,90 +44,90 @@ $subscriptions = $data['subscriptions'] ?? [];
         <span class="stat-n">7/7</span>
         <span class="stat-l">Open Daily</span>
     </div>
-</div>
+</section>
 
 <!-- SERVICES -->
-<section class="services-section">
-    <p class="sec-tag">Our Services</p>
-    <h2 class="sec-title">What We Offer</h2>
-    <div class="services-grid">
-        <div class="service-card">
-            <span class="service-ico">🏋️</span>
-            <h3 class="service-name">Weight Training</h3>
-            <p class="service-desc">800m² of professional equipment for all levels.</p>
-        </div>
-        <div class="service-card">
-            <span class="service-ico">🚴</span>
-            <h3 class="service-name">Cardio</h3>
-            <p class="service-desc">Latest treadmills, bikes and ellipticals.</p>
-        </div>
-        <div class="service-card">
-            <span class="service-ico">🧑‍💼</span>
-            <h3 class="service-name">Personal Coaching</h3>
-            <p class="service-desc">One-on-one sessions with certified coaches.</p>
-        </div>
-        <div class="service-card">
-            <span class="service-ico">🥊</span>
-            <h3 class="service-name">Group Classes</h3>
-            <p class="service-desc">Yoga, Pilates, CrossFit, Zumba and more.</p>
-        </div>
-        <div class="service-card">
-            <span class="service-ico">🍎</span>
-            <h3 class="service-name">Nutrition</h3>
-            <p class="service-desc">Personalised assessments and advice.</p>
-        </div>
-        <div class="service-card">
-            <span class="service-ico">♨️</span>
-            <h3 class="service-name">Wellness</h3>
-            <p class="service-desc">Sauna and hammam after your sessions.</p>
-        </div>
-    </div>
-</section>
+    <section class="services-section" aria-label="Gym services">
+        <span class="sec-tag">Our Services</span>
+        <h2 class="sec-title">What We Offer</h2>
 
-<!-- PLANNING -->
-<section class="planning-section">
-    <p class="sec-tag">Schedule</p>
-    <h2 class="sec-title">This Week's Classes</h2>
+        <ul class="services-grid">
+            <li class="service-card">
+                <span class="service-ico" aria-hidden="true">🏋️</span>
+                <h3 class="service-name">Weight Training</h3>
+                <p class="service-desc">800m² of professional equipment for all levels.</p>
+            </li>
 
-    <?php foreach ($days as $day): ?>
-        <?php
-        $dayCourses = array_filter(
-            $courses,
-            fn($c) => $c->getDay() === $day
-        );
-        if (empty($dayCourses)) continue;
-        ?>
-        <div class="day-block">
-            <h3 class="day-hd <?= $day === $today ? 'today' : '' ?>">
-                <span><?= htmlspecialchars($day) ?></span>
-                <?php if ($day === $today): ?>
-                    <span class="today-badge">Today</span>
-                <?php endif; ?>
-            </h3>
-            <div class="slots-row">
-                <?php foreach ($dayCourses as $course): ?>
-                    <div class="slot">
-                        <div class="slot-t">
-                            <?= htmlspecialchars($course->getStartTime()) ?>
+            <li class="service-card">
+                <span class="service-ico" aria-hidden="true">🚴</span>
+                <h3 class="service-name">Cardio</h3>
+                <p class="service-desc">Latest treadmills, bikes and ellipticals.</p>
+            </li>
+
+            <li class="service-card">
+                <span class="service-ico" aria-hidden="true">🧑‍💼</span>
+                <h3 class="service-name">Personal Coaching</h3>
+                <p class="service-desc">One-on-one sessions with certified coaches.</p>
+            </li>
+
+            <li class="service-card">
+                <span class="service-ico" aria-hidden="true">🥊</span>
+                <h3 class="service-name">Group Classes</h3>
+                <p class="service-desc">Yoga, Pilates, CrossFit, Zumba and more.</p>
+            </li>
+
+            <li class="service-card">
+                <span class="service-ico" aria-hidden="true">🍎</span>
+                <h3 class="service-name">Nutrition</h3>
+                <p class="service-desc">Personalised assessments and advice.</p>
+            </li>
+
+            <li class="service-card">
+                <span class="service-ico" aria-hidden="true">♨️</span>
+                <h3 class="service-name">Wellness</h3>
+                <p class="service-desc">Sauna and hammam after your sessions.</p>
+            </li>
+        </ul>
+    </section>
+
+
+    <!-- PLANNING -->
+    <section class="planning-section">
+        <p class="sec-tag">Schedule</p>
+        <h2 class="sec-title">This Week's Classes</h2>
+
+        <?php foreach ($coursesByDay as $day => $dayCourses): ?>
+            <div class="day-block">
+                <h3 class="day-hd <?= $day === $today? 'today' : '' ?>">
+                    <span><?= htmlspecialchars($day) ?></span>
+                    <?php if ($day === $today): ?>
+                        <span class="today-badge">Today</span>
+                    <?php endif; ?>
+                </h3>
+                <div class="slots-row">
+                    <?php foreach ($dayCourses as $course): ?>
+                        <div class="slot">
+                            <div class="slot-t">
+                                <?= htmlspecialchars($course->getStartTime()) ?>
+                            </div>
+                            <div class="slot-n">
+                                <?= htmlspecialchars($course->getName()) ?>
+                            </div>
+                            <div class="slot-c">
+                                <?= htmlspecialchars($course->getCoach()) ?>
+                            </div>
                         </div>
-                        <div class="slot-n">
-                            <?= htmlspecialchars($course->getName()) ?>
-                        </div>
-                        <div class="slot-c">
-                            <?= htmlspecialchars($course->getCoach()) ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
-    <div class="view-all-wrap">
-        <a href="index.php?route=classes" class="btn-outline">
-            View Full Schedule
-        </a>
-    </div>
-</section>
+        <div class="view-all-wrap">
+            <a href="index.php?route=classes" class="btn-outline">
+                View Full Schedule
+            </a>
+        </div>
+    </section>
 
 <!-- MEMBERSHIPS -->
 <section class="memberships-section">

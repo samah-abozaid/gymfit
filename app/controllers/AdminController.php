@@ -246,7 +246,7 @@ class AdminController extends AbstractController
         !$tokenManager->validateCSRFToken($_POST['csrf-token']))
     {
         $_SESSION['error-message'] = 'Invalid CSRF token';
-        $this->redirect('admin-create-member');
+        $this->redirect('admin-create-course');
         return;
     }
 

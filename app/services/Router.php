@@ -34,6 +34,14 @@ class Router {
                 $controller = new MemberController();
                 $controller->index();
             }
+            else if ($get['route'] === 'member-edit') {
+                $controller = new MemberController();
+                $controller->editForm();
+            }
+            else if ($get['route'] === 'member-check-edit') {
+                $controller = new MemberController();
+                $controller->edit();
+            }
            
             // ── Authentification ──
             else if ($get['route'] === 'login') {

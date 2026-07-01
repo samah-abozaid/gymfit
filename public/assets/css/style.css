@@ -173,7 +173,7 @@ body { font-family: var(--font-body); }
 
 .hero-sub {
     font-size: 13px;
-    color: #aaa;
+    color: var(--white);
     line-height: 1.6;
     margin-bottom: 30px;
     max-width: 500px;

@@ -126,6 +126,36 @@ class MemberManager extends AbstractManager
         return $query->execute(['id' => $id]);
     }
 
+    public function updateProfile(Member $member): bool
+    {
+        $query = $this->db->prepare('
+            UPDATE members SET
+                first_name = :first_name,
+                last_name  = :last_name,
+                email      = :email,
+                phone      = :phone
+            WHERE id_member = :id
+        ');
+        return $query->execute([
+            'first_name' => $member->getFirstName(),
+            'last_name'  => $member->getLastName(),
+            'email'      => $member->getEmail(),
+            'phone'      => $member->getPhone(),
+            'id'         => $member->getId(),
+        ]);
+    }
+
+    public function updatePassword(Member $member): bool
+    {
+        $query = $this->db->prepare('
+            UPDATE members SET password = :password WHERE id_member = :id
+        ');
+        return $query->execute([
+            'password' => $member->getPassword(),
+            'id'       => $member->getId(),
+        ]);
+    }
+
     public function countActive(): int
     {
         $query = $this->db->prepare(

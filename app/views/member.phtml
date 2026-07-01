@@ -200,6 +200,33 @@
         }
         .m-cta:hover { background: #96281B; }
 
+        /* ── Edit button ── */
+        .m-edit-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 11px 24px;
+            background: transparent;
+            border: 1px solid #333;
+            color: #aaa;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            text-decoration: none; transition: all .2s;
+        }
+        .m-edit-btn:hover { border-color: #C0392B; color: #fff; }
+
+        /* ── Success message ── */
+        .m-success {
+            background: #061a08;
+            border-left: 4px solid #28a745;
+            padding: 14px 18px;
+            margin: 0 28px 0;
+            color: #28a745;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px; letter-spacing: 1px;
+        }
+        @media (min-width: 768px) { .m-success { margin: 0 60px 0; } }
+
         /* ── BMI Card ── */
         .bmi-card {
             background: #1a1a1a;
@@ -342,6 +369,7 @@
 $member       = $data['member']       ?? null;
 $subscription = $data['subscription'] ?? null;
 
+$success = $data['success'] ?? null;
 $statusClass = match($member->getStatus()) {
     'active'   => 's-active',
     'inactive' => 's-inactive',
@@ -371,6 +399,10 @@ $initial = strtoupper(substr($member->getFirstName(), 0, 1));
         </div>
     </div>
 
+    <?php if ($success): ?>
+        <div class="m-success">✓ <?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
+
     <!-- Cards -->
     <div class="member-grid">
 
@@ -393,6 +425,7 @@ $initial = strtoupper(substr($member->getFirstName(), 0, 1));
                 <span class="m-label">Phone</span>
                 <span class="m-val"><?= htmlspecialchars($member->getPhone() ?: '—') ?></span>
             </div>
+            <a href="index.php?route=member-edit" class="m-edit-btn">✏ Edit Profile →</a>
         </div>
 
         <!-- Subscription -->

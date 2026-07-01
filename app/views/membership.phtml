@@ -1,11 +1,18 @@
 <?php require_once __DIR__ . '/layout/header.phtml'; ?>
+    <!-- HERO CLASSES -->
+    <section class="hero-classes" aria-label="Classes introduction">
+        <div class="hero-classes-content">
+            <span class="sec-tag">Pricing</span>
+            <h1 class="sec-title">Our Membership Plans</h1>
+           <p class="hero-classes-desc">
+                Choose the perfect membership and start your fitness journey with GymFit today.
+            </p>
+        </div>
+    </section>
 
 <!-- PLANS -->
 <section class="plans-section">
-
-    <p class="sec-tag">Pricing</p>
-    <h2 class="sec-title">Our Membership Plans</h2>
-
+    <h2 class="srv-name">Find The Right Plan</h2>
     <!-- Toggle -->
     <div class="billing-toggle">
         <span class="billing-label active" id="label-monthly">Monthly</span>
@@ -34,7 +41,7 @@
                 <div class="plan-badge">Most Popular</div>
             <?php endif; ?>
 
-            <!-- ✔️ important -->
+            <!--  important -->
             <h3 class="plan-name">
                 <?= htmlspecialchars($subscription->getName()) ?>
             </h3>
@@ -83,4 +90,10 @@
         <?php endforeach; ?>
     </div>
 </section>
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 class="cta-title">Ready to Start?</h2>
+        <p class="cta-desc">Join GymFit today and get access to all our classes.</p>
+        <a href="index.php?route=register" class="btn-outline">Join Now</a>
+    </section>
 <?php require_once __DIR__ . '/layout/footer.phtml'; ?>

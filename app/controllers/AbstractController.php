@@ -6,12 +6,9 @@ abstract class AbstractController
 
 protected function render(string $view, array $data = []): void
 {
-    // extract($data);
 
-    $basePath = __DIR__ . '/../views/';
+    require __DIR__ . '/../Views/' . $view . '.phtml';
 
-
-    require_once $basePath . $view . '.phtml';
 
 }
     // Redirection
