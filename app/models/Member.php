@@ -11,7 +11,8 @@ class Member {
         private string  $status           = 'pending',
         private ?int    $idSubscription   = null,
         private ?int    $id               = null,
-        private ?string $registrationDate = null
+        private ?string $registrationDate = null,
+        private ?string $avatar           = null
     ) {
         $this->registrationDate = $registrationDate ?? date('Y-m-d H:i:s');
     }
@@ -53,6 +54,10 @@ class Member {
         return $this->registrationDate;
     }
 
+    public function getAvatar(): ?string {
+        return $this->avatar;
+    }
+
     // ── Setters ──
     public function setId(int $id): void {
         $this->id = $id;
@@ -84,5 +89,9 @@ class Member {
 
     public function setIdSubscription(?int $idSubscription): void {
         $this->idSubscription = $idSubscription;
+    }
+
+    public function setAvatar(?string $avatar): void {
+        $this->avatar = $avatar;
     }
 }

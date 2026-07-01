@@ -120,6 +120,25 @@
             text-decoration: none; transition: color .2s;
         }
         .edit-cancel:hover { color: #fff; }
+
+        /* ── Avatar upload ── */
+        .av-wrap { display:flex; align-items:center; gap:16px; }
+        .av-circle {
+            width:64px; height:64px; border-radius:50%;
+            background:#C0392B; overflow:hidden; flex-shrink:0;
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Bebas Neue',sans-serif; font-size:30px; color:#fff;
+        }
+        .av-circle img { width:100%; height:100%; object-fit:cover; }
+        .av-btn {
+            display:inline-block; padding:8px 16px;
+            background:transparent; border:1px solid #333;
+            color:#aaa; font-family:'Barlow Condensed',sans-serif;
+            font-size:12px; font-weight:700; letter-spacing:1.5px;
+            text-transform:uppercase; cursor:pointer; transition:all .2s;
+        }
+        .av-btn:hover { border-color:#C0392B; color:#fff; }
+        .av-hint { font-size:11px; color:#444; margin:6px 0 0; }
     </style>
 </head>
 <body>
@@ -141,7 +160,7 @@ $error  = $data['error']  ?? null;
         <p class="edit-sub">Update your personal information and password.</p>
     </div>
 
-    <form action="index.php?route=member-check-edit" method="POST">
+    <form action="index.php?route=member-check-edit" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="csrf-token"
                value="<?= htmlspecialchars($_SESSION['csrf-token'] ?? '') ?>">
 
@@ -174,6 +193,27 @@ $error  = $data['error']  ?? null;
                     <label>Phone</label>
                     <input type="text" name="phone" placeholder="e.g. +20 1 234 567 89"
                            value="<?= htmlspecialchars($member->getPhone()) ?>">
+                </div>
+
+                <div class="e-group">
+                    <label>Profile Photo <span style="color:#444;font-weight:normal">(optional)</span></label>
+                    <div class="av-wrap">
+                        <div class="av-circle" id="av-preview">
+                            <?php if ($member->getAvatar()): ?>
+                                <img src="/gymfit/public/assets/uploads/avatars/<?= htmlspecialchars($member->getAvatar()) ?>" alt="avatar">
+                            <?php else: ?>
+                                <span><?= strtoupper(substr($member->getFirstName(), 0, 1)) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <div>
+                            <label class="av-btn" for="av-input">Change photo</label>
+                            <input type="file" id="av-input" name="avatar"
+                                   accept="image/jpeg,image/png,image/webp,image/gif"
+                                   style="display:none"
+                                   onchange="previewAv(this)">
+                            <p class="av-hint">JPG, PNG or WebP — max 2 MB</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -213,6 +253,16 @@ $error  = $data['error']  ?? null;
 </div>
 
 <script>
+    function previewAv(input) {
+        if (!input.files || !input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('av-preview').innerHTML =
+                '<img src="' + e.target.result + '" alt="preview">';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
     /* Vérifie en temps réel que les mots de passe correspondent */
     const np = document.getElementById('new_password');
     const cp = document.getElementById('confirm_password');

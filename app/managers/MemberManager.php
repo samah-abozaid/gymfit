@@ -2,8 +2,8 @@
 
 class MemberManager extends AbstractManager
 {
-    protected string $table = 'members'; 
-    
+    protected string $table = 'members';
+
     public function findAll(): array
     {
         $query = $this->db->prepare(
@@ -14,7 +14,7 @@ class MemberManager extends AbstractManager
 
         $members = [];
         foreach ($rows as $row) {
-            $member = new Member(
+            $members[] = new Member(
                 $row['first_name'],
                 $row['last_name'],
                 $row['email'],
@@ -23,9 +23,9 @@ class MemberManager extends AbstractManager
                 $row['status'],
                 $row['id_subscription'],
                 $row['id_member'],
-                $row['registration_date']
+                $row['registration_date'],
+                $row['avatar'] ?? null
             );
-            $members[] = $member;
         }
         return $members;
     }
@@ -49,7 +49,8 @@ class MemberManager extends AbstractManager
             $row['status'],
             $row['id_subscription'],
             $row['id_member'],
-            $row['registration_date']
+            $row['registration_date'],
+            $row['avatar'] ?? null
         );
     }
 
@@ -72,17 +73,18 @@ class MemberManager extends AbstractManager
             $row['status'],
             $row['id_subscription'],
             $row['id_member'],
-            $row['registration_date']
+            $row['registration_date'],
+            $row['avatar'] ?? null
         );
     }
 
     public function create(Member $member): bool
     {
         $query = $this->db->prepare('
-            INSERT INTO members 
-            (first_name, last_name, email, password, phone, status, id_subscription)
-            VALUES 
-            (:first_name, :last_name, :email, :password, :phone, :status, :id_subscription)
+            INSERT INTO members
+            (first_name, last_name, email, password, phone, status, id_subscription, avatar)
+            VALUES
+            (:first_name, :last_name, :email, :password, :phone, :status, :id_subscription, :avatar)
         ');
         return $query->execute([
             'first_name'      => $member->getFirstName(),
@@ -92,6 +94,7 @@ class MemberManager extends AbstractManager
             'phone'           => $member->getPhone(),
             'status'          => $member->getStatus(),
             'id_subscription' => $member->getIdSubscription(),
+            'avatar'          => $member->getAvatar(),
         ]);
     }
 
@@ -156,11 +159,26 @@ class MemberManager extends AbstractManager
         ]);
     }
 
+    public function updateAvatar(int $id, ?string $avatar): bool
+    {
+        $query = $this->db->prepare(
+            'UPDATE members SET avatar = :avatar WHERE id_member = :id'
+        );
+        return $query->execute(['avatar' => $avatar, 'id' => $id]);
+    }
+
     public function countActive(): int
     {
         $query = $this->db->prepare(
             "SELECT COUNT(*) FROM members WHERE status = 'active'"
         );
+        $query->execute();
+        return (int) $query->fetchColumn();
+    }
+
+    public function countAll(): int
+    {
+        $query = $this->db->prepare('SELECT COUNT(*) FROM members');
         $query->execute();
         return (int) $query->fetchColumn();
     }

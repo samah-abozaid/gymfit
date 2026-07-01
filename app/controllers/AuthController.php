@@ -127,7 +127,6 @@ class AuthController extends AbstractController
             isset($_POST['password']) &&
             isset($_POST['confirm_password']))
         {
-
             $tokenManager = new CSRFTokenManager();
 
             if (isset($_POST['csrf-token']) && $tokenManager->validateCSRFToken($_POST['csrf-token']))
@@ -142,6 +141,16 @@ class AuthController extends AbstractController
 
                         if ($existing === null)
                         {
+                            // ── Gestion upload avatar (optionnel) ──
+                            $avatar = null;
+                            if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+                                $avatar = $this->handleAvatarUpload($_FILES['avatar']);
+                                if ($avatar === false) {
+                                    $this->redirect('register');
+                                    return;
+                                }
+                            }
+
                             $member = new Member(
                                 htmlspecialchars($_POST['first_name']),
                                 htmlspecialchars($_POST['last_name']),
@@ -149,13 +158,28 @@ class AuthController extends AbstractController
                                 password_hash($_POST['password'], PASSWORD_BCRYPT),
                                 htmlspecialchars($_POST['phone'] ?? ''),
                                 'active',
-                                !empty($_POST['id_subscription']) ? (int)$_POST['id_subscription'] : null
+                                !empty($_POST['id_subscription']) ? (int)$_POST['id_subscription'] : null,
+                                null,
+                                null,
+                                $avatar
                             );
 
                             $memberManager->create($member);
 
+                            // ── Auto-login + message de bienvenue ──
+                            $newMember = $memberManager->findByEmail($_POST['email']);
+                            session_regenerate_id(true);
+                            $_SESSION['user'] = [
+                                'id'         => $newMember->getId(),
+                                'email'      => $newMember->getEmail(),
+                                'first_name' => $newMember->getFirstName(),
+                                'last_name'  => $newMember->getLastName(),
+                                'role'       => 'member',
+                            ];
+
                             unset($_SESSION['error-message']);
-                            $this->redirect('login');
+                            $_SESSION['success-message'] = 'Welcome to GymFit, ' . $newMember->getFirstName() . '! Your account has been created successfully.';
+                            $this->redirect('member');
                         }
                         else
                         {
@@ -186,6 +210,38 @@ class AuthController extends AbstractController
             $_SESSION['error-message'] = 'Missing fields';
             $this->redirect('register');
         }
+    }
+
+    private function handleAvatarUpload(array $file): string|false
+    {
+        $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $maxSize = 2 * 1024 * 1024;
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime  = $finfo->file($file['tmp_name']);
+
+        if (!in_array($mime, $allowed)) {
+            $_SESSION['error-message'] = 'Only JPG, PNG, WebP or GIF images are allowed';
+            return false;
+        }
+        if ($file['size'] > $maxSize) {
+            $_SESSION['error-message'] = 'Image must be smaller than 2 MB';
+            return false;
+        }
+
+        $ext = match($mime) {
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+            default      => 'jpg',
+        };
+
+        $filename  = 'avatar_' . uniqid() . '.' . $ext;
+        $uploadDir = dirname(__DIR__, 2) . '/public/assets/uploads/avatars/';
+        move_uploaded_file($file['tmp_name'], $uploadDir . $filename);
+
+        return $filename;
     }
 
     // ── Logout ──

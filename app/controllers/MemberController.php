@@ -126,6 +126,21 @@ class MemberController extends AbstractController
         $member->setPhone($phone);
         $memberManager->updateProfile($member);
 
+        // Gestion upload avatar (optionnel)
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $avatar = $this->handleAvatarUpload($_FILES['avatar']);
+            if ($avatar === false) {
+                $this->redirect('member-edit');
+                return;
+            }
+            // Supprime l'ancienne photo si elle existe
+            if ($member->getAvatar()) {
+                $old = dirname(__DIR__, 2) . '/public/assets/uploads/avatars/' . $member->getAvatar();
+                if (file_exists($old)) unlink($old);
+            }
+            $memberManager->updateAvatar($member->getId(), $avatar);
+        }
+
         // Met à jour la session
         $_SESSION['user']['first_name'] = $firstName;
         $_SESSION['user']['last_name']  = $lastName;
@@ -133,5 +148,37 @@ class MemberController extends AbstractController
 
         $_SESSION['success-message'] = 'Profile updated successfully!';
         $this->redirect('member');
+    }
+
+    private function handleAvatarUpload(array $file): string|false
+    {
+        $allowed = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $maxSize = 2 * 1024 * 1024;
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime  = $finfo->file($file['tmp_name']);
+
+        if (!in_array($mime, $allowed)) {
+            $_SESSION['error-message'] = 'Only JPG, PNG, WebP or GIF images are allowed';
+            return false;
+        }
+        if ($file['size'] > $maxSize) {
+            $_SESSION['error-message'] = 'Image must be smaller than 2 MB';
+            return false;
+        }
+
+        $ext = match($mime) {
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+            default      => 'jpg',
+        };
+
+        $filename  = 'avatar_' . uniqid() . '.' . $ext;
+        $uploadDir = dirname(__DIR__, 2) . '/public/assets/uploads/avatars/';
+        move_uploaded_file($file['tmp_name'], $uploadDir . $filename);
+
+        return $filename;
     }
 }
