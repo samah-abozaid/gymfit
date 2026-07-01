@@ -372,6 +372,10 @@ class AdminController extends AbstractController
         $this->redirect('admin-courses');
     }
 
+    // ══════════════════════════════════
+    // CRUD SUBSCRIPTIONS
+    // ══════════════════════════════════
+
     // ── Liste abonnements ──
     public function listSubscriptions(): void
     {
@@ -379,8 +383,154 @@ class AdminController extends AbstractController
 
         $subscriptionManager = new SubscriptionManager();
 
+        $success = null;
+        if (isset($_SESSION['success-message'])) {
+            $success = $_SESSION['success-message'];
+            unset($_SESSION['success-message']);
+        }
+
         $this->render('admin/subscriptions', [
-            'subscriptions' => $subscriptionManager->findAll()
+            'subscriptions' => $subscriptionManager->findAll(),
+            'success'       => $success,
         ]);
+    }
+
+    // ── Affiche formulaire création abonnement ──
+    public function createSubscription(): void
+    {
+        $this->requireAdmin();
+
+        $tokenManager = new CSRFTokenManager();
+        $tokenManager->generateCSRFToken();
+
+        $error = null;
+        if (isset($_SESSION['error-message'])) {
+            $error = $_SESSION['error-message'];
+            unset($_SESSION['error-message']);
+        }
+
+        $this->render('admin/subscription-create', [
+            'error' => $error,
+            'old'   => [],
+        ]);
+    }
+
+    // ── Traite création abonnement ──
+    public function checkCreateSubscription(): void
+    {
+        $this->requireAdmin();
+
+        $tokenManager = new CSRFTokenManager();
+        if (!isset($_POST['csrf-token']) || !$tokenManager->validateCSRFToken($_POST['csrf-token'])) {
+            $_SESSION['error-message'] = 'Invalid CSRF token';
+            $this->redirect('admin-create-subscription');
+            return;
+        }
+
+        $name  = trim($_POST['name']  ?? '');
+        $price = trim($_POST['price'] ?? '');
+
+        if (empty($name) || !is_numeric($price) || (float)$price < 0) {
+            $_SESSION['error-message'] = 'Name and a valid price are required';
+            $this->redirect('admin-create-subscription');
+            return;
+        }
+
+        $sub = new Subscription(
+            $name,
+            (float)$price,
+            isset($_POST['class_access']),
+            isset($_POST['coaching_access']),
+            isset($_POST['sauna_access']),
+            trim($_POST['description'] ?? '') ?: null
+        );
+
+        $subscriptionManager = new SubscriptionManager();
+        $subscriptionManager->create($sub);
+
+        $_SESSION['success-message'] = 'Subscription "' . $name . '" created successfully';
+        $this->redirect('admin-subscriptions');
+    }
+
+    // ── Affiche formulaire modification abonnement ──
+    public function updateSubscription(): void
+    {
+        $this->requireAdmin();
+
+        $subscriptionManager = new SubscriptionManager();
+        $sub = $subscriptionManager->findOne((int)($_GET['id'] ?? 0));
+
+        if (!$sub) {
+            $this->redirect('admin-subscriptions');
+            return;
+        }
+
+        $tokenManager = new CSRFTokenManager();
+        $tokenManager->generateCSRFToken();
+
+        $error = null;
+        if (isset($_SESSION['error-message'])) {
+            $error = $_SESSION['error-message'];
+            unset($_SESSION['error-message']);
+        }
+
+        $this->render('admin/subscription-update', [
+            'subscription' => $sub,
+            'error'        => $error,
+        ]);
+    }
+
+    // ── Traite modification abonnement ──
+    public function checkUpdateSubscription(): void
+    {
+        $this->requireAdmin();
+
+        $tokenManager = new CSRFTokenManager();
+        if (!isset($_POST['csrf-token']) || !$tokenManager->validateCSRFToken($_POST['csrf-token'])) {
+            $_SESSION['error-message'] = 'Invalid CSRF token';
+            $this->redirect('admin-subscriptions');
+            return;
+        }
+
+        $name  = trim($_POST['name']  ?? '');
+        $price = trim($_POST['price'] ?? '');
+
+        if (empty($name) || !is_numeric($price) || (float)$price < 0) {
+            $_SESSION['error-message'] = 'Name and a valid price are required';
+            $this->redirect('admin-update-subscription&id=' . (int)($_POST['id'] ?? 0));
+            return;
+        }
+
+        $subscriptionManager = new SubscriptionManager();
+        $sub = $subscriptionManager->findOne((int)$_POST['id']);
+
+        if (!$sub) {
+            $this->redirect('admin-subscriptions');
+            return;
+        }
+
+        $sub->setName($name);
+        $sub->setMonthlyPrice((float)$price);
+        $sub->setClassAccess(isset($_POST['class_access']));
+        $sub->setCoachingAccess(isset($_POST['coaching_access']));
+        $sub->setSaunaAccess(isset($_POST['sauna_access']));
+        $sub->setDescription(trim($_POST['description'] ?? '') ?: null);
+
+        $subscriptionManager->update($sub);
+
+        $_SESSION['success-message'] = 'Subscription "' . $name . '" updated successfully';
+        $this->redirect('admin-subscriptions');
+    }
+
+    // ── Supprime un abonnement ──
+    public function deleteSubscription(): void
+    {
+        $this->requireAdmin();
+
+        $subscriptionManager = new SubscriptionManager();
+        $subscriptionManager->delete((int)($_GET['id'] ?? 0));
+
+        $_SESSION['success-message'] = 'Subscription deleted successfully';
+        $this->redirect('admin-subscriptions');
     }
 }

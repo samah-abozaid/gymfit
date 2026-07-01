@@ -1,5 +1,6 @@
 <?php
 $subscriptions = $data['subscriptions'] ?? [];
+$success       = $data['success']       ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,44 +25,51 @@ $subscriptions = $data['subscriptions'] ?? [];
     <div class="main">
         <h1>Subscription Plans</h1>
 
-        <div class="plans">
-            <?php foreach ($subscriptions as $subscription): ?>
-                <div class="plan-card">
-                    <div class="plan-name">
-                        <?= htmlspecialchars($subscription->getName()) ?>
-                    </div>
+        <?php if ($success): ?>
+            <div class="alert-success"><?= htmlspecialchars($success) ?></div>
+        <?php endif; ?>
 
-                    <div class="plan-price">
-                        <?= htmlspecialchars($subscription->getMonthlyPrice()) ?>€
-                        <span>/month</span>
-                    </div>
-
-                    <p class="plan-desc">
-                        <?= htmlspecialchars($subscription->getDescription() ?? '') ?>
-                    </p>
-
-                    <ul class="plan-features">
-                        <li>
-                            <span class="<?= $subscription->hasClassAccess() ? 'check' : 'cross' ?>">
-                                <?= $subscription->hasClassAccess() ? '✓' : '✗' ?>
-                            </span>
-                            Group Classes
-                        </li>
-                        <li>
-                            <span class="<?= $subscription->hasCoachingAccess() ? 'check' : 'cross' ?>">
-                                <?= $subscription->hasCoachingAccess() ? '✓' : '✗' ?>
-                            </span>
-                            Personal Coaching
-                        </li>
-                        <li>
-                            <span class="<?= $subscription->hasSaunaAccess() ? 'check' : 'cross' ?>">
-                                <?= $subscription->hasSaunaAccess() ? '✓' : '✗' ?>
-                            </span>
-                            Sauna & Hammam
-                        </li>
-                    </ul>
-                </div>
-            <?php endforeach; ?>
+        <div class="card">
+            <div class="card-header">
+                <h2>All Plans (<?= count($subscriptions) ?>)</h2>
+                <a href="index.php?route=admin-create-subscription" class="btn btn-add">+ Add Plan</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Price / mo</th>
+                        <th>Classes</th>
+                        <th>Coaching</th>
+                        <th>Sauna</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($subscriptions as $sub): ?>
+                    <tr>
+                        <td><?= $sub->getId() ?></td>
+                        <td><strong><?= htmlspecialchars($sub->getName()) ?></strong></td>
+                        <td>€<?= number_format($sub->getMonthlyPrice(), 0) ?></td>
+                        <td><?= $sub->hasClassAccess()    ? '<span class="badge badge-active">✓</span>' : '<span style="color:#555">✗</span>' ?></td>
+                        <td><?= $sub->hasCoachingAccess() ? '<span class="badge badge-active">✓</span>' : '<span style="color:#555">✗</span>' ?></td>
+                        <td><?= $sub->hasSaunaAccess()    ? '<span class="badge badge-active">✓</span>' : '<span style="color:#555">✗</span>' ?></td>
+                        <td style="color:#888;font-size:13px"><?= htmlspecialchars($sub->getDescription() ?? '—') ?></td>
+                        <td>
+                            <a href="index.php?route=admin-update-subscription&id=<?= $sub->getId() ?>"
+                               class="btn btn-edit">Edit</a>
+                            <a href="index.php?route=admin-delete-subscription&id=<?= $sub->getId() ?>"
+                               class="btn btn-delete"
+                               onclick="return confirm('Delete plan <?= htmlspecialchars($sub->getName()) ?>?')">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 

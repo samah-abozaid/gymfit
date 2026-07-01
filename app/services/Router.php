@@ -128,6 +128,26 @@ class Router {
                 $controller = new AdminController();
                 $controller->listSubscriptions();
             }
+            else if ($get['route'] === 'admin-create-subscription') {
+                $controller = new AdminController();
+                $controller->createSubscription();
+            }
+            else if ($get['route'] === 'admin-check-create-subscription') {
+                $controller = new AdminController();
+                $controller->checkCreateSubscription();
+            }
+            else if ($get['route'] === 'admin-update-subscription') {
+                $controller = new AdminController();
+                $controller->updateSubscription();
+            }
+            else if ($get['route'] === 'admin-check-update-subscription') {
+                $controller = new AdminController();
+                $controller->checkUpdateSubscription();
+            }
+            else if ($get['route'] === 'admin-delete-subscription') {
+                $controller = new AdminController();
+                $controller->deleteSubscription();
+            }
 
             // ── 404 ──
             else {
