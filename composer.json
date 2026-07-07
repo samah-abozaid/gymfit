@@ -19,11 +19,16 @@
 	},
 	"require-dev":
 	{
-		"symfony/var-dumper": "^6.0"
+		"symfony/var-dumper": "^6.0",
+		"phpunit/phpunit": "^13.2"
 	},
 	"config": {
 		"allow-plugins": {
 			"php-http/discovery": true
 		}
+	},
+	"scripts":
+	{
+		"test": "phpunit"
 	}
 }
