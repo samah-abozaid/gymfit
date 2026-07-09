@@ -11,7 +11,7 @@ protected function render(string $view, array $data = []): void
     $data['footerSubscriptions'] = $subscriptionManager->findAll();
 
     $courseManager = new CourseManager();
-    $data['footerCourses'] = array_slice($courseManager->findAll(), 0, 4);
+    $data['footerCourses'] = $courseManager->findAll();
 
     require __DIR__ . '/../views/' . $view . '.phtml';
 }
