@@ -6,10 +6,11 @@ abstract class AbstractController
 
 protected function render(string $view, array $data = []): void
 {
+    // Abonnements affichés dans le footer commun (prix toujours à jour depuis la BDD)
+    $subscriptionManager = new SubscriptionManager();
+    $data['footerSubscriptions'] = $subscriptionManager->findAll();
 
-    require __DIR__ . '/../Views/' . $view . '.phtml';
-
-
+    require __DIR__ . '/../views/' . $view . '.phtml';
 }
     // Redirection
     protected function redirect(string $route): void

@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="public/assets/css/main.css">
-    <link rel="stylesheet" href="public/assets/css/pages.css"></head>
 <footer>
     <div class="ft-logo">Gym<em>Fit</em></div>
     <p class="ft-desc">Your premium fitness center in Cairo, open 7 days a week.</p>
@@ -25,9 +18,15 @@
         </div>
         <div class="ft-col">
             <h4>Membership</h4>
-            <a>Basic — 29€/mo</a>
-            <a>Premium — 49€/mo</a>
-            <a>VIP — 79€/mo</a>
+            <?php foreach ($data['footerSubscriptions'] ?? [] as $subscription): ?>
+                <?php
+                // Affiche 29€ au lieu de 29.00€, mais garde 29.50€ tel quel
+                $price = rtrim(rtrim(number_format($subscription->getMonthlyPrice(), 2, '.', ''), '0'), '.');
+                ?>
+                <a href="index.php?route=membership">
+                    <?= htmlspecialchars($subscription->getName()) ?> — <?= $price ?>€/mo
+                </a>
+            <?php endforeach; ?>
         </div>
         <div class="ft-col">
             <h4>Contact</h4>
