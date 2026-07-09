@@ -17,8 +17,15 @@ abstract class AbstractManager
 
 
         }catch (PDOException $e){
-            die('Connexion échouée : ' . $e->getMessage());
+            // Toujours dans les logs serveur, jamais à l'écran en production
+            error_log('Database connection failed: ' . $e->getMessage());
 
+            if (($_ENV['APP_ENV'] ?? 'production') === 'development') {
+                die('Connexion échouée : ' . $e->getMessage());
+            }
+
+            http_response_code(503);
+            die('Service temporarily unavailable. Please try again later.');
         }
 
     }
