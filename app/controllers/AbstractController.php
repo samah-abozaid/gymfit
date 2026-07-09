@@ -6,9 +6,12 @@ abstract class AbstractController
 
 protected function render(string $view, array $data = []): void
 {
-    // Abonnements affichés dans le footer commun (prix toujours à jour depuis la BDD)
+    // Abonnements et cours affichés dans le footer commun (toujours à jour depuis la BDD)
     $subscriptionManager = new SubscriptionManager();
     $data['footerSubscriptions'] = $subscriptionManager->findAll();
+
+    $courseManager = new CourseManager();
+    $data['footerCourses'] = array_slice($courseManager->findAll(), 0, 4);
 
     require __DIR__ . '/../views/' . $view . '.phtml';
 }

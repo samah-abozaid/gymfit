@@ -11,10 +11,11 @@
         </div>
         <div class="ft-col">
             <h4>Classes</h4>
-            <a>Yoga Flow</a>
-            <a>CrossFit</a>
-            <a>Spinning</a>
-            <a>Zumba</a>
+            <?php foreach ($data['footerCourses'] ?? [] as $course): ?>
+                <a href="index.php?route=classes&amp;type=<?= urlencode($course->getType()) ?>">
+                    <?= htmlspecialchars($course->getName()) ?>
+                </a>
+            <?php endforeach; ?>
         </div>
         <div class="ft-col">
             <h4>Membership</h4>
