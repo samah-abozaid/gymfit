@@ -4,11 +4,7 @@
 -- Date : Avril 2026
 -- ============================================
 
-CREATE DATABASE IF NOT EXISTS gymfit
-CHARACTER SET utf8
-COLLATE utf8_general_ci;
 
-USE gymfit;
 
 -- Table des abonnements
 CREATE TABLE IF NOT EXISTS subscriptions (
@@ -64,7 +60,6 @@ CREATE TABLE IF NOT EXISTS admins (
 -- Les comptes de test (admin + membres) utilisent tous le mot de passe admin actuel
 -- ============================================
 
-USE gymfit;
 
 -- Abonnements
 INSERT INTO subscriptions (name, monthly_price, description, class_access, coaching_access, sauna_access)

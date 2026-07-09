@@ -1,5 +1,6 @@
 vendor/
 .env
+.env-prod
 composer.lock
 .phpunit.cache/
 public/assets/uploads/
