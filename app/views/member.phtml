@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymFit — My Account</title>
-    <link rel="stylesheet" href="/gymfit/public/assets/css/main.css">
+    <link rel="stylesheet" href="public/assets/css/main.css">
     <style>
         /* ── Layout ── */
         .member-wrapper {
@@ -393,7 +393,7 @@ $initial = strtoupper(substr($member->getFirstName(), 0, 1));
     <div class="member-hero">
         <div class="member-avatar">
             <?php if ($member->getAvatar()): ?>
-                <img src="/gymfit/public/assets/uploads/avatars/<?= htmlspecialchars($member->getAvatar()) ?>" alt="avatar">
+                <img src="public/assets/uploads/avatars/<?= htmlspecialchars($member->getAvatar()) ?>" alt="avatar">
             <?php else: ?>
                 <?= $initial ?>
             <?php endif; ?>
@@ -518,7 +518,7 @@ $initial = strtoupper(substr($member->getFirstName(), 0, 1));
 
 </div>
 
-<script src="/gymfit/public/assets/js/main.js"></script>
+<script src="public/assets/js/main.js"></script>
 <script>
     function calcBMI() {
         const weight = parseFloat(document.getElementById('bmi-weight').value);

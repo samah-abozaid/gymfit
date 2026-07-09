@@ -130,7 +130,7 @@ body { font-family: var(--font-body); }
 .hero-img {
     position: absolute;
     inset: 0;
-    background-image: url('/gymfit/public/assets/img/hero-gym2.webp');
+    background-image: url('../img/hero-gym2.webp');
     background-size: cover;
     background-position: center top;
 }
@@ -359,13 +359,13 @@ body { font-family: var(--font-body); }
     background: linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 100%);
 }
 
-.course-img-yoga     { background-image: url('/gymfit/public/assets/img/class-yoga.webp'); }
-.course-img-spinning { background-image: url('/gymfit/public/assets/img/class-spinning.webp'); }
-.course-img-crossfit { background-image: url('/gymfit/public/assets/img/class-crossfit.webp'); }
-.course-img-zumba    { background-image: url('/gymfit/public/assets/img/class-zumba.webp'); }
-.course-img-boxing   { background-image: url('/gymfit/public/assets/img/class-boxing.webp'); }
-.course-img-pilates  { background-image: url('/gymfit/public/assets/img/class-pilates.webp'); }
-.course-img-default  { background-image: url('/gymfit/public/assets/img/hero-gym.webp'); }
+.course-img-yoga     { background-image: url('../img/class-yoga.webp'); }
+.course-img-spinning { background-image: url('../img/class-spinning.webp'); }
+.course-img-crossfit { background-image: url('../img/class-crossfit.webp'); }
+.course-img-zumba    { background-image: url('../img/class-zumba.webp'); }
+.course-img-boxing   { background-image: url('../img/class-boxing.webp'); }
+.course-img-pilates  { background-image: url('../img/class-pilates.webp'); }
+.course-img-default  { background-image: url('../img/hero-gym.webp'); }
 
 .course-content { padding: 16px; }
 
@@ -515,7 +515,7 @@ body { font-family: var(--font-body); }
 .hero-classes {
     height: 280px;
     position: relative;
-    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-image: url('../img/hero-gym.webp');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -585,7 +585,7 @@ body { font-family: var(--font-body); }
 .hero-membership {
     height: 280px;
     position: relative;
-    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-image: url('../img/hero-gym.webp');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -779,7 +779,7 @@ footer {
 .hero-contact {
     height: 250px;
     position: relative;
-    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-image: url('../img/hero-gym.webp');
     background-size: cover;
     background-position: center;
     display: flex;

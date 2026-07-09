@@ -57,7 +57,7 @@ if (!in_array($activeFilter, $types, true)) {
             }
             $imgName = strtolower(trim($course->getName()));
             $imgName = str_replace(' ', '-', $imgName);
-            $imgSrc = "/gymfit/public/assets/img/class-$imgName.webp";
+            $imgSrc = "public/assets/img/class-$imgName.webp";
 
             $altText = $course->getName() . ' class with coach ' . $course->getCoach() . ' at GymFit';
 
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function courseCard(course) {
         const imgName  = course.name.toLowerCase().trim().replaceAll(' ', '-');
-        const imgSrc   = '/gymfit/public/assets/img/class-' + imgName + '.webp';
+        const imgSrc   = 'public/assets/img/class-' + imgName + '.webp';
         const altText  = course.name + ' class with coach ' + course.coach + ' at GymFit';
         const badge    = course.type.toLowerCase().trim();
 

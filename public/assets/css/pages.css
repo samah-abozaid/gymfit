@@ -131,7 +131,7 @@
 .hero-classes {
     height: 280px;
     position: relative;
-    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-image: url('../img/hero-gym.webp');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -442,7 +442,7 @@
 .hero-membership {
     height: 280px;
     position: relative;
-    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-image: url('../img/hero-gym.webp');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -856,7 +856,7 @@
 .hero-contact {
     height: 250px;
     position: relative;
-    background-image: url('/gymfit/public/assets/img/hero-gym.webp');
+    background-image: url('../img/hero-gym.webp');
     background-size: cover;
     background-position: center;
     display: flex;
