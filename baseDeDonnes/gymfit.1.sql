@@ -77,15 +77,15 @@ VALUES
 INSERT INTO admins (name, email, password, role)
 VALUES
 ('Karim Mansour', 'admin@gymfit.com',
-'$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+'$2y$12$5SDPSGKuMQY0oiag8zCYj.YPTK1LQ9L3IAUcr9JfIY94jxc69QZ36',
 'admin');
 
 -- Membres de test
 INSERT INTO members (first_name, last_name, email, password, phone, status, id_subscription)
 VALUES
-('Amira', 'Hassan',  'amira@test.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '+20101234567', 'active',  2),
-('Sara',  'Khalil',  'sara@test.com',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '+20109876543', 'active',  1),
-('Omar',  'Mansour', 'omar@test.com',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '+20107654321', 'pending', 3);
+('Amira', 'Hassan',  'amira@test.com', '$2y$12$5SDPSGKuMQY0oiag8zCYj.YPTK1LQ9L3IAUcr9JfIY94jxc69QZ36', '+20101234567', 'active',  2),
+('Sara',  'Khalil',  'sara@test.com',  '$2y$12$5SDPSGKuMQY0oiag8zCYj.YPTK1LQ9L3IAUcr9JfIY94jxc69QZ36', '+20109876543', 'active',  1),
+('Omar',  'Mansour', 'omar@test.com',  '$2y$12$5SDPSGKuMQY0oiag8zCYj.YPTK1LQ9L3IAUcr9JfIY94jxc69QZ36', '+20107654321', 'pending', 3);
 
 -- Cours
 INSERT INTO courses (name, type, level, coach, day, start_time, end_time, max_capacity)
