@@ -81,6 +81,32 @@ class CourseManager extends AbstractManager
         return $courses;
     }
 
+    public function findByType(string $type): array
+    {
+        $query = $this->db->prepare(
+            'SELECT * FROM courses WHERE type = :type ORDER BY day, start_time'
+        );
+        $query->execute(['type' => $type]);
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $courses = [];
+        foreach ($rows as $row) {
+            $courses[] = new Course(
+                $row['name'],
+                $row['type'],
+                $row['level'],
+                $row['coach'],
+                $row['day'],
+                $row['start_time'],
+                $row['end_time'],
+                $row['max_capacity'],
+
+                $row['id_class']
+            );
+        }
+        return $courses;
+    }
+
     public function create(Course $course): bool
     {
         $query = $this->db->prepare('

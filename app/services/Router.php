@@ -22,6 +22,10 @@ class Router {
                 $controller = new MembershipController();
                 $controller->index();
             }
+            else if ($get['route'] === 'api-courses') {
+                $controller = new CoursController();
+                $controller->apiCourses();
+            }
             else if ($get['route'] === 'contact') {
                 $controller = new ContactController();
                 $controller->index();

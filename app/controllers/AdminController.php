@@ -240,7 +240,7 @@ class AdminController extends AbstractController
         $memberManager = new MemberManager();
 
         $this->render('admin/members', [
-            'members' => $memberManager->findAll()
+            'members' => $memberManager->findAllWithSubscription()
         ]);
     }
 

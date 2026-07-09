@@ -25,4 +25,32 @@ class CoursController extends AbstractController
             'coursesByDay'  => $coursesByDay,
         ]);
     }
+
+    // API JSON pour le filtre des cours en fetch (sans rechargement)
+    public function apiCourses(): void
+    {
+        $courseManager = new CourseManager();
+
+        $type = $_GET['type'] ?? 'All';
+        $courses = ($type === 'All')
+            ? $courseManager->findAll()
+            : $courseManager->findByType($type);
+
+        $data = [];
+        foreach ($courses as $course) {
+            $data[] = [
+                'name'      => $course->getName(),
+                'type'      => $course->getType(),
+                'level'     => $course->getLevel(),
+                'coach'     => $course->getCoach(),
+                'day'       => $course->getDay(),
+                'startTime' => $course->getStartTime(),
+                'endTime'   => $course->getEndTime(),
+            ];
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit;
+    }
 }

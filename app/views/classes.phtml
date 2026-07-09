@@ -38,6 +38,7 @@ if (!in_array($activeFilter, $types, true)) {
         <?php foreach ($types as $type): ?>
             <a
                 href="index.php?route=classes&amp;type=<?= urlencode($type) ?>"
+                data-type="<?= htmlspecialchars($type) ?>"
                 class="filter-btn <?= $activeFilter === $type ? 'filter-btn-active' : '' ?>"
             >
                 <?= htmlspecialchars($type) ?>
@@ -48,7 +49,7 @@ if (!in_array($activeFilter, $types, true)) {
 
 <!-- COURSES GRID -->
 <section class="courses-section">
-    <div class="srv-grid">
+    <div class="srv-grid" id="courses-grid">
         <?php foreach ($courses as $course): ?>
             <?php
             if ($activeFilter !== 'All' && $course->getType() !== $activeFilter) {
@@ -153,5 +154,77 @@ if (!in_array($activeFilter, $types, true)) {
     <p class="cta-desc">Join GymFit today and get access to all our classes.</p>
     <a href="index.php?route=register" class="btn-outline">Join Now</a>
 </section>
+
+<script>
+// Filtre des cours en AJAX : fetch l'API JSON et met à jour la grille sans recharger la page
+document.addEventListener('DOMContentLoaded', function () {
+    const grid    = document.getElementById('courses-grid');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    function esc(value) {
+        const div = document.createElement('div');
+        div.textContent = value ?? '';
+        return div.innerHTML;
+    }
+
+    function courseCard(course) {
+        const imgName  = course.name.toLowerCase().trim().replaceAll(' ', '-');
+        const imgSrc   = '/gymfit/public/assets/img/class-' + imgName + '.webp';
+        const altText  = course.name + ' class with coach ' + course.coach + ' at GymFit';
+        const badge    = course.type.toLowerCase().trim();
+
+        return `
+            <article class="srv-card">
+                <div class="course-img">
+                    <img src="${esc(imgSrc)}" alt="${esc(altText)}" loading="lazy" width="800" height="500">
+                </div>
+                <div class="course-content">
+                    <div class="course-meta">
+                        <span class="badge badge-${esc(badge)}">${esc(course.type)}</span>
+                        <span class="course-level">${esc(course.level)}</span>
+                    </div>
+                    <h2 class="srv-name">${esc(course.name)}</h2>
+                    <div class="course-details">
+                        <div class="course-detail-row">
+                            <span class="course-detail-label">Coach</span>
+                            <span class="course-detail-value">${esc(course.coach)}</span>
+                        </div>
+                        <div class="course-detail-row">
+                            <span class="course-detail-label">Day</span>
+                            <span class="course-detail-value">${esc(course.day)}</span>
+                        </div>
+                        <div class="course-detail-row">
+                            <span class="course-detail-label">Time</span>
+                            <span class="course-detail-value">${esc(course.startTime)} — ${esc(course.endTime)}</span>
+                        </div>
+                    </div>
+                </div>
+            </article>`;
+    }
+
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', async function (e) {
+            e.preventDefault();
+
+            try {
+                const response = await fetch('index.php?route=api-courses&type=' + encodeURIComponent(btn.dataset.type));
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+
+                const courses = await response.json();
+
+                grid.innerHTML = courses.length > 0
+                    ? courses.map(courseCard).join('')
+                    : '<p class="no-courses">No classes found for this category.</p>';
+
+                buttons.forEach(b => b.classList.remove('filter-btn-active'));
+                btn.classList.add('filter-btn-active');
+            } catch (error) {
+                // En cas d'échec de l'API, on retombe sur le filtre classique (rechargement)
+                window.location.href = btn.href;
+            }
+        });
+    });
+});
+</script>
 
 <?php require_once __DIR__ . '/layout/footer.phtml'; ?>

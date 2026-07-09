@@ -30,6 +30,38 @@ class MemberManager extends AbstractManager
         return $members;
     }
 
+    public function findAllWithSubscription(): array
+    {
+        $query = $this->db->prepare(
+            'SELECT m.*, s.name AS subscription_name
+             FROM members m
+             LEFT JOIN subscriptions s ON m.id_subscription = s.id_subscription
+             ORDER BY m.last_name'
+        );
+        $query->execute();
+        $rows = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        $results = [];
+        foreach ($rows as $row) {
+            $results[] = [
+                'member' => new Member(
+                    $row['first_name'],
+                    $row['last_name'],
+                    $row['email'],
+                    $row['password'],
+                    $row['phone'],
+                    $row['status'],
+                    $row['id_subscription'],
+                    $row['id_member'],
+                    $row['registration_date'],
+                    $row['avatar'] ?? null
+                ),
+                'subscriptionName' => $row['subscription_name'],
+            ];
+        }
+        return $results;
+    }
+
     public function findOne(int $id): ?Member
     {
         $query = $this->db->prepare(

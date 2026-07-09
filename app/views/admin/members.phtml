@@ -35,13 +35,18 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Status</th>
+                        <th>Subscription</th>
                         <th>Registration</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $members = $data['members'] ?? []; ?>
-                    <?php foreach ($members as $member): ?>
+                    <?php foreach ($members as $row): ?>
+                    <?php
+                        $member           = $row['member'];
+                        $subscriptionName = $row['subscriptionName'];
+                    ?>
                     <tr>
                         <td>
                             <?php if ($member->getAvatar()): ?>
@@ -68,6 +73,7 @@
                                 <?= ucfirst($member->getStatus()) ?>
                             </span>
                         </td>
+                        <td><?= $subscriptionName !== null ? htmlspecialchars($subscriptionName) : '—' ?></td>
                         <td><?= htmlspecialchars($member->getRegistrationDate()) ?></td>
                         <td>
                             <a href="index.php?route=admin-update-member&id=<?= $member->getId() ?>"

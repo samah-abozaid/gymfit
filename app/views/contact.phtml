@@ -117,7 +117,7 @@ $errors  = $data['errors']  ?? [];
 
 /* ── Map ── */
 .ct-map { position: relative; }
-.ct-map iframe { width: 100%; height: 260px; border: none; display: block; }
+.ct-map #gym-map { width: 100%; height: 260px; z-index: 1; }
 .ct-map-btn {
     position: absolute;
     bottom: 14px; right: 14px;
@@ -277,9 +277,8 @@ $errors  = $data['errors']  ?? [];
             </div>
         </div>
         <div class="ct-map">
-            <iframe src="https://www.google.com/maps?q=Gym+in+Zamalek+Cairo+Egypt&output=embed"
-                    loading="lazy" title="GymFit location"></iframe>
-            <a href="https://www.google.com/maps?q=Zamalek,Cairo,Egypt"
+            <div id="gym-map" title="GymFit location"></div>
+            <a href="https://www.openstreetmap.org/?mlat=30.0609&mlon=31.2197#map=16/30.0609/31.2197"
                target="_blank" rel="noopener noreferrer" class="ct-map-btn">
                 Open in Maps ↗
             </a>
@@ -357,5 +356,28 @@ $errors  = $data['errors']  ?? [];
     </div>
 
 </div>
+
+<!-- Carte : API externe OpenStreetMap via la librairie Leaflet, appelée depuis le JavaScript -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gymLocation = [30.0609, 31.2197]; // GymFit — Zamalek, Cairo
+
+    const map = L.map('gym-map').setView(gymLocation, 15);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker(gymLocation)
+        .addTo(map)
+        .bindPopup('<strong>GymFit</strong><br>Zamalek, Cairo')
+        .openPopup();
+});
+</script>
 
 <?php require_once __DIR__ . '/layout/footer.phtml'; ?>
