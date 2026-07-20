@@ -131,6 +131,13 @@ class AuthController extends AbstractController
 
             if (isset($_POST['csrf-token']) && $tokenManager->validateCSRFToken($_POST['csrf-token']))
             {
+                if (empty(trim($_POST['phone'] ?? '')))
+                {
+                    $_SESSION['error-message'] = 'Phone number is required';
+                    $this->redirect('register');
+                    return;
+                }
+
                 if ($_POST['password'] === $_POST['confirm_password'])
                 {
                     $password_pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/';

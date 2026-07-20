@@ -71,7 +71,6 @@ class MemberController extends AbstractController
         $firstName = htmlspecialchars(trim($_POST['first_name'] ?? ''));
         $lastName  = htmlspecialchars(trim($_POST['last_name']  ?? ''));
         $email     = htmlspecialchars(trim($_POST['email']      ?? ''));
-        $phone     = htmlspecialchars(trim($_POST['phone']      ?? ''));
 
         if (empty($firstName) || empty($lastName) || empty($email)) {
             $_SESSION['error-message'] = 'First name, last name and email are required';
@@ -119,11 +118,10 @@ class MemberController extends AbstractController
             $memberManager->updatePassword($member);
         }
 
-        // Met à jour le profil
+        // Met à jour le profil (le téléphone n'est pas modifiable depuis l'espace membre)
         $member->setFirstName($firstName);
         $member->setLastName($lastName);
         $member->setEmail($email);
-        $member->setPhone($phone);
         $memberManager->updateProfile($member);
 
         // Gestion upload avatar (optionnel)

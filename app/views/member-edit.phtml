@@ -191,8 +191,9 @@ $error  = $data['error']  ?? null;
                 </div>
                 <div class="e-group">
                     <label>Phone</label>
-                    <input type="text" name="phone" placeholder="e.g. +20 1 234 567 89"
-                           value="<?= htmlspecialchars($member->getPhone()) ?>">
+                    <input type="text" value="<?= htmlspecialchars($member->getPhone()) ?>"
+                           readonly disabled style="opacity:.6;cursor:not-allowed;">
+                    <p class="pwd-hint">Phone number can't be changed from your account. Contact GymFit staff if needed.</p>
                 </div>
 
                 <div class="e-group">

@@ -80,9 +80,12 @@ $subscriptions = $data['subscriptions'] ?? [];
                 </div>
 
                 <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" name="phone"
+                    <label>Phone *</label>
+                    <input type="text" name="phone" required
                            value="<?= htmlspecialchars($old['phone'] ?? $member->getPhone()) ?>">
+                    <?php if (isset($errors['phone'])): ?>
+                        <p class="error"><?= $errors['phone'] ?></p>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-group">

@@ -1,0 +1,122 @@
+<?php
+$member       = $data['member'] ?? null;
+$subscription = $data['subscription'] ?? null;
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit — Member Details</title>
+    <link rel="stylesheet" href="public/assets/css/style.css">
+</head>
+<body>
+<div class="layout">
+
+    <div class="sidebar">
+        <h2>GymFit</h2>
+        <a href="index.php?route=admin">Dashboard</a>
+        <a href="index.php?route=admin-members" class="active">Members</a>
+        <a href="index.php?route=admin-courses">Courses</a>
+        <a href="index.php?route=admin-subscriptions">Subscriptions</a>
+        <hr style="border-color:#333;margin:20px 0;">
+        <a href="index.php?route=logout">Logout</a>
+    </div>
+
+    <div class="main">
+        <h1>Member Details</h1>
+        <div class="card">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #eee;">
+                <?php if ($member->getAvatar()): ?>
+                    <img src="public/assets/uploads/avatars/<?= htmlspecialchars($member->getAvatar()) ?>"
+                         alt="avatar"
+                         style="width:80px;height:80px;border-radius:50%;object-fit:cover;">
+                <?php else: ?>
+                    <div style="width:80px;height:80px;border-radius:50%;background:#C0392B;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:bold;font-size:32px;">
+                        <?= strtoupper(substr($member->getFirstName(), 0, 1)) ?>
+                    </div>
+                <?php endif; ?>
+                <div>
+                    <h2 style="margin:0;">
+                        <?= htmlspecialchars($member->getFirstName() . ' ' . $member->getLastName()) ?>
+                    </h2>
+                    <span class="badge badge-<?= $member->getStatus() ?>">
+                        <?= ucfirst($member->getStatus()) ?>
+                    </span>
+                </div>
+            </div>
+
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:220px;color:#888;padding:10px 0;">Member ID</td>
+                        <td style="padding:10px 0;">#<?= $member->getId() ?></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;">First Name</td>
+                        <td style="padding:10px 0;"><?= htmlspecialchars($member->getFirstName()) ?></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;">Last Name</td>
+                        <td style="padding:10px 0;"><?= htmlspecialchars($member->getLastName()) ?></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;">Email</td>
+                        <td style="padding:10px 0;"><?= htmlspecialchars($member->getEmail()) ?></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;">Phone</td>
+                        <td style="padding:10px 0;"><?= htmlspecialchars($member->getPhone() ?: '—') ?></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;">Status</td>
+                        <td style="padding:10px 0;">
+                            <span class="badge badge-<?= $member->getStatus() ?>">
+                                <?= ucfirst($member->getStatus()) ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;">Registration Date</td>
+                        <td style="padding:10px 0;"><?= htmlspecialchars($member->getRegistrationDate()) ?></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#888;padding:10px 0;vertical-align:top;">Subscription Plan</td>
+                        <td style="padding:10px 0;">
+                            <?php if ($subscription): ?>
+                                <strong><?= htmlspecialchars($subscription->getName()) ?></strong>
+                                — <?= $subscription->getMonthlyPrice() ?>€/month
+                                <div style="margin-top:6px;font-size:13px;color:#888;">
+                                    Class access: <?= $subscription->hasClassAccess() ? 'Yes' : 'No' ?> ·
+                                    Coaching access: <?= $subscription->hasCoachingAccess() ? 'Yes' : 'No' ?> ·
+                                    Sauna access: <?= $subscription->hasSaunaAccess() ? 'Yes' : 'No' ?>
+                                </div>
+                                <?php if ($subscription->getDescription()): ?>
+                                    <div style="margin-top:6px;font-size:13px;color:#888;">
+                                        <?= htmlspecialchars($subscription->getDescription()) ?>
+                                    </div>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                — No active plan —
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:24px;display:flex;gap:10px;">
+                <a href="index.php?route=admin-update-member&id=<?= $member->getId() ?>"
+                   class="btn btn-edit">Edit Member</a>
+                <a href="index.php?route=admin-delete-member&id=<?= $member->getId() ?>"
+                   class="btn btn-delete"
+                   onclick="return confirm('Delete <?= htmlspecialchars($member->getFirstName()) ?>?')">
+                   Delete Member
+                </a>
+            </div>
+
+            <a href="index.php?route=admin-members" class="btn-cancel">← Back to Members</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

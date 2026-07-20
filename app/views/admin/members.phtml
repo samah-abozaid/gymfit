@@ -47,7 +47,8 @@
                         $member           = $row['member'];
                         $subscriptionName = $row['subscriptionName'];
                     ?>
-                    <tr>
+                    <tr style="cursor:pointer;"
+                        onclick="location.href='index.php?route=admin-view-member&id=<?= $member->getId() ?>'">
                         <td>
                             <?php if ($member->getAvatar()): ?>
                                 <img src="public/assets/uploads/avatars/<?= htmlspecialchars($member->getAvatar()) ?>"
@@ -75,7 +76,9 @@
                         </td>
                         <td><?= $subscriptionName !== null ? htmlspecialchars($subscriptionName) : '—' ?></td>
                         <td><?= htmlspecialchars($member->getRegistrationDate()) ?></td>
-                        <td>
+                        <td onclick="event.stopPropagation();">
+                            <a href="index.php?route=admin-view-member&id=<?= $member->getId() ?>"
+                               class="btn btn-edit">View</a>
                             <a href="index.php?route=admin-update-member&id=<?= $member->getId() ?>"
                                class="btn btn-edit">Edit</a>
                             <a href="index.php?route=admin-delete-member&id=<?= $member->getId() ?>"

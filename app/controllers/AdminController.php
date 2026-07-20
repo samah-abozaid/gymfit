@@ -68,6 +68,9 @@ class AdminController extends AbstractController
         if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'Valid email is required.';
         }
+        if (empty(trim($_POST['phone'] ?? ''))) {
+            $errors['phone'] = 'Phone number is required.';
+        }
         if (empty($_POST['password']) || strlen($_POST['password']) < 8) {
             $errors['password'] = 'Password must be at least 8 characters.';
         }
@@ -142,6 +145,31 @@ class AdminController extends AbstractController
         return $filename;
     }
 
+    // ── Affiche la fiche détaillée d'un membre ──
+    public function viewMember(): void
+    {
+        $this->requireAdmin();
+
+        $memberManager       = new MemberManager();
+        $subscriptionManager = new SubscriptionManager();
+
+        $member = $memberManager->findOne((int)($_GET['id'] ?? 0));
+
+        if (!$member) {
+            $this->redirect('admin-members');
+            return;
+        }
+
+        $subscription = $member->getIdSubscription()
+            ? $subscriptionManager->findOne($member->getIdSubscription())
+            : null;
+
+        $this->render('admin/member-view', [
+            'member'       => $member,
+            'subscription' => $subscription,
+        ]);
+    }
+
     // ── Affiche formulaire modification membre ──
     public function updateMember(): void
     {
@@ -190,6 +218,9 @@ class AdminController extends AbstractController
         }
         if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'Valid email is required.';
+        }
+        if (empty(trim($_POST['phone'] ?? ''))) {
+            $errors['phone'] = 'Phone number is required.';
         }
 
         if (!empty($errors)) {

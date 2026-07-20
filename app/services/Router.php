@@ -88,6 +88,10 @@ class Router {
                 $controller = new AdminController();
                 $controller->checkCreateMember();
             }
+            else if ($get['route'] === 'admin-view-member') {
+                $controller = new AdminController();
+                $controller->viewMember();
+            }
             else if ($get['route'] === 'admin-update-member') {
                 $controller = new AdminController();
                 $controller->updateMember();

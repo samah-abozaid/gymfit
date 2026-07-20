@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS members (
     last_name         VARCHAR(100)  NOT NULL,
     email             VARCHAR(150)  UNIQUE NOT NULL,
     password          VARCHAR(255)  NOT NULL,
-    phone             VARCHAR(20),
+    phone             VARCHAR(20)   NOT NULL,
     registration_date DATETIME      DEFAULT CURRENT_TIMESTAMP,
     status            ENUM('active','inactive','pending') DEFAULT 'pending',
     id_subscription   INT,

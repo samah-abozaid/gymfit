@@ -70,7 +70,8 @@ $courses = $data['courses'] ?? [];
                 </thead>
                 <tbody>
                     <?php foreach ($members as $member): ?>
-                    <tr>
+                    <tr style="cursor:pointer;"
+                        onclick="location.href='index.php?route=admin-view-member&id=<?= htmlspecialchars((string) $member->getId()) ?>'">
                         <td><?= htmlspecialchars($member->getFirstName() . ' ' . $member->getLastName()) ?></td>
                         <td><?= htmlspecialchars($member->getEmail()) ?></td>
                         <td><?= htmlspecialchars($member->getPhone()) ?></td>
@@ -79,7 +80,8 @@ $courses = $data['courses'] ?? [];
                                 <?= htmlspecialchars(ucfirst($member->getStatus())) ?>
                             </span>
                         </td>
-                        <td>
+                        <td onclick="event.stopPropagation();">
+                            <a href="index.php?route=admin-view-member&id=<?= htmlspecialchars((string) $member->getId()) ?>" class="btn btn-edit">View</a>
                             <a href="index.php?route=admin-update-member&id=<?= htmlspecialchars((string) $member->getId()) ?>" class="btn btn-edit">Edit</a>
                             <a href="index.php?route=admin-delete-member&id=<?= htmlspecialchars((string) $member->getId()) ?>"
                                class="btn btn-delete"
