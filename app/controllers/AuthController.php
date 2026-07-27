@@ -26,63 +26,29 @@ class AuthController extends AbstractController
 
             if (isset($_POST['csrf-token']) && $tokenManager->validateCSRFToken($_POST['csrf-token']))
             {
-                $adminManager = new AdminManager();
-                $admin = $adminManager->findByEmail($_POST['email']);
+                $memberManager = new MemberManager();
+                $result = $memberManager->findByEmailWithRole($_POST['email']);
 
-                if ($admin !== null)
+                if ($result !== null && password_verify($_POST['password'], $result['member']->getPassword()))
                 {
-                    if (password_verify($_POST['password'], $admin->getPassword()))
-                    {
-                        session_regenerate_id(true);
-                        $_SESSION['user'] = [
-                            'id'         => $admin->getId(),
-                            'email'      => $admin->getEmail(),
-                            'first_name' => $admin->getName(),
-                            'last_name'  => '',
-                            'role'       => 'admin'
-                        ];
+                    $member = $result['member'];
 
-                        unset($_SESSION['error-message']);
-                        $this->redirect('admin');
-                    }
-                    else
-                    {
-                        $_SESSION['error-message'] = 'Invalid login information';
-                        $this->redirect('login');
-                    }
+                    session_regenerate_id(true);
+                    $_SESSION['user'] = [
+                        'id'         => $member->getId(),
+                        'email'      => $member->getEmail(),
+                        'first_name' => $member->getFirstName(),
+                        'last_name'  => $member->getLastName(),
+                        'role'       => $result['role'],
+                    ];
+
+                    unset($_SESSION['error-message']);
+                    $this->redirect($result['role'] === 'admin' ? 'admin' : 'member');
                 }
                 else
                 {
-                    $memberManager = new MemberManager();
-                    $member = $memberManager->findByEmail($_POST['email']);
-
-                    if ($member !== null)
-                    {
-                        if (password_verify($_POST['password'], $member->getPassword()))
-                        {
-                            session_regenerate_id(true);
-                            $_SESSION['user'] = [
-                                'id'         => $member->getId(),
-                                'email'      => $member->getEmail(),
-                                'first_name' => $member->getFirstName(),
-                                'last_name'  => $member->getLastName(),
-                                'role'       => 'member'
-                            ];
-
-                            unset($_SESSION['error-message']);
-                            $this->redirect('member');
-                        }
-                        else
-                        {
-                            $_SESSION['error-message'] = 'Invalid login information';
-                            $this->redirect('login');
-                        }
-                    }
-                    else
-                    {
-                        $_SESSION['error-message'] = 'Invalid login information';
-                        $this->redirect('login');
-                    }
+                    $_SESSION['error-message'] = 'Invalid login information';
+                    $this->redirect('login');
                 }
             }
             else
@@ -164,7 +130,7 @@ class AuthController extends AbstractController
                                 htmlspecialchars($_POST['email']),
                                 password_hash($_POST['password'], PASSWORD_BCRYPT),
                                 htmlspecialchars($_POST['phone'] ?? ''),
-                                'active',
+                                'pending',
                                 !empty($_POST['id_subscription']) ? (int)$_POST['id_subscription'] : null,
                                 null,
                                 null,

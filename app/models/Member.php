@@ -7,12 +7,13 @@ class Member {
         private string  $lastName,
         private string  $email,
         private string  $password,
-        private string  $phone,
+        private ?string $phone,
         private string  $status           = 'pending',
         private ?int    $idSubscription   = null,
         private ?int    $id               = null,
         private ?string $registrationDate = null,
-        private ?string $avatar           = null
+        private ?string $avatar           = null,
+        private int     $idRole           = 2
     ) {
         $this->registrationDate = $registrationDate ?? date('Y-m-d H:i:s');
     }
@@ -38,7 +39,7 @@ class Member {
         return $this->password;
     }
 
-    public function getPhone(): string {
+    public function getPhone(): ?string {
         return $this->phone;
     }
 
@@ -56,6 +57,14 @@ class Member {
 
     public function getAvatar(): ?string {
         return $this->avatar;
+    }
+
+    public function getIdRole(): int {
+        return $this->idRole;
+    }
+
+    public function isAdmin(): bool {
+        return $this->idRole === 1;
     }
 
     // ── Setters ──
@@ -79,7 +88,7 @@ class Member {
         $this->password = $password;
     }
 
-    public function setPhone(string $phone): void {
+    public function setPhone(?string $phone): void {
         $this->phone = $phone;
     }
 
@@ -93,5 +102,9 @@ class Member {
 
     public function setAvatar(?string $avatar): void {
         $this->avatar = $avatar;
+    }
+
+    public function setIdRole(int $idRole): void {
+        $this->idRole = $idRole;
     }
 }

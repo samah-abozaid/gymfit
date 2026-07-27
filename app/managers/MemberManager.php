@@ -7,7 +7,7 @@ class MemberManager extends AbstractManager
     public function findAll(): array
     {
         $query = $this->db->prepare(
-            'SELECT * FROM members ORDER BY last_name'
+            "SELECT * FROM members WHERE id_role = 2 ORDER BY last_name"
         );
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +24,8 @@ class MemberManager extends AbstractManager
                 $row['id_subscription'],
                 $row['id_member'],
                 $row['registration_date'],
-                $row['avatar'] ?? null
+                $row['avatar'] ?? null,
+                $row['id_role']
             );
         }
         return $members;
@@ -33,10 +34,11 @@ class MemberManager extends AbstractManager
     public function findAllWithSubscription(): array
     {
         $query = $this->db->prepare(
-            'SELECT m.*, s.name AS subscription_name
+            "SELECT m.*, s.name AS subscription_name
              FROM members m
              LEFT JOIN subscriptions s ON m.id_subscription = s.id_subscription
-             ORDER BY m.last_name'
+             WHERE m.id_role = 2
+             ORDER BY m.last_name"
         );
         $query->execute();
         $rows = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -54,7 +56,8 @@ class MemberManager extends AbstractManager
                     $row['id_subscription'],
                     $row['id_member'],
                     $row['registration_date'],
-                    $row['avatar'] ?? null
+                    $row['avatar'] ?? null,
+                    $row['id_role']
                 ),
                 'subscriptionName' => $row['subscription_name'],
             ];
@@ -82,7 +85,8 @@ class MemberManager extends AbstractManager
             $row['id_subscription'],
             $row['id_member'],
             $row['registration_date'],
-            $row['avatar'] ?? null
+            $row['avatar'] ?? null,
+            $row['id_role']
         );
     }
 
@@ -106,17 +110,50 @@ class MemberManager extends AbstractManager
             $row['id_subscription'],
             $row['id_member'],
             $row['registration_date'],
-            $row['avatar'] ?? null
+            $row['avatar'] ?? null,
+            $row['id_role']
         );
+    }
+
+    // ── Utilisée par le login : récupère le membre + le nom de son rôle via la table roles ──
+    public function findByEmailWithRole(string $email): ?array
+    {
+        $query = $this->db->prepare('
+            SELECT m.*, r.name AS role_name
+            FROM members m
+            JOIN roles r ON m.id_role = r.id_role
+            WHERE m.email = :email
+        ');
+        $query->execute(['email' => $email]);
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) return null;
+
+        return [
+            'member' => new Member(
+                $row['first_name'],
+                $row['last_name'],
+                $row['email'],
+                $row['password'],
+                $row['phone'],
+                $row['status'],
+                $row['id_subscription'],
+                $row['id_member'],
+                $row['registration_date'],
+                $row['avatar'] ?? null,
+                $row['id_role']
+            ),
+            'role' => $row['role_name'],
+        ];
     }
 
     public function create(Member $member): bool
     {
         $query = $this->db->prepare('
             INSERT INTO members
-            (first_name, last_name, email, password, phone, status, id_subscription, avatar)
+            (first_name, last_name, email, password, phone, status, id_subscription, avatar, id_role)
             VALUES
-            (:first_name, :last_name, :email, :password, :phone, :status, :id_subscription, :avatar)
+            (:first_name, :last_name, :email, :password, :phone, :status, :id_subscription, :avatar, :id_role)
         ');
         return $query->execute([
             'first_name'      => $member->getFirstName(),
@@ -127,6 +164,7 @@ class MemberManager extends AbstractManager
             'status'          => $member->getStatus(),
             'id_subscription' => $member->getIdSubscription(),
             'avatar'          => $member->getAvatar(),
+            'id_role'         => $member->getIdRole(),
         ]);
     }
 
@@ -202,7 +240,7 @@ class MemberManager extends AbstractManager
     public function countActive(): int
     {
         $query = $this->db->prepare(
-            "SELECT COUNT(*) FROM members WHERE status = 'active'"
+            "SELECT COUNT(*) FROM members WHERE status = 'active' AND id_role = 2"
         );
         $query->execute();
         return (int) $query->fetchColumn();
@@ -210,7 +248,7 @@ class MemberManager extends AbstractManager
 
     public function countAll(): int
     {
-        $query = $this->db->prepare('SELECT COUNT(*) FROM members');
+        $query = $this->db->prepare("SELECT COUNT(*) FROM members WHERE id_role = 2");
         $query->execute();
         return (int) $query->fetchColumn();
     }

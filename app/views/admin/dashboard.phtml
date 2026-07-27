@@ -74,7 +74,7 @@ $courses = $data['courses'] ?? [];
                         onclick="location.href='index.php?route=admin-view-member&id=<?= htmlspecialchars((string) $member->getId()) ?>'">
                         <td><?= htmlspecialchars($member->getFirstName() . ' ' . $member->getLastName()) ?></td>
                         <td><?= htmlspecialchars($member->getEmail()) ?></td>
-                        <td><?= htmlspecialchars($member->getPhone()) ?></td>
+                        <td><?= htmlspecialchars($member->getPhone() ?? '') ?></td>
                         <td>
                             <span class="badge badge-<?= htmlspecialchars($member->getStatus()) ?>">
                                 <?= htmlspecialchars(ucfirst($member->getStatus())) ?>

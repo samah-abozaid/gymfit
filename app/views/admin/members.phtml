@@ -68,7 +68,7 @@
                             </strong>
                         </td>
                         <td><?= htmlspecialchars($member->getEmail()) ?></td>
-                        <td><?= htmlspecialchars($member->getPhone()) ?></td>
+                        <td><?= htmlspecialchars($member->getPhone() ?? '') ?></td>
                         <td>
                             <span class="badge badge-<?= $member->getStatus() ?>">
                                 <?= ucfirst($member->getStatus()) ?>

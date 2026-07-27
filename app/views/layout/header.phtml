@@ -25,7 +25,7 @@
             <?php if ($_SESSION['user']['role'] === 'admin'): ?>
                 <a href="index.php?route=admin">Dashboard</a>
             <?php else: ?>
-                <a href="index.php?route=home">
+                <a href="index.php?route=member">
                     <?= htmlspecialchars($_SESSION['user']['first_name']) ?>
                 </a>
             <?php endif; ?>
