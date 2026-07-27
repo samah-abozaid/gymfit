@@ -15,13 +15,13 @@ CREATE TABLE IF NOT EXISTS subscriptions (
     class_access     BOOLEAN       DEFAULT FALSE,
     coaching_access  BOOLEAN       DEFAULT FALSE,
     sauna_access     BOOLEAN       DEFAULT FALSE
-);
+) ENGINE=InnoDB;
 
 -- Table des rôles (liaison members <-> rôle admin/membre)
 CREATE TABLE IF NOT EXISTS roles (
     id_role INT         AUTO_INCREMENT PRIMARY KEY,
     name    VARCHAR(20) NOT NULL UNIQUE
-);
+) ENGINE=InnoDB;
 
 -- Table des membres (inclut aussi les comptes admin, distingués par id_role)
 CREATE TABLE IF NOT EXISTS members (
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS members (
     avatar            VARCHAR(255),
     FOREIGN KEY (id_subscription) REFERENCES subscriptions(id_subscription),
     FOREIGN KEY (id_role) REFERENCES roles(id_role)
-);
+) ENGINE=InnoDB;
 
 -- Table des cours
 CREATE TABLE IF NOT EXISTS courses (
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS courses (
     start_time   TIME,
     end_time     TIME,
     max_capacity INT          DEFAULT 20
-);
+) ENGINE=InnoDB;
 
 --===========================================
 -- ============================================
